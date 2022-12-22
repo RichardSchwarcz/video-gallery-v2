@@ -1,0 +1,11 @@
+type Membership {
+  id: Int
+  name: String
+  address: String
+  email: String
+  telNumber: String
+  isStudent: Boolean
+  memberships: [Membership]
+  createdAt: Date
+  updatedAt: Date
+}
