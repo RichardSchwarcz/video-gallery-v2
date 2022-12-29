@@ -8,3 +8,19 @@ type Video {
 type Query {
   videos: [Video]!
 }
+
+input CreateVideoInput {
+  name: String!
+  url: String!
+  userId: String!
+  tags: [String]
+}
+
+input DeleteVideoInput {
+  id: String!
+}
+
+type Mutation {
+  createVideo(input: CreateVideoInput): Video
+  deleteVideo(input: DeleteVideoInput): Boolean
+}

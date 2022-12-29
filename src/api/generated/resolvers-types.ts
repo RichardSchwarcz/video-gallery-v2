@@ -20,14 +20,37 @@ export type CreateUserInput = {
   username: Scalars['String'];
 };
 
+export type CreateVideoInput = {
+  name: Scalars['String'];
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type DeleteVideoInput = {
+  id: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser?: Maybe<User>;
+  createVideo?: Maybe<Video>;
+  deleteVideo?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type MutationCreateUserArgs = {
   input?: InputMaybe<CreateUserInput>;
+};
+
+
+export type MutationCreateVideoArgs = {
+  input?: InputMaybe<CreateVideoInput>;
+};
+
+
+export type MutationDeleteVideoArgs = {
+  input?: InputMaybe<DeleteVideoInput>;
 };
 
 export type Playlist = {
@@ -148,6 +171,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateUserInput: CreateUserInput;
+  CreateVideoInput: CreateVideoInput;
+  DeleteVideoInput: DeleteVideoInput;
   Mutation: ResolverTypeWrapper<{}>;
   Playlist: ResolverTypeWrapper<Playlist>;
   Query: ResolverTypeWrapper<{}>;
@@ -161,6 +186,8 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
   CreateUserInput: CreateUserInput;
+  CreateVideoInput: CreateVideoInput;
+  DeleteVideoInput: DeleteVideoInput;
   Mutation: {};
   Playlist: Playlist;
   Query: {};
@@ -172,6 +199,8 @@ export type ResolversParentTypes = ResolversObject<{
 
 export type MutationResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
+  createVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, Partial<MutationCreateVideoArgs>>;
+  deleteVideo?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, Partial<MutationDeleteVideoArgs>>;
 }>;
 
 export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Playlist'] = ResolversParentTypes['Playlist']> = ResolversObject<{
