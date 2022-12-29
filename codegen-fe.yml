@@ -1,6 +1,6 @@
 overwrite: true
-schema: ${API_URL}/graphql
-# schema: http://localhost:3000/api/graphql
+# schema: ${API_URL}/graphql
+schema: http://localhost:3000/api/graphql
 documents: 'src/graphql/**/*.graphql'
 generates:
   src/generated/generated-graphql.ts:

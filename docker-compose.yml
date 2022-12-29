@@ -1,16 +1,16 @@
 version: '3'
 services:
-  prisma-membership:
-    container_name: prisma-membership
+  video-gallery-v2:
+    container_name: video-gallery-v2
     platform: linux/amd64
-    image:  mysql
+    image: mysql
     restart: always
     ports:
       - '5435:3306'
     environment:
       MYSQL_ROOT_PASSWORD: prisma
     volumes:
-      - prisma-membership-volume:/var/lib/mysql
+      - video-gallery-v2-volume:/var/lib/mysql
 
 volumes:
-  prisma-membership-volume:
+  video-gallery-v2-volume:
