@@ -1,5 +1,5 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Member as MemberModel } from '@prisma/client';
+import { GraphQLResolveInfo } from 'graphql';
+import { User as UserModel } from '@prisma/client';
 import { IPrismaContext } from '../prisma/IPrismaContext';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = undefined | T;
@@ -13,38 +13,67 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
 };
 
-export type Member = {
-  __typename?: 'Member';
-  address?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  isStudent?: Maybe<Scalars['Boolean']>;
-  memberships?: Maybe<Array<Maybe<Membership>>>;
-  name?: Maybe<Scalars['String']>;
-  telNumber?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Date']>;
+export type CreateUserInput = {
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
-export type Membership = {
-  __typename?: 'Membership';
-  address?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Date']>;
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  isStudent?: Maybe<Scalars['Boolean']>;
-  memberships?: Maybe<Array<Maybe<Membership>>>;
+export type Mutation = {
+  __typename?: 'Mutation';
+  createUser?: Maybe<User>;
+};
+
+
+export type MutationCreateUserArgs = {
+  input?: InputMaybe<CreateUserInput>;
+};
+
+export type Playlist = {
+  __typename?: 'Playlist';
+  id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  telNumber?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Date']>;
+  videos?: Maybe<Array<Maybe<Video>>>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  members: Array<Maybe<Member>>;
+  playlists: Array<Maybe<Playlist>>;
+  tags: Array<Maybe<Tag>>;
+  userById?: Maybe<User>;
+  users: Array<Maybe<User>>;
+  videos: Array<Maybe<Video>>;
+};
+
+
+export type QueryUserByIdArgs = {
+  id?: InputMaybe<Scalars['String']>;
+};
+
+export type Tag = {
+  __typename?: 'Tag';
+  color?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  id?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  playlists?: Maybe<Array<Maybe<Playlist>>>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
+  username?: Maybe<Scalars['String']>;
+  videos?: Maybe<Array<Maybe<Video>>>;
+};
+
+export type Video = {
+  __typename?: 'Video';
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -118,63 +147,79 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Date: ResolverTypeWrapper<Scalars['Date']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  Member: ResolverTypeWrapper<MemberModel>;
-  Membership: ResolverTypeWrapper<Membership>;
+  CreateUserInput: CreateUserInput;
+  Mutation: ResolverTypeWrapper<{}>;
+  Playlist: ResolverTypeWrapper<Playlist>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Tag: ResolverTypeWrapper<Tag>;
+  User: ResolverTypeWrapper<UserModel>;
+  Video: ResolverTypeWrapper<Video>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
-  Date: Scalars['Date'];
-  Int: Scalars['Int'];
-  Member: MemberModel;
-  Membership: Membership;
+  CreateUserInput: CreateUserInput;
+  Mutation: {};
+  Playlist: Playlist;
   Query: {};
   String: Scalars['String'];
+  Tag: Tag;
+  User: UserModel;
+  Video: Video;
 }>;
 
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-  name: 'Date';
-}
-
-export type MemberResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Member'] = ResolversParentTypes['Member']> = ResolversObject<{
-  address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  isStudent?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  memberships?: Resolver<Maybe<Array<Maybe<ResolversTypes['Membership']>>>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  telNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+export type MutationResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationCreateUserArgs>>;
 }>;
 
-export type MembershipResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Membership'] = ResolversParentTypes['Membership']> = ResolversObject<{
-  address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  isStudent?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  memberships?: Resolver<Maybe<Array<Maybe<ResolversTypes['Membership']>>>, ParentType, ContextType>;
+export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Playlist'] = ResolversParentTypes['Playlist']> = ResolversObject<{
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  telNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  members?: Resolver<Array<Maybe<ResolversTypes['Member']>>, ParentType, ContextType>;
+  playlists?: Resolver<Array<Maybe<ResolversTypes['Playlist']>>, ParentType, ContextType>;
+  tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
+  userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserByIdArgs>>;
+  users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  videos?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType>;
+}>;
+
+export type TagResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{
+  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type UserResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  playlists?: Resolver<Maybe<Array<Maybe<ResolversTypes['Playlist']>>>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type VideoResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Video'] = ResolversParentTypes['Video']> = ResolversObject<{
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = IPrismaContext> = ResolversObject<{
-  Date?: GraphQLScalarType;
-  Member?: MemberResolvers<ContextType>;
-  Membership?: MembershipResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
+  Playlist?: PlaylistResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Tag?: TagResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
+  Video?: VideoResolvers<ContextType>;
 }>;
 
