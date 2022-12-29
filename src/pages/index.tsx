@@ -1,13 +1,39 @@
-import { useMembersQuery } from 'generated/generated-graphql'
+import {
+  useCreateUserMutation,
+  useQueryUserByIdQuery,
+  useQueryUserDataQuery,
+  useUsersQuery,
+} from 'generated/generated-graphql'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-  const { data } = useMembersQuery()
+  const { data } = useUsersQuery()
+  const { data: userData } = useQueryUserDataQuery()
+  const [createUser, { data: createUserData, loading, error }] =
+    useCreateUserMutation()
 
-  console.log(data)
+  const { data: data2 } = useQueryUserByIdQuery({
+    variables: {
+      userByIdId: '851c14c1-72a8-46e3-8141-71394e386a1a',
+    },
+  })
+
+  console.log(data2, 'data2')
+  // console.log(createUserData, 'createUserData')
+
+  const handleCreateUser = () => {
+    createUser({
+      variables: {
+        input: {
+          username: 'sassassa',
+          password: 'sds',
+        },
+      },
+    })
+  }
 
   return (
     <div className={styles.container}>
@@ -21,6 +47,7 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+        <button onClick={handleCreateUser}>Create User</button>
 
         <p className={styles.description}>
           Get started by editing{' '}
