@@ -2,51 +2,53 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model Member {
-  id          Int          @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  address     String
-  email       String?
-  telNumber   String?
-  isStudent   Boolean
-  memberships Membership[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  country     String
-  gender      GenderType
+
+model User {
+  id         String @id @default(uuid())
+  username   String @unique
+  password   String
+
+  videos     Video[]
+  tags       Tag[]
+  playlists  Playlist[]
 }
 
-model Membership {
-  id        Int             @id @default(autoincrement())
-  barcode   Int
-  type      MemebershipType
-  entries   Int?
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @updatedAt
-  owner     Member          @relation(fields: [ownerId], references: [id])
-  ownerId   Int
+model Playlist {
+  id         String  @id @default(uuid())
+  name       String
+  videos     Video[]
 
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String
 }
 
-enum MemebershipType {
-  MONTHLY3
-  MONTHLY6
-  MONTHLY12
-  ENTRY15
+model Video {
+  id         String   @id @default(uuid())
+  name       String
+  url        String
+  tags       Tag[]
+
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String
+  playlist   Playlist? @relation(fields: [playlistId], references: [id])
+  playlistId String?
 }
 
-enum GenderType {
-  MAN
-  WOMAN
+model Tag {
+  id         String @id @default(uuid())
+  name       String
+  color      String
+ 
+  user       User   @relation(fields: [userId], references: [id])
+  userId     String
+  video      Video?  @relation(fields: [videoId], references: [id])
+  videoId    String?
 }
