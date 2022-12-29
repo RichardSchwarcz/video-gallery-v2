@@ -1,0 +1,24 @@
+type User {
+  id: String
+  username: String
+  password: String
+  videos: [Video]
+  tags: [Tag]
+  playlists: [Playlist]
+}
+
+type Query {
+  users: [User]!
+  userById(id: String): User
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput): User
+  # updateUser(id: String!, username: String, password: String): User
+  # deleteUser(id: String!): User
+}

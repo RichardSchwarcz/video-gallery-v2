@@ -1,6 +1,7 @@
 import { mergeTypeDefs } from '@graphql-tools/merge'
-import date from './date.graphql'
-import member from './member.graphql'
-import membership from './membership.graphql'
+import Playlist from './playlist.graphql'
+import Tag from './tag.graphql'
+import User from './user.graphql'
+import Video from './video.graphql'
 
-export default mergeTypeDefs([member, membership, date])
+export default mergeTypeDefs([User, Video, Playlist, Tag])

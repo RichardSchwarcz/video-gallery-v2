@@ -1,14 +1,14 @@
 import { QueryResolvers } from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
 
-const Member: QueryResolvers = {
+const Playlist: QueryResolvers = {
   Query: {
-    members: async (
+    playlists: async (
       _parent: unknown,
       _args: unknown,
       context: IPrismaContext
-    ) => context.prisma.member.findMany(),
+    ) => context.prisma.playlist.findMany(),
   },
 }
 
-export default Member
+export default Playlist

@@ -1,0 +1,9 @@
+type Playlist {
+  id: String
+  name: String
+  videos: [Video]
+}
+
+type Query {
+  playlists: [Playlist]!
+}

@@ -1,0 +1,10 @@
+type Video {
+  id: String
+  name: String
+  url: String
+  tags: [Tag]
+}
+
+type Query {
+  videos: [Video]!
+}

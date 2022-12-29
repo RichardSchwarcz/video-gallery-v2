@@ -1,0 +1,37 @@
+query Users {
+  users {
+    username
+    videos {
+      name
+      url
+      tags {
+        name
+        color
+      }
+    }
+  }
+}
+
+query QueryUserData {
+  users {
+    username
+    password
+    id
+  }
+}
+
+query QueryUserById($userByIdId: String) {
+  userById(id: $userByIdId) {
+    username
+    password
+    id
+  }
+}
+
+mutation CreateUser($input: CreateUserInput) {
+  createUser(input: $input) {
+    username
+    password
+    id
+  }
+}
