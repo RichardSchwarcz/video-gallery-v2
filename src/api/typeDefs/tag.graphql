@@ -2,8 +2,33 @@ type Tag {
   id: String
   name: String
   color: String
+  userId: String
+  videoId: String
 }
 
 type Query {
   tags: [Tag]!
+}
+
+input CreateTagInput {
+  name: String!
+  color: String!
+  userId: String!
+  videoId: String!
+}
+
+input DeleteTagInput {
+  id: String!
+}
+
+input UpdateTagInput {
+  id: String!
+  name: String
+  color: String
+}
+
+type Mutation {
+  createTag(input: CreateTagInput): Tag!
+  updateTag(input: UpdateTagInput): Tag!
+  deleteTag(input: DeleteTagInput): Boolean!
 }
