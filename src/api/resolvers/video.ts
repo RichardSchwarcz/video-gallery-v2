@@ -19,15 +19,13 @@ const Video: QueryResolvers = {
   Mutation: {
     createVideo: async (
       _parent: unknown,
-      _args: { input: CreateVideoInput },
+      args: { input: CreateVideoInput },
       context: IPrismaContext
     ) => {
-      const { input } = _args
+      const { input } = args
 
       const user = await context.prisma.user.findUnique({
-        where: {
-          id: input.userId,
-        },
+        where: { id: input.userId },
       })
 
       if (!user) {

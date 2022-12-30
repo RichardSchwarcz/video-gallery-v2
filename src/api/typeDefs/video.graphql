@@ -21,6 +21,7 @@ input DeleteVideoInput {
 }
 
 type Mutation {
-  createVideo(input: CreateVideoInput): Video
-  deleteVideo(input: DeleteVideoInput): Boolean
+  createVideo(input: CreateVideoInput): Video!
+  # updateVideo(input: UpdateVideoInput): Video!
+  deleteVideo(input: DeleteVideoInput): Boolean!
 }
