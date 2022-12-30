@@ -36,7 +36,7 @@ const Video: QueryResolvers = {
 
       const video = await context.prisma.video.create({
         data: {
-          name: input.name,
+          title: input.title,
           url: input.url,
           user: {
             connect: {

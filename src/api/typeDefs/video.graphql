@@ -1,6 +1,6 @@
 type Video {
   id: String
-  name: String
+  title: String
   url: String
   tags: [Tag]
 }
@@ -10,7 +10,7 @@ type Query {
 }
 
 input CreateVideoInput {
-  name: String!
+  title: String!
   url: String!
   userId: String!
   tags: [String]

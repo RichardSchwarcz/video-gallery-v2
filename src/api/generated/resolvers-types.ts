@@ -21,8 +21,8 @@ export type CreateUserInput = {
 };
 
 export type CreateVideoInput = {
-  name: Scalars['String'];
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title: Scalars['String'];
   url: Scalars['String'];
   userId: Scalars['String'];
 };
@@ -94,8 +94,8 @@ export type User = {
 export type Video = {
   __typename?: 'Video';
   id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
   tags?: Maybe<Array<Maybe<Tag>>>;
+  title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
 };
 
@@ -237,8 +237,8 @@ export type UserResolvers<ContextType = IPrismaContext, ParentType extends Resol
 
 export type VideoResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Video'] = ResolversParentTypes['Video']> = ResolversObject<{
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
