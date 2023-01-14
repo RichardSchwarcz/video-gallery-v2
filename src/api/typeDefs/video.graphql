@@ -20,8 +20,13 @@ input DeleteVideoInput {
   id: String!
 }
 
+input UpdateVideoInput {
+  id: String!
+  tagsId: String!
+}
+
 type Mutation {
   createVideo(input: CreateVideoInput): Video!
-  # updateVideo(input: UpdateVideoInput): Video!
+  updateVideo(input: UpdateVideoInput): Video!
   deleteVideo(input: DeleteVideoInput): Boolean!
 }

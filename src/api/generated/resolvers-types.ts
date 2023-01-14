@@ -50,6 +50,7 @@ export type Mutation = {
   deleteTag: Scalars['Boolean'];
   deleteVideo: Scalars['Boolean'];
   updateTag: Tag;
+  updateVideo: Video;
 };
 
 
@@ -80,6 +81,11 @@ export type MutationDeleteVideoArgs = {
 
 export type MutationUpdateTagArgs = {
   input?: InputMaybe<UpdateTagInput>;
+};
+
+
+export type MutationUpdateVideoArgs = {
+  input?: InputMaybe<UpdateVideoInput>;
 };
 
 export type Playlist = {
@@ -116,6 +122,11 @@ export type UpdateTagInput = {
   color?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateVideoInput = {
+  id: Scalars['String'];
+  tagsId: Scalars['String'];
 };
 
 export type User = {
@@ -218,6 +229,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']>;
   Tag: ResolverTypeWrapper<Tag>;
   UpdateTagInput: UpdateTagInput;
+  UpdateVideoInput: UpdateVideoInput;
   User: ResolverTypeWrapper<UserModel>;
   Video: ResolverTypeWrapper<Video>;
 }>;
@@ -236,6 +248,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String'];
   Tag: Tag;
   UpdateTagInput: UpdateTagInput;
+  UpdateVideoInput: UpdateVideoInput;
   User: UserModel;
   Video: Video;
 }>;
@@ -247,6 +260,7 @@ export type MutationResolvers<ContextType = IPrismaContext, ParentType extends R
   deleteTag?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, Partial<MutationDeleteTagArgs>>;
   deleteVideo?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, Partial<MutationDeleteVideoArgs>>;
   updateTag?: Resolver<ResolversTypes['Tag'], ParentType, ContextType, Partial<MutationUpdateTagArgs>>;
+  updateVideo?: Resolver<ResolversTypes['Video'], ParentType, ContextType, Partial<MutationUpdateVideoArgs>>;
 }>;
 
 export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Playlist'] = ResolversParentTypes['Playlist']> = ResolversObject<{
