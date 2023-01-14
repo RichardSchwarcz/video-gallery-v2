@@ -27,45 +27,26 @@ const Tag: QueryResolvers = {
         },
       })
 
-      try {
-        if (!user) {
-          throw new Error('User not found')
-        }
-      } catch (error: Error) {
-        // eslint-disable-next-line no-console
-        console.error(error.message)
-      }
-
       // check if user has already tag with same name
-
-      const existingTag = user.tags.find((tag) => tag.name === input.name)
-
-      try {
-        if (existingTag) {
-          throw new Error('Tag already exists')
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error.message)
-      }
+      const doesUserHaveTag = user?.tags.some((tag) => tag.name === input.name) // true or false
 
       // create the tag
-      const tag = await context.prisma.tag.create({
-        data: {
-          name: input.name,
-          color: input.color,
-          user: {
-            connect: {
-              id: user.id,
+      let tag
+      if (!doesUserHaveTag) {
+        tag = await context.prisma.tag.create({
+          data: {
+            name: input.name,
+            color: input.color,
+            user: {
+              connect: {
+                id: user?.id,
+              },
             },
           },
-          video: {
-            connect: {
-              id: input.videoId,
-            },
-          },
-        },
-      })
+        })
+      } else {
+        console.error('User already has a tag with this name')
+      }
 
       return tag
     },

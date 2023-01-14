@@ -14,7 +14,7 @@ input CreateTagInput {
   name: String!
   color: String!
   userId: String!
-  videoId: String!
+  videoId: String
 }
 
 input DeleteTagInput {

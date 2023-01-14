@@ -19,7 +19,7 @@ export type CreateTagInput = {
   color: Scalars['String'];
   name: Scalars['String'];
   userId: Scalars['String'];
-  videoId: Scalars['String'];
+  videoId?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
