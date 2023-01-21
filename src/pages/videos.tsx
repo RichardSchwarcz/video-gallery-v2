@@ -1,7 +1,7 @@
 import NavbarLayout from 'components/NavbarLayout'
 
-function Home() {
+function Videos() {
   return <NavbarLayout />
 }
 
-export default Home
+export default Videos
