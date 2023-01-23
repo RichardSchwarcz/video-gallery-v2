@@ -22,7 +22,6 @@ function CreateOnButtonInput() {
       {switchButton && (
         <Button
           onClick={() => handleToggleClick()}
-          ml="5"
           borderRadius="16px"
           leftIcon={<SmallAddIcon />}
           variant="solid"

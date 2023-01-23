@@ -1,4 +1,4 @@
-import NavbarLayout from 'components/NavbarLayout'
+import NavbarLayout from 'layouts/NavbarLayout'
 
 function Home() {
   return <NavbarLayout />
