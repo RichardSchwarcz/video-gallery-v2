@@ -1,6 +1,11 @@
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
 
-function SearchBar() {
+type SearchBarProps = {
+  search: string
+  paddingLeft: string
+}
+
+function SearchBar({ search, paddingLeft }: SearchBarProps) {
   return (
     <InputGroup mb="5" borderColor="gray.400" m="0">
       <InputLeftElement
@@ -9,11 +14,11 @@ function SearchBar() {
         pl="5"
         justifyContent="flex-start"
       >
-        ./Videos/
+        {search}
       </InputLeftElement>
       <Input
         placeholder="Search"
-        pl="24"
+        pl={paddingLeft}
         borderRadius="16px"
         borderColor="gray.500"
       />

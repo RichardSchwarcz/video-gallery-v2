@@ -9,17 +9,25 @@ import {
   InputRightElement,
 } from '@chakra-ui/react'
 
-function CreateOnButtonInput() {
-  const [switchButton, setSwitchButton] = useState(true)
+type CreateOnButtonInputProps = {
+  buttonPlaceholder: string
+  inputPlaceholder: string
+}
+
+function CreateOnButtonInput({
+  buttonPlaceholder,
+  inputPlaceholder,
+}: CreateOnButtonInputProps) {
+  const [isSwitchButton, setSwitchButton] = useState(true)
   const [input, setInput] = useState('')
 
   function handleToggleClick() {
-    setSwitchButton(!switchButton)
+    setSwitchButton(!isSwitchButton)
   }
 
   return (
     <>
-      {switchButton && (
+      {isSwitchButton && (
         <Button
           onClick={() => handleToggleClick()}
           borderRadius="16px"
@@ -27,10 +35,10 @@ function CreateOnButtonInput() {
           variant="solid"
           colorScheme="purple"
         >
-          Add New Video
+          {buttonPlaceholder}
         </Button>
       )}
-      {!switchButton && (
+      {!isSwitchButton && (
         <InputGroup ml="5">
           <InputLeftElement>
             <IconButton
@@ -58,7 +66,7 @@ function CreateOnButtonInput() {
             bg="gray.50"
             borderColor="gray.100"
             variant="outline"
-            placeholder="Enter video URL"
+            placeholder={inputPlaceholder}
             id="input"
             boxShadow="lg"
           />
