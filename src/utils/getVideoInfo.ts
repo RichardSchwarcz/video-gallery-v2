@@ -9,15 +9,22 @@ type VideoInfo = {
   title: string
 }
 
-export const getVideoInfo = async (url: string) => {
+export const getVideoInfo = async (
+  url: string
+): Promise<{
+  thumbnailUrl: string
+  title: string
+  authorName: string
+}> => {
   const id = getYoutubeVideoId(url)
   const video = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${id}`
   const response = await fetch(video)
   const data = await response.json()
-  const { thumbnail_url, title }: VideoInfo = data
+  const { thumbnail_url, title, author_name }: VideoInfo = data
 
   return {
     thumbnailUrl: thumbnail_url,
     title,
+    authorName: author_name,
   }
 }
