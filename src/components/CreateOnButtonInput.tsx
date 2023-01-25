@@ -8,6 +8,7 @@ import {
   InputLeftElement,
   InputRightElement,
 } from '@chakra-ui/react'
+import { getVideoInfo } from 'utils/getVideoInfo'
 
 type CreateOnButtonInputProps = {
   buttonPlaceholder: string
@@ -20,6 +21,11 @@ function CreateOnButtonInput({
 }: CreateOnButtonInputProps) {
   const [isSwitchButton, setSwitchButton] = useState(true)
   const [input, setInput] = useState('')
+
+  async function handleInput() {
+    const videoInfo = await getVideoInfo(input)
+    console.log(videoInfo)
+  }
 
   function handleToggleClick() {
     setSwitchButton(!isSwitchButton)
@@ -55,6 +61,7 @@ function CreateOnButtonInput({
               icon={<CheckIcon color="gray.100" />}
               isRound="true"
               colorScheme="green"
+              onClick={() => handleInput()}
             />
           </InputRightElement>
           <Input
