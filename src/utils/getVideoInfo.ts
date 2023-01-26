@@ -4,27 +4,25 @@ const getYoutubeVideoId = (url: string) =>
   // youtube video ID is 11 characters long
   url.split('v=')[1].substring(0, 11)
 
-type VideoInfo = {
+export type VideoInfoType = {
   thumbnail_url: string
   title: string
+  author_name: string
+  author_url: string
 }
 
-export const getVideoInfo = async (
-  url: string
-): Promise<{
-  thumbnailUrl: string
-  title: string
-  authorName: string
-}> => {
+export const getVideoInfo = async (url: string): Promise<VideoInfoType> => {
   const id = getYoutubeVideoId(url)
   const video = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${id}`
   const response = await fetch(video)
   const data = await response.json()
-  const { thumbnail_url, title, author_name }: VideoInfo = data
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { thumbnail_url, title, author_name, author_url }: VideoInfoType = data
 
   return {
-    thumbnailUrl: thumbnail_url,
+    thumbnail_url,
     title,
-    authorName: author_name,
+    author_name,
+    author_url,
   }
 }
