@@ -6,7 +6,7 @@ import SideDrawer from 'components/SideDrawer'
 
 function SideBarLayout() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [windowWidth, setWindowWidth] = useState(null)
   const sideBarContainer = useRef<HTMLDivElement>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
