@@ -45,7 +45,7 @@ function CreateOnButtonInput({
         </Button>
       )}
       {!isSwitchButton && (
-        <InputGroup ml="5">
+        <InputGroup>
           <InputLeftElement>
             <IconButton
               size="sm"
