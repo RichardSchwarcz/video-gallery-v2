@@ -3,8 +3,8 @@ const onPathname = (path: string) => {
     return {
       button: 'Welcome Home!',
       input: 'Welcome Home!',
-      search: './',
-      paddingLeft: '5.25rem',
+      search: './Home/',
+      paddingLeft: '5.1rem',
     }
   }
   if (path === '/videos') {
