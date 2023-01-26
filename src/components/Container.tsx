@@ -4,7 +4,7 @@ function Container({ children, my = '0' }) {
   return (
     <Flex
       maxW="1000px"
-      border="1px solid black"
+      outline="1px solid black"
       px="4"
       my={my}
       direction="column"
