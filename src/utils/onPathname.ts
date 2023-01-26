@@ -15,6 +15,14 @@ const onPathname = (path: string) => {
       paddingLeft: '5.3rem',
     }
   }
+  if (path === '/playlists') {
+    return {
+      button: 'Add New Video',
+      input: 'Enter video URL',
+      search: './Playlists/',
+      paddingLeft: '5.8rem',
+    }
+  }
   return {
     button: 'Add New Video',
     input: 'Enter video URL',
