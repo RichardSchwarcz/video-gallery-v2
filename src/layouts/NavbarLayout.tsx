@@ -21,7 +21,9 @@ function NavbarLayout() {
         <Flex>
           <Link href="/videos">Videos</Link>
         </Flex>
-        <Flex>Playlists</Flex>
+        <Flex>
+          <Link href="/playlists">Playlists</Link>
+        </Flex>
         <Flex>Groups</Flex>
         <IconButton
           aria-label="Toggle dark mode"
