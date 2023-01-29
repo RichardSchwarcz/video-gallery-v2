@@ -2,7 +2,7 @@ query Users {
   users {
     username
     videos {
-      name
+      title
       url
       tags {
         name
@@ -20,11 +20,53 @@ query QueryUserData {
   }
 }
 
-query QueryUserById($userByIdId: String) {
-  userById(id: $userByIdId) {
+query QueryUsernameByUserId($userById: String) {
+  userById(id: $userById) {
     username
-    password
     id
+  }
+}
+
+query VideosByUserId($userById: String) {
+  userById(id: $userById) {
+    username
+    id
+    videos {
+      id
+      title
+      url
+      tags {
+        color
+        id
+        name
+      }
+    }
+  }
+}
+
+query QueryUserTagsByUserId($userById: String) {
+  userById(id: $userById) {
+    username
+    id
+    tags {
+      color
+      id
+      name
+    }
+  }
+}
+
+query QueryUserPlaylistsByUserId($userById: String) {
+  userById(id: $userById) {
+    username
+    id
+    playlists {
+      id
+      name
+      videos {
+        id
+      }
+    }
   }
 }
 
