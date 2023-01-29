@@ -29,9 +29,8 @@ export type CreateUserInput = {
 
 export type CreateVideoInput = {
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title: Scalars['String'];
-  url: Scalars['String'];
   userId: Scalars['String'];
+  videoUrl: Scalars['String'];
 };
 
 export type DeleteTagInput = {
@@ -50,7 +49,8 @@ export type Mutation = {
   deleteTag: Scalars['Boolean'];
   deleteVideo: Scalars['Boolean'];
   updateTag: Tag;
-  updateVideo: Video;
+  updateVideoTags: Video;
+  updateVideoTrashStatus: Video;
 };
 
 
@@ -84,8 +84,13 @@ export type MutationUpdateTagArgs = {
 };
 
 
-export type MutationUpdateVideoArgs = {
-  input?: InputMaybe<UpdateVideoInput>;
+export type MutationUpdateVideoTagsArgs = {
+  input?: InputMaybe<UpdateVideoTagsInput>;
+};
+
+
+export type MutationUpdateVideoTrashStatusArgs = {
+  input?: InputMaybe<UpdateVideoTrashStatusInput>;
 };
 
 export type Playlist = {
@@ -101,7 +106,6 @@ export type Query = {
   tags: Array<Maybe<Tag>>;
   userById?: Maybe<User>;
   users: Array<Maybe<User>>;
-  videos: Array<Maybe<Video>>;
 };
 
 
@@ -124,9 +128,14 @@ export type UpdateTagInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
-export type UpdateVideoInput = {
+export type UpdateVideoTagsInput = {
   id: Scalars['String'];
   tagsId: Scalars['String'];
+};
+
+export type UpdateVideoTrashStatusInput = {
+  id: Scalars['String'];
+  inTrash: Scalars['Boolean'];
 };
 
 export type User = {
@@ -141,10 +150,15 @@ export type User = {
 
 export type Video = {
   __typename?: 'Video';
+  author?: Maybe<Scalars['String']>;
+  authorUrl?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
+  inTrash?: Maybe<Scalars['Boolean']>;
   tags?: Maybe<Array<Maybe<Tag>>>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+  videoUrl?: Maybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -229,7 +243,8 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']>;
   Tag: ResolverTypeWrapper<Tag>;
   UpdateTagInput: UpdateTagInput;
-  UpdateVideoInput: UpdateVideoInput;
+  UpdateVideoTagsInput: UpdateVideoTagsInput;
+  UpdateVideoTrashStatusInput: UpdateVideoTrashStatusInput;
   User: ResolverTypeWrapper<UserModel>;
   Video: ResolverTypeWrapper<Video>;
 }>;
@@ -248,7 +263,8 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String'];
   Tag: Tag;
   UpdateTagInput: UpdateTagInput;
-  UpdateVideoInput: UpdateVideoInput;
+  UpdateVideoTagsInput: UpdateVideoTagsInput;
+  UpdateVideoTrashStatusInput: UpdateVideoTrashStatusInput;
   User: UserModel;
   Video: Video;
 }>;
@@ -260,7 +276,8 @@ export type MutationResolvers<ContextType = IPrismaContext, ParentType extends R
   deleteTag?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, Partial<MutationDeleteTagArgs>>;
   deleteVideo?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, Partial<MutationDeleteVideoArgs>>;
   updateTag?: Resolver<ResolversTypes['Tag'], ParentType, ContextType, Partial<MutationUpdateTagArgs>>;
-  updateVideo?: Resolver<ResolversTypes['Video'], ParentType, ContextType, Partial<MutationUpdateVideoArgs>>;
+  updateVideoTags?: Resolver<ResolversTypes['Video'], ParentType, ContextType, Partial<MutationUpdateVideoTagsArgs>>;
+  updateVideoTrashStatus?: Resolver<ResolversTypes['Video'], ParentType, ContextType, Partial<MutationUpdateVideoTrashStatusArgs>>;
 }>;
 
 export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Playlist'] = ResolversParentTypes['Playlist']> = ResolversObject<{
@@ -275,7 +292,6 @@ export type QueryResolvers<ContextType = IPrismaContext, ParentType extends Reso
   tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
   userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserByIdArgs>>;
   users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
-  videos?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType>;
 }>;
 
 export type TagResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{
@@ -298,10 +314,15 @@ export type UserResolvers<ContextType = IPrismaContext, ParentType extends Resol
 }>;
 
 export type VideoResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Video'] = ResolversParentTypes['Video']> = ResolversObject<{
+  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  authorUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  inTrash?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
+  thumbnailUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
