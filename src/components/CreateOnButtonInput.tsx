@@ -13,7 +13,6 @@ import {
   UseToastOptions,
 } from '@chakra-ui/react'
 import { useCreateVideoMutation } from 'generated/generated-graphql'
-import { getVideoInfo } from 'utils/getVideoInfo'
 
 type CreateOnButtonInputProps = {
   buttonPlaceholder: string
@@ -65,14 +64,12 @@ function CreateOnButtonInput({
     }
   }
 
-  const handleCreateVideo = async () => {
+  const handleCreateVideo = () => {
     try {
-      const videoInfo = await getVideoInfo(input)
       void createVideoMutation({
         variables: {
           input: {
-            title: videoInfo?.title,
-            url: input,
+            videoUrl: input,
             userId: '851c14c1-72a8-46e3-8141-71394e386a1a',
           },
         },
