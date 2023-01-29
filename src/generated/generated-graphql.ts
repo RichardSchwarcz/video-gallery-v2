@@ -29,9 +29,8 @@ export type CreateUserInput = {
 
 export type CreateVideoInput = {
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title: Scalars['String'];
-  url: Scalars['String'];
   userId: Scalars['String'];
+  videoUrl: Scalars['String'];
 };
 
 export type DeleteTagInput = {
@@ -164,12 +163,12 @@ export type QueryUsernameByUserIdQueryVariables = Exact<{
 
 export type QueryUsernameByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null } | null };
 
-export type QueryUserVideosByUserIdQueryVariables = Exact<{
+export type VideosByUserIdQueryVariables = Exact<{
   userById?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type QueryUserVideosByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, videos?: Array<{ __typename?: 'Video', id?: string | null, title?: string | null, url?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } | null> | null } | null> | null } | null };
+export type VideosByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, videos?: Array<{ __typename?: 'Video', id?: string | null, title?: string | null, url?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } | null> | null } | null> | null } | null };
 
 export type QueryUserTagsByUserIdQueryVariables = Exact<{
   userById?: InputMaybe<Scalars['String']>;
@@ -314,8 +313,8 @@ export function useQueryUsernameByUserIdLazyQuery(baseOptions?: Apollo.LazyQuery
 export type QueryUsernameByUserIdQueryHookResult = ReturnType<typeof useQueryUsernameByUserIdQuery>;
 export type QueryUsernameByUserIdLazyQueryHookResult = ReturnType<typeof useQueryUsernameByUserIdLazyQuery>;
 export type QueryUsernameByUserIdQueryResult = Apollo.QueryResult<QueryUsernameByUserIdQuery, QueryUsernameByUserIdQueryVariables>;
-export const QueryUserVideosByUserIdDocument = gql`
-    query QueryUserVideosByUserId($userById: String) {
+export const VideosByUserIdDocument = gql`
+    query VideosByUserId($userById: String) {
   userById(id: $userById) {
     username
     id
@@ -334,32 +333,32 @@ export const QueryUserVideosByUserIdDocument = gql`
     `;
 
 /**
- * __useQueryUserVideosByUserIdQuery__
+ * __useVideosByUserIdQuery__
  *
- * To run a query within a React component, call `useQueryUserVideosByUserIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useQueryUserVideosByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useVideosByUserIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useVideosByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useQueryUserVideosByUserIdQuery({
+ * const { data, loading, error } = useVideosByUserIdQuery({
  *   variables: {
  *      userById: // value for 'userById'
  *   },
  * });
  */
-export function useQueryUserVideosByUserIdQuery(baseOptions?: Apollo.QueryHookOptions<QueryUserVideosByUserIdQuery, QueryUserVideosByUserIdQueryVariables>) {
+export function useVideosByUserIdQuery(baseOptions?: Apollo.QueryHookOptions<VideosByUserIdQuery, VideosByUserIdQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<QueryUserVideosByUserIdQuery, QueryUserVideosByUserIdQueryVariables>(QueryUserVideosByUserIdDocument, options);
+        return Apollo.useQuery<VideosByUserIdQuery, VideosByUserIdQueryVariables>(VideosByUserIdDocument, options);
       }
-export function useQueryUserVideosByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QueryUserVideosByUserIdQuery, QueryUserVideosByUserIdQueryVariables>) {
+export function useVideosByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<VideosByUserIdQuery, VideosByUserIdQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<QueryUserVideosByUserIdQuery, QueryUserVideosByUserIdQueryVariables>(QueryUserVideosByUserIdDocument, options);
+          return Apollo.useLazyQuery<VideosByUserIdQuery, VideosByUserIdQueryVariables>(VideosByUserIdDocument, options);
         }
-export type QueryUserVideosByUserIdQueryHookResult = ReturnType<typeof useQueryUserVideosByUserIdQuery>;
-export type QueryUserVideosByUserIdLazyQueryHookResult = ReturnType<typeof useQueryUserVideosByUserIdLazyQuery>;
-export type QueryUserVideosByUserIdQueryResult = Apollo.QueryResult<QueryUserVideosByUserIdQuery, QueryUserVideosByUserIdQueryVariables>;
+export type VideosByUserIdQueryHookResult = ReturnType<typeof useVideosByUserIdQuery>;
+export type VideosByUserIdLazyQueryHookResult = ReturnType<typeof useVideosByUserIdLazyQuery>;
+export type VideosByUserIdQueryResult = Apollo.QueryResult<VideosByUserIdQuery, VideosByUserIdQueryVariables>;
 export const QueryUserTagsByUserIdDocument = gql`
     query QueryUserTagsByUserId($userById: String) {
   userById(id: $userById) {
