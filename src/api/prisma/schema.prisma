@@ -33,7 +33,11 @@ model Playlist {
 model Video {
   id         String   @id @default(uuid())
   title      String
-  url        String
+  videoUrl   String
+  author     String
+  authorUrl  String
+  thumbnailUrl  String 
+  inTrash    Boolean  @default(false)
   tags       Tag[]
   playlists  Playlist[]
 
