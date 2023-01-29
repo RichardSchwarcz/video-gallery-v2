@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Flex, Image, Link, Text } from '@chakra-ui/react'
-import { getVideoInfo, VideoInfoType } from 'utils/getVideoInfo'
+import { Flex, Image, Link, Skeleton, Text } from '@chakra-ui/react'
+import { getVideoInfo, VideoInfoType } from 'api/utils/getVideoInfo'
 import VideoCardMenu from './VideoCardMenu'
 
 type VideoCardProps = {
@@ -8,8 +8,11 @@ type VideoCardProps = {
     id: string
     title: string
     url: string
-    tags: string[]
-    playlists: string[]
+    tags: {
+      id: string
+      color: string
+      name: string
+    }[]
   }
 }
 
@@ -37,15 +40,17 @@ function VideoCard({ video }: VideoCardProps) {
         bgAttachment="fixed"
       >
         <Link href={video.url} isExternal>
-          <Image
-            // thumbnail size is 1280x720. To scale it properly with fixed width... (235*720)/1280 = 132.2
-            h="132.2px"
-            w="235px"
-            objectFit="cover"
-            roundedTop="lg"
-            src={videoInfo?.thumbnail_url}
-            alt="thumbnail"
-          />
+          <Skeleton isLoaded={!!videoInfo}>
+            <Image
+              // thumbnail size is 1280x720. To scale it properly with fixed width... (235*720)/1280 = 132.2
+              h="132.2px"
+              w="235px"
+              objectFit="cover"
+              roundedTop="lg"
+              src={videoInfo?.thumbnail_url}
+              alt="thumbnail"
+            />
+          </Skeleton>
         </Link>
         <Flex px="2" direction="column" gap="1">
           <Text fontWeight="medium" fontSize="sm">
@@ -57,7 +62,7 @@ function VideoCard({ video }: VideoCardProps) {
                 {videoInfo?.author_name}
               </Link>
             </Text>
-            <VideoCardMenu />
+            <VideoCardMenu videoInfo={videoInfo} />
           </Flex>
         </Flex>
       </Flex>
