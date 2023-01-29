@@ -20,6 +20,21 @@ const User: QueryResolvers = {
         where: {
           id: args.id,
         },
+        select: {
+          id: true,
+          username: true,
+          videos: {
+            include: {
+              tags: true,
+            },
+          },
+          tags: true,
+          playlists: {
+            include: {
+              videos: true,
+            },
+          },
+        },
       }),
   },
   Mutation: {
