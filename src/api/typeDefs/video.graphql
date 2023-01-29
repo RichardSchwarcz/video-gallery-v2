@@ -1,17 +1,17 @@
 type Video {
   id: String
   title: String
+  videoUrl: String
+  author: String
+  authorUrl: String
+  thumbnailUrl: String
+  inTrash: Boolean
   url: String
   tags: [Tag]
 }
 
-type Query {
-  videos: [Video]!
-}
-
 input CreateVideoInput {
-  title: String!
-  url: String!
+  videoUrl: String!
   userId: String!
   tags: [String]
 }
@@ -20,13 +20,19 @@ input DeleteVideoInput {
   id: String!
 }
 
-input UpdateVideoInput {
+input UpdateVideoTagsInput {
   id: String!
   tagsId: String!
 }
 
+input UpdateVideoTrashStatusInput {
+  id: String!
+  inTrash: Boolean!
+}
+
 type Mutation {
   createVideo(input: CreateVideoInput): Video!
-  updateVideo(input: UpdateVideoInput): Video!
+  updateVideoTags(input: UpdateVideoTagsInput): Video!
+  updateVideoTrashStatus(input: UpdateVideoTrashStatusInput): Video!
   deleteVideo(input: DeleteVideoInput): Boolean!
 }
