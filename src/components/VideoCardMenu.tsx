@@ -9,9 +9,12 @@ import {
   MenuList,
   MenuOptionGroup,
   Tag,
+  useDisclosure,
 } from '@chakra-ui/react'
+import DeleteModal from './DeleteModal'
 
-function VideoCardMenu() {
+function VideoCardMenu({ videoInfo }) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Menu closeOnSelect={false} isLazy>
       <MenuButton
@@ -22,8 +25,9 @@ function VideoCardMenu() {
       />
       <MenuList>
         <MenuItem
+          onClick={onOpen}
           icon={<DeleteIcon />}
-          _hover={{ bg: 'red.200', boxShadow: 'md' }}
+          _hover={{ bg: 'red.400', boxShadow: 'md' }}
         >
           Remove
         </MenuItem>
@@ -36,6 +40,7 @@ function VideoCardMenu() {
           ))}
         </MenuOptionGroup> */}
       </MenuList>
+      <DeleteModal isOpen={isOpen} onClose={onClose} elementInfo={videoInfo} />
     </Menu>
   )
 }
