@@ -3,14 +3,6 @@ import { IPrismaContext } from '../prisma/IPrismaContext'
 
 const User: QueryResolvers = {
   Query: {
-    users: async (_parent: unknown, _args: unknown, context: IPrismaContext) =>
-      context.prisma.user.findMany({
-        include: {
-          videos: true,
-          tags: true,
-          playlists: true,
-        },
-      }),
     userById: async (
       _parent: unknown,
       args: { id: string },
