@@ -103,9 +103,7 @@ export type Playlist = {
 export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
-  tags: Array<Maybe<Tag>>;
   userById?: Maybe<User>;
-  users: Array<Maybe<User>>;
 };
 
 
@@ -289,9 +287,7 @@ export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends R
 
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   playlists?: Resolver<Array<Maybe<ResolversTypes['Playlist']>>, ParentType, ContextType>;
-  tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
   userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserByIdArgs>>;
-  users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
 }>;
 
 export type TagResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{

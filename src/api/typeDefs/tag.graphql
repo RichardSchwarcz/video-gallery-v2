@@ -6,10 +6,6 @@ type Tag {
   videoId: String
 }
 
-type Query {
-  tags: [Tag]!
-}
-
 input CreateTagInput {
   name: String!
   color: String!

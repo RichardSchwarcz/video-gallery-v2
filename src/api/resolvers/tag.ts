@@ -7,10 +7,6 @@ import {
 import { IPrismaContext } from '../prisma/IPrismaContext'
 
 const Tag: QueryResolvers = {
-  Query: {
-    tags: async (_parent: unknown, _args: unknown, context: IPrismaContext) =>
-      context.prisma.tag.findMany(),
-  },
   Mutation: {
     createTag: async (
       _parent: unknown,
@@ -45,6 +41,7 @@ const Tag: QueryResolvers = {
           },
         })
       } else {
+        // eslint-disable-next-line no-console
         console.error('User already has a tag with this name')
       }
 
@@ -69,7 +66,7 @@ const Tag: QueryResolvers = {
         }
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error(error.message)
+        console.error(error)
       }
 
       await context.prisma.tag.delete({
@@ -99,7 +96,7 @@ const Tag: QueryResolvers = {
         }
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error(error.message)
+        console.error(error)
       }
 
       const updatedTag = await context.prisma.tag.update({
