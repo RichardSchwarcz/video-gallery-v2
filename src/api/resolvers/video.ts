@@ -2,21 +2,13 @@ import {
   CreateVideoInput,
   DeleteVideoInput,
   QueryResolvers,
-  UpdateVideoInput,
+  UpdateVideoTagsInput,
+  UpdateVideoTrashStatusInput,
 } from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
+import { getVideoInfo } from '../utils/getVideoInfo'
 
 const Video: QueryResolvers = {
-  Query: {
-    videos: async (_parent: unknown, _args: unknown, context: IPrismaContext) =>
-      context.prisma.video.findMany({
-        include: {
-          tags: true,
-          user: true,
-          playlist: true,
-        },
-      }),
-  },
   Mutation: {
     createVideo: async (
       _parent: unknown,
@@ -33,10 +25,15 @@ const Video: QueryResolvers = {
         throw new Error('User not found')
       }
 
+      const videoInfo = await getVideoInfo(input.videoUrl)
+
       const video = await context.prisma.video.create({
         data: {
-          title: input.title,
-          url: input.url,
+          title: videoInfo.title,
+          videoUrl: input.videoUrl,
+          author: videoInfo.author_name,
+          authorUrl: videoInfo.author_url,
+          thumbnailUrl: videoInfo.thumbnail_url,
           user: {
             connect: {
               id: user.id,
@@ -72,9 +69,9 @@ const Video: QueryResolvers = {
 
       return true
     },
-    updateVideo: async (
+    updateVideoTags: async (
       _parent: unknown,
-      args: { input: UpdateVideoInput },
+      args: { input: UpdateVideoTagsInput },
       context: IPrismaContext
     ) => {
       const { input } = args
@@ -94,7 +91,7 @@ const Video: QueryResolvers = {
         }
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error(error.message)
+        console.error(error)
       }
 
       // check if tag exists
@@ -108,7 +105,7 @@ const Video: QueryResolvers = {
         }
       } catch (error) {
         // eslint-disable-next-line no-console
-        console.error(error.message)
+        console.error(error)
       }
 
       // check if video already has the tag
@@ -129,6 +126,7 @@ const Video: QueryResolvers = {
             },
           },
         })
+        // eslint-disable-next-line no-console
         console.log('tag added to video')
       } else {
         updatedVideo = await context.prisma.video.update({
@@ -141,7 +139,47 @@ const Video: QueryResolvers = {
             },
           },
         })
+        // eslint-disable-next-line no-console
         console.log('tag removed from video')
+      }
+
+      return updatedVideo
+    },
+    updateVideoTrashStatus: async (
+      _parent: unknown,
+      args: { input: UpdateVideoTrashStatusInput },
+      context: IPrismaContext
+    ) => {
+      const { input } = args
+
+      // find the video
+      const video = await context.prisma.video.findUnique({
+        where: { id: input.id },
+      })
+
+      // check videos current trash status
+      const isVideoTrashed = video?.inTrash
+
+      // update video
+      let updatedVideo
+      if (!isVideoTrashed) {
+        updatedVideo = await context.prisma.video.update({
+          where: { id: input.id },
+          data: {
+            inTrash: true,
+          },
+        })
+        // eslint-disable-next-line no-console
+        console.log('video moved to trash')
+      } else {
+        updatedVideo = await context.prisma.video.update({
+          where: { id: input.id },
+          data: {
+            inTrash: false,
+          },
+        })
+        // eslint-disable-next-line no-console
+        console.log('video moved out of trash')
       }
 
       return updatedVideo
