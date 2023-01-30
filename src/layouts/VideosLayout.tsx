@@ -13,12 +13,12 @@ function VideosLayout() {
     },
   })
 
-  const videoData = data?.userById?.videos
+  const videos = data?.userById?.videos
 
   return (
     <Container my="4">
       <Flex flexWrap="wrap" gap={2}>
-        {videoData?.map((element) => (
+        {videos?.map((element) => (
           <VideoCard key={element?.id} video={element} loading={loading} />
         ))}
       </Flex>
