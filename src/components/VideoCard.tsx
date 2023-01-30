@@ -1,33 +1,8 @@
-import { useEffect, useState } from 'react'
 import { Flex, Image, Link, Skeleton, Text } from '@chakra-ui/react'
-import { getVideoInfo, VideoInfoType } from 'api/utils/getVideoInfo'
+import { VideoCard as VideoCardProps } from '../types/video'
 import VideoCardMenu from './VideoCardMenu'
 
-type VideoCardProps = {
-  video: {
-    id: string
-    title: string
-    url: string
-    tags: {
-      id: string
-      color: string
-      name: string
-    }[]
-  }
-}
-
 function VideoCard({ video }: VideoCardProps) {
-  const [videoInfo, setVideoInfo] = useState<VideoInfoType | null>(null)
-
-  useEffect(() => {
-    async function fetchVideoInfo() {
-      const data = await getVideoInfo(video.url)
-      setVideoInfo(data)
-    }
-
-    void fetchVideoInfo()
-  }, [video])
-
   return (
     <>
       <Flex
@@ -39,30 +14,30 @@ function VideoCard({ video }: VideoCardProps) {
         // bgGradient="linear(to-tr, green.50,yellow.100, red.200)"
         bgAttachment="fixed"
       >
-        <Link href={video.url} isExternal>
-          <Skeleton isLoaded={!!videoInfo}>
+        <Link href={video?.videoUrl} isExternal>
+          <Skeleton isLoaded={!!video}>
             <Image
               // thumbnail size is 1280x720. To scale it properly with fixed width... (235*720)/1280 = 132.2
               h="132.2px"
               w="235px"
               objectFit="cover"
               roundedTop="lg"
-              src={videoInfo?.thumbnail_url}
+              src={video?.thumbnailUrl}
               alt="thumbnail"
             />
           </Skeleton>
         </Link>
         <Flex px="2" direction="column" gap="1">
           <Text fontWeight="medium" fontSize="sm">
-            {videoInfo?.title}
+            {video?.title}
           </Text>
           <Flex justifyContent="space-between">
             <Text color="gray.400">
-              <Link href={videoInfo?.author_url} isExternal>
-                {videoInfo?.author_name}
+              <Link href={video?.authorUrl} isExternal>
+                {video?.author}
               </Link>
             </Text>
-            <VideoCardMenu videoInfo={videoInfo} />
+            <VideoCardMenu video={video} />
           </Flex>
         </Flex>
       </Flex>
