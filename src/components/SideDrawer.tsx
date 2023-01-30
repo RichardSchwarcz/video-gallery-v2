@@ -7,13 +7,9 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react'
+import { DisclosureTypes } from 'types/chakra'
 
-type SideDrawerProps = {
-  isOpen: boolean
-  onClose: () => void
-}
-
-function SideDrawer({ isOpen, onClose }: SideDrawerProps) {
+function SideDrawer({ isOpen, onClose }: DisclosureTypes) {
   return (
     <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
       <DrawerContent opacity=".95">
