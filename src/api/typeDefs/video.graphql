@@ -6,7 +6,6 @@ type Video {
   authorUrl: String
   thumbnailUrl: String
   inTrash: Boolean
-  url: String
   tags: [Tag]
 }
 
