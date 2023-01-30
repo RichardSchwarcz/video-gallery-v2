@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { VideoCard as VideoProps } from '../types/video'
-import DeleteModal from './DeleteModal'
+import RemoveVideoModal from './RemoveVideoModal'
 
 function VideoCardMenu({ video }: VideoProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -41,7 +41,7 @@ function VideoCardMenu({ video }: VideoProps) {
           ))}
         </MenuOptionGroup> */}
       </MenuList>
-      <DeleteModal isOpen={isOpen} onClose={onClose} elementInfo={video} />
+      <RemoveVideoModal isOpen={isOpen} onClose={onClose} video={video} />
     </Menu>
   )
 }

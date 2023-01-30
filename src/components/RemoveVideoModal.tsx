@@ -11,8 +11,12 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react'
+import { DisclosureTypes } from 'types/chakra'
+import { VideoCard as Video } from '../types/video'
 
-function DeleteModal({ isOpen, onClose, elementInfo }) {
+type RemoveVideoModalProps = DisclosureTypes & Video
+
+function RemoveVideoModal({ isOpen, onClose, video }: RemoveVideoModalProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -20,13 +24,13 @@ function DeleteModal({ isOpen, onClose, elementInfo }) {
         <ModalHeader>Do you want to move this video to trash?</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Link href={elementInfo?.url} isExternal>
-            <Text as="b">{elementInfo?.title}</Text>
+          <Link href={video?.videoUrl} isExternal>
+            <Text as="b">{video?.title}</Text>
           </Link>
           <Flex>
             <Text>Author:</Text>
-            <Link href={elementInfo?.author_url} isExternal ml="2">
-              <Text>{elementInfo?.author_name}</Text>
+            <Link href={video?.authorUrl} isExternal ml="2">
+              <Text>{video?.author}</Text>
             </Link>
           </Flex>
         </ModalBody>
@@ -44,4 +48,4 @@ function DeleteModal({ isOpen, onClose, elementInfo }) {
   )
 }
 
-export default DeleteModal
+export default RemoveVideoModal
