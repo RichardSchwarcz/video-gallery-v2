@@ -12,7 +12,11 @@ query VideosByUserId($userById: String) {
     videos {
       id
       title
-      url
+      videoUrl
+      author
+      authorUrl
+      thumbnailUrl
+      inTrash
       tags {
         color
         id
