@@ -155,7 +155,6 @@ export type Video = {
   tags?: Maybe<Array<Maybe<Tag>>>;
   thumbnailUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
   videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -171,7 +170,7 @@ export type VideosByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type VideosByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, videos?: Array<{ __typename?: 'Video', id?: string | null, title?: string | null, url?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } | null> | null } | null> | null } | null };
+export type VideosByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, videos?: Array<{ __typename?: 'Video', id?: string | null, title?: string | null, videoUrl?: string | null, author?: string | null, authorUrl?: string | null, thumbnailUrl?: string | null, inTrash?: boolean | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } | null> | null } | null> | null } | null };
 
 export type UserTagsByUserIdQueryVariables = Exact<{
   userById?: InputMaybe<Scalars['String']>;
@@ -246,7 +245,11 @@ export const VideosByUserIdDocument = gql`
     videos {
       id
       title
-      url
+      videoUrl
+      author
+      authorUrl
+      thumbnailUrl
+      inTrash
       tags {
         color
         id
