@@ -3,3 +3,9 @@ mutation CreateVideo($input: CreateVideoInput) {
     id
   }
 }
+
+mutation UpdateVideoTrashStatus($input: UpdateVideoTrashStatusInput) {
+  updateVideoTrashStatus(input: $input) {
+    inTrash
+  }
+}
