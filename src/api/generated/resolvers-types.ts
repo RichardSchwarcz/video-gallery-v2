@@ -104,11 +104,17 @@ export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
   userById?: Maybe<User>;
+  userVideos?: Maybe<User>;
 };
 
 
 export type QueryUserByIdArgs = {
-  id?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryUserVideosArgs = {
+  input?: InputMaybe<UserVideosInput>;
 };
 
 export type Tag = {
@@ -144,6 +150,11 @@ export type User = {
   tags?: Maybe<Array<Maybe<Tag>>>;
   username?: Maybe<Scalars['String']>;
   videos?: Maybe<Array<Maybe<Video>>>;
+};
+
+export type UserVideosInput = {
+  inTrash: Scalars['Boolean'];
+  userId: Scalars['String'];
 };
 
 export type Video = {
@@ -243,6 +254,7 @@ export type ResolversTypes = ResolversObject<{
   UpdateVideoTagsInput: UpdateVideoTagsInput;
   UpdateVideoTrashStatusInput: UpdateVideoTrashStatusInput;
   User: ResolverTypeWrapper<UserModel>;
+  UserVideosInput: UserVideosInput;
   Video: ResolverTypeWrapper<Video>;
 }>;
 
@@ -263,6 +275,7 @@ export type ResolversParentTypes = ResolversObject<{
   UpdateVideoTagsInput: UpdateVideoTagsInput;
   UpdateVideoTrashStatusInput: UpdateVideoTrashStatusInput;
   User: UserModel;
+  UserVideosInput: UserVideosInput;
   Video: Video;
 }>;
 
@@ -287,6 +300,7 @@ export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends R
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   playlists?: Resolver<Array<Maybe<ResolversTypes['Playlist']>>, ParentType, ContextType>;
   userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserByIdArgs>>;
+  userVideos?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserVideosArgs>>;
 }>;
 
 export type TagResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{
