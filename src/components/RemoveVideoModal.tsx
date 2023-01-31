@@ -11,12 +11,26 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react'
+import { useUpdateVideoTrashStatusMutation } from 'generated/generated-graphql'
 import { DisclosureTypes } from 'types/chakra'
 import { VideoCard as Video } from '../types/video'
 
 type RemoveVideoModalProps = DisclosureTypes & Video
 
 function RemoveVideoModal({ isOpen, onClose, video }: RemoveVideoModalProps) {
+  const [updateVideoTrashStatus] = useUpdateVideoTrashStatusMutation()
+
+  const handleRemoveVideo = () => {
+    void updateVideoTrashStatus({
+      variables: {
+        input: {
+          id: video?.id,
+          inTrash: true,
+        },
+      },
+    })
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -39,7 +53,15 @@ function RemoveVideoModal({ isOpen, onClose, video }: RemoveVideoModalProps) {
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Close
           </Button>
-          <Button variant="ghost" _hover={{ bg: 'red.400' }}>
+          <Button
+            variant="ghost"
+            _hover={{ bg: 'red.400' }}
+            onClick={(e) => {
+              e.preventDefault()
+              handleRemoveVideo()
+              onClose()
+            }}
+          >
             Remove
           </Button>
         </ModalFooter>
