@@ -200,6 +200,13 @@ export type CreateVideoMutationVariables = Exact<{
 
 export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'Video', id?: string | null } };
 
+export type UpdateVideoTrashStatusMutationVariables = Exact<{
+  input?: InputMaybe<UpdateVideoTrashStatusInput>;
+}>;
+
+
+export type UpdateVideoTrashStatusMutation = { __typename?: 'Mutation', updateVideoTrashStatus: { __typename?: 'Video', inTrash?: boolean | null } };
+
 
 export const QueryUsernameByUserIdDocument = gql`
     query QueryUsernameByUserId($userById: String) {
@@ -439,3 +446,36 @@ export function useCreateVideoMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateVideoMutationHookResult = ReturnType<typeof useCreateVideoMutation>;
 export type CreateVideoMutationResult = Apollo.MutationResult<CreateVideoMutation>;
 export type CreateVideoMutationOptions = Apollo.BaseMutationOptions<CreateVideoMutation, CreateVideoMutationVariables>;
+export const UpdateVideoTrashStatusDocument = gql`
+    mutation UpdateVideoTrashStatus($input: UpdateVideoTrashStatusInput) {
+  updateVideoTrashStatus(input: $input) {
+    inTrash
+  }
+}
+    `;
+export type UpdateVideoTrashStatusMutationFn = Apollo.MutationFunction<UpdateVideoTrashStatusMutation, UpdateVideoTrashStatusMutationVariables>;
+
+/**
+ * __useUpdateVideoTrashStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateVideoTrashStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateVideoTrashStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateVideoTrashStatusMutation, { data, loading, error }] = useUpdateVideoTrashStatusMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateVideoTrashStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateVideoTrashStatusMutation, UpdateVideoTrashStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateVideoTrashStatusMutation, UpdateVideoTrashStatusMutationVariables>(UpdateVideoTrashStatusDocument, options);
+      }
+export type UpdateVideoTrashStatusMutationHookResult = ReturnType<typeof useUpdateVideoTrashStatusMutation>;
+export type UpdateVideoTrashStatusMutationResult = Apollo.MutationResult<UpdateVideoTrashStatusMutation>;
+export type UpdateVideoTrashStatusMutationOptions = Apollo.BaseMutationOptions<UpdateVideoTrashStatusMutation, UpdateVideoTrashStatusMutationVariables>;
