@@ -155,7 +155,6 @@ export type Video = {
   tags?: Maybe<Array<Maybe<Tag>>>;
   thumbnailUrl?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
   videoUrl?: Maybe<Scalars['String']>;
 };
 
@@ -317,7 +316,6 @@ export type VideoResolvers<ContextType = IPrismaContext, ParentType extends Reso
   tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
   thumbnailUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
