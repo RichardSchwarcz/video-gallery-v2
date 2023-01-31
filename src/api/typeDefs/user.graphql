@@ -8,7 +8,16 @@ type User {
 }
 
 type Query {
-  userById(id: String): User
+  userById(userId: String): User
+}
+
+input UserVideosInput {
+  userId: String!
+  inTrash: Boolean!
+}
+
+type Query {
+  userVideos(input: UserVideosInput): User
 }
 
 input CreateUserInput {
