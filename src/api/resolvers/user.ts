@@ -1,16 +1,21 @@
-import { CreateUserInput, QueryResolvers } from '../generated/resolvers-types'
+import {
+  CreateUserInput,
+  QueryResolvers,
+  UserVideosInput,
+} from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
 
 const User: QueryResolvers = {
   Query: {
     userById: async (
       _parent: unknown,
-      args: { id: string },
+      args: { userId: string },
       context: IPrismaContext
-    ) =>
-      context.prisma.user.findUnique({
+    ) => {
+      const { userId } = args
+      const user = context.prisma.user.findUnique({
         where: {
-          id: args.id,
+          id: userId,
         },
         select: {
           id: true,
@@ -27,7 +32,34 @@ const User: QueryResolvers = {
             },
           },
         },
-      }),
+      })
+
+      return user
+    },
+    userVideos: async (
+      _parent: unknown,
+      args: { input: UserVideosInput },
+      context: IPrismaContext
+    ) => {
+      const { input } = args
+      const user = context.prisma.user.findUnique({
+        where: {
+          id: input.userId,
+        },
+        select: {
+          id: true,
+          username: true,
+          videos: {
+            where: { inTrash: input?.inTrash },
+            include: {
+              tags: true,
+            },
+          },
+        },
+      })
+
+      return user
+    },
   },
   Mutation: {
     createUser: async (
