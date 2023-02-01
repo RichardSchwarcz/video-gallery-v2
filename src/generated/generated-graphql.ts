@@ -154,6 +154,7 @@ export type User = {
 
 export type UserVideosInput = {
   inTrash: Scalars['Boolean'];
+  searchInput?: InputMaybe<Scalars['String']>;
   userId: Scalars['String'];
 };
 
