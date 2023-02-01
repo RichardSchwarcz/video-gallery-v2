@@ -6,7 +6,7 @@ import {
   UpdateVideoTrashStatusInput,
 } from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
-import { getVideoInfo } from '../utils/getVideoInfo'
+import { getVideoData } from '../utils/getVideoInfo'
 
 const Video: QueryResolvers = {
   Mutation: {
@@ -25,15 +25,15 @@ const Video: QueryResolvers = {
         throw new Error('User not found')
       }
 
-      const videoInfo = await getVideoInfo(input.videoUrl)
+      const videoData = await getVideoData(input.videoUrl)
 
       const video = await context.prisma.video.create({
         data: {
-          title: videoInfo.title,
+          title: videoData.title,
           videoUrl: input.videoUrl,
-          author: videoInfo.author_name,
-          authorUrl: videoInfo.author_url,
-          thumbnailUrl: videoInfo.thumbnail_url,
+          author: videoData.author_name,
+          authorUrl: videoData.author_url,
+          thumbnailUrl: videoData.thumbnail_url,
           user: {
             connect: {
               id: user.id,
