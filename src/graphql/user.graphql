@@ -1,33 +1,33 @@
-query QueryUsernameByUserId($userById: String) {
-  userById(id: $userById) {
+query UsernameByUserId($userId: String) {
+  userById(userId: $userId) {
     username
     id
   }
 }
 
-query VideosByUserId($userById: String) {
-  userById(id: $userById) {
-    username
+query UserVideos($input: UserVideosInput) {
+  userVideos(input: $input) {
     id
+    username
     videos {
       id
+      authorUrl
+      author
+      inTrash
       title
       videoUrl
-      author
-      authorUrl
       thumbnailUrl
-      inTrash
       tags {
-        color
         id
         name
+        color
       }
     }
   }
 }
 
-query UserTagsByUserId($userById: String) {
-  userById(id: $userById) {
+query UserTagsByUserId($userId: String) {
+  userById(userId: $userId) {
     username
     id
     tags {
@@ -38,8 +38,8 @@ query UserTagsByUserId($userById: String) {
   }
 }
 
-query UserPlaylistsByUserId($userById: String) {
-  userById(id: $userById) {
+query UserPlaylistsByUserId($userId: String) {
+  userById(userId: $userId) {
     username
     id
     playlists {
