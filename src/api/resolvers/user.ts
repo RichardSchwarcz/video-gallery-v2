@@ -50,7 +50,12 @@ const User: QueryResolvers = {
           id: true,
           username: true,
           videos: {
-            where: { inTrash: input?.inTrash },
+            where: {
+              AND: [
+                { inTrash: input?.inTrash },
+                { title: { contains: input?.searchInput } },
+              ],
+            },
             include: {
               tags: true,
             },
