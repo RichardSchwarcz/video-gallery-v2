@@ -18,7 +18,9 @@ import { VideoCard as Video } from '../types/video'
 type RemoveVideoModalProps = DisclosureTypes & Video
 
 function RemoveVideoModal({ isOpen, onClose, video }: RemoveVideoModalProps) {
-  const [updateVideoTrashStatus] = useUpdateVideoTrashStatusMutation()
+  const [updateVideoTrashStatus] = useUpdateVideoTrashStatusMutation({
+    refetchQueries: ['UserVideos'],
+  })
 
   const handleRemoveVideo = () => {
     void updateVideoTrashStatus({
