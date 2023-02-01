@@ -1,28 +1,41 @@
-const getYoutubeVideoId = (url: string) =>
-  // https://www.youtube.com/watch?v=Y7cw-ziofkY&ab_channel=CodingShiksha
-  // youtube video ID starts after `?v=` and ends before `&` => `Y7cw-ziofkY`
-  // youtube video ID is 11 characters long
-  url.split('v=')[1].substring(0, 11)
+interface YouTubeVideoInfo {
+  isValid: boolean
+  videoId?: string
+}
 
-export type VideoInfoType = {
+export const extractYouTubeVideoInfo = (url: string): YouTubeVideoInfo => {
+  const youtubeRegex =
+    /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=)?([a-zA-Z0-9_-]+)/
+  const matches = youtubeRegex.exec(url)
+  if (!matches || !matches[5]) {
+    return { isValid: false }
+  }
+  return { isValid: true, videoId: matches[5] }
+}
+
+export type VideoDataType = {
   thumbnail_url: string
   title: string
   author_name: string
   author_url: string
 }
 
-export const getVideoInfo = async (url: string): Promise<VideoInfoType> => {
-  const id = getYoutubeVideoId(url)
-  const video = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${id}`
-  const response = await fetch(video)
-  const data = await response.json()
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { thumbnail_url, title, author_name, author_url }: VideoInfoType = data
+export const getVideoData = async (url: string): Promise<VideoDataType> => {
+  const videoInfo = extractYouTubeVideoInfo(url)
+  if (videoInfo.isValid && videoInfo.videoId) {
+    const video = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoInfo.videoId}`
+    const response = await fetch(video)
+    const data = await response.json()
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { thumbnail_url, title, author_name, author_url }: VideoDataType =
+      data
 
-  return {
-    thumbnail_url,
-    title,
-    author_name,
-    author_url,
+    return {
+      thumbnail_url,
+      title,
+      author_name,
+      author_url,
+    }
   }
+  throw new Error('Invalid YouTube URL')
 }
