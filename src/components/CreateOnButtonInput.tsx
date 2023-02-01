@@ -10,21 +10,44 @@ import {
   InputRightElement,
   Spinner,
   useToast,
-  UseToastOptions,
 } from '@chakra-ui/react'
+import { extractYouTubeVideoInfo } from 'api/utils/getVideoInfo'
 import { useCreateVideoMutation } from 'generated/generated-graphql'
+import { Toast } from 'types/chakra'
 
 type CreateOnButtonInputProps = {
   buttonPlaceholder: string
   inputPlaceholder: string
 }
 
-interface toastBodyType extends UseToastOptions {
-  title: string
-  description: string
-  status: 'success' | 'error' | 'warning' | 'info' | 'loading'
-  duration: number
-  isClosable: boolean
+type ToastBodyType = {
+  VideoAdded: Toast
+  EmptyInput: Toast
+  InvalidURL: Toast
+}
+
+const ToastBody: ToastBodyType = {
+  VideoAdded: {
+    title: 'Video Added.',
+    description: "We've added video to your gallery.",
+    status: 'success',
+    duration: 3000,
+    isClosable: true,
+  },
+  EmptyInput: {
+    title: 'Error',
+    description: 'Empty input',
+    status: 'error',
+    duration: 3000,
+    isClosable: true,
+  },
+  InvalidURL: {
+    title: 'Error',
+    description: 'Invalid URL - only YouTube URLs are allowed',
+    status: 'error',
+    duration: 3000,
+    isClosable: true,
+  },
 }
 
 function CreateOnButtonInput({
@@ -33,52 +56,38 @@ function CreateOnButtonInput({
 }: CreateOnButtonInputProps) {
   const [isSwitchButton, setSwitchButton] = useState(true)
   const [input, setInput] = useState('')
-  const [createVideoMutation, { data, loading }] = useCreateVideoMutation()
   const toast = useToast()
 
-  function toastBody(): toastBodyType {
-    if (input === '') {
-      return {
-        title: 'Error',
-        description: 'Empty input',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      }
-    }
-    if (data) {
-      return {
-        title: 'Video Added.',
-        description: "We've added video to your gallery.",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      }
-    }
-    return {
-      title: 'Error',
-      description: 'Daco plano',
-      status: 'error',
-      duration: 3000,
-      isClosable: true,
-    }
-  }
+  const [createVideoMutation, { loading }] = useCreateVideoMutation({
+    refetchQueries: ['UserVideos'],
+    onCompleted() {
+      toast(ToastBody.VideoAdded)
+    },
+  })
 
-  const handleCreateVideo = () => {
-    try {
+  const handleCreateVideo = (urlInput: string) => {
+    const videoURL = extractYouTubeVideoInfo(urlInput) // check if url is valid
+
+    if (urlInput === '') {
+      toast(ToastBody.EmptyInput)
+    }
+
+    if (!videoURL.isValid && urlInput !== '') {
+      toast(ToastBody.InvalidURL)
+    }
+
+    if (videoURL.isValid) {
       void createVideoMutation({
         variables: {
           input: {
-            videoUrl: input,
+            videoUrl: urlInput,
             userId: '851c14c1-72a8-46e3-8141-71394e386a1a',
           },
         },
       })
-      setInput('') // reset input state
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error)
     }
+
+    setInput('') // reset input state
   }
 
   const clearInput = () => {
@@ -122,9 +131,8 @@ function CreateOnButtonInput({
                 colorScheme="green"
                 onClick={(e) => {
                   e.preventDefault()
-                  void handleCreateVideo()
+                  void handleCreateVideo(input)
                   clearInput()
-                  toast(toastBody())
                 }}
               />
             )}
