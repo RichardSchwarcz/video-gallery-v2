@@ -4,9 +4,10 @@ function Container({ children, my = '0' }) {
   return (
     <Flex
       maxW="1000px"
-      outline="1px solid black"
+      w="1000px"
       px="4"
       my={my}
+      // outline="1px solid black"
       direction="column"
     >
       {children}
