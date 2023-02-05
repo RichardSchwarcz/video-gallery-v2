@@ -184,12 +184,12 @@ export type UserVideosQueryVariables = Exact<{
 
 export type UserVideosQuery = { __typename?: 'Query', userVideos?: { __typename?: 'User', id?: string | null, username?: string | null, videos?: Array<{ __typename?: 'Video', id?: string | null, authorUrl?: string | null, author?: string | null, inTrash?: boolean | null, title?: string | null, videoUrl?: string | null, thumbnailUrl?: string | null, tags?: Array<{ __typename?: 'Tag', id?: string | null, name?: string | null, color?: string | null } | null> | null } | null> | null } | null };
 
-export type UserTagsByUserIdQueryVariables = Exact<{
+export type UserTagsQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UserTagsByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } | null> | null } | null };
+export type UserTagsQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } | null> | null } | null };
 
 export type UserPlaylistsByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
@@ -306,8 +306,8 @@ export function useUserVideosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type UserVideosQueryHookResult = ReturnType<typeof useUserVideosQuery>;
 export type UserVideosLazyQueryHookResult = ReturnType<typeof useUserVideosLazyQuery>;
 export type UserVideosQueryResult = Apollo.QueryResult<UserVideosQuery, UserVideosQueryVariables>;
-export const UserTagsByUserIdDocument = gql`
-    query UserTagsByUserId($userId: String) {
+export const UserTagsDocument = gql`
+    query UserTags($userId: String) {
   userById(userId: $userId) {
     username
     id
@@ -321,32 +321,32 @@ export const UserTagsByUserIdDocument = gql`
     `;
 
 /**
- * __useUserTagsByUserIdQuery__
+ * __useUserTagsQuery__
  *
- * To run a query within a React component, call `useUserTagsByUserIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserTagsByUserIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useUserTagsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserTagsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserTagsByUserIdQuery({
+ * const { data, loading, error } = useUserTagsQuery({
  *   variables: {
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useUserTagsByUserIdQuery(baseOptions?: Apollo.QueryHookOptions<UserTagsByUserIdQuery, UserTagsByUserIdQueryVariables>) {
+export function useUserTagsQuery(baseOptions?: Apollo.QueryHookOptions<UserTagsQuery, UserTagsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserTagsByUserIdQuery, UserTagsByUserIdQueryVariables>(UserTagsByUserIdDocument, options);
+        return Apollo.useQuery<UserTagsQuery, UserTagsQueryVariables>(UserTagsDocument, options);
       }
-export function useUserTagsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserTagsByUserIdQuery, UserTagsByUserIdQueryVariables>) {
+export function useUserTagsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserTagsQuery, UserTagsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserTagsByUserIdQuery, UserTagsByUserIdQueryVariables>(UserTagsByUserIdDocument, options);
+          return Apollo.useLazyQuery<UserTagsQuery, UserTagsQueryVariables>(UserTagsDocument, options);
         }
-export type UserTagsByUserIdQueryHookResult = ReturnType<typeof useUserTagsByUserIdQuery>;
-export type UserTagsByUserIdLazyQueryHookResult = ReturnType<typeof useUserTagsByUserIdLazyQuery>;
-export type UserTagsByUserIdQueryResult = Apollo.QueryResult<UserTagsByUserIdQuery, UserTagsByUserIdQueryVariables>;
+export type UserTagsQueryHookResult = ReturnType<typeof useUserTagsQuery>;
+export type UserTagsLazyQueryHookResult = ReturnType<typeof useUserTagsLazyQuery>;
+export type UserTagsQueryResult = Apollo.QueryResult<UserTagsQuery, UserTagsQueryVariables>;
 export const UserPlaylistsByUserIdDocument = gql`
     query UserPlaylistsByUserId($userId: String) {
   userById(userId: $userId) {
