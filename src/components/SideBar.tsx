@@ -7,18 +7,21 @@ import {
   Heading,
   IconButton,
   Portal,
+  Tag,
 } from '@chakra-ui/react'
 
 type SideBarProps = {
   isSideBarOpen: boolean
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean>>
   sideBarContainer: React.RefObject<HTMLDivElement>
+  userTags: any
 }
 
 function SideBar({
   isSideBarOpen,
   setIsSideBarOpen,
   sideBarContainer,
+  userTags,
 }: SideBarProps) {
   return (
     <Portal>
@@ -31,7 +34,7 @@ function SideBar({
                 src="https://bit.ly/dan-abramov"
                 size="sm"
               />
-              <Heading size="md">riso.schwarcz</Heading>
+              <Heading size="md">{userTags?.userById?.username}</Heading>
             </Flex>
             <IconButton
               aria-label="CloseMenu"
@@ -46,7 +49,15 @@ function SideBar({
           <Flex direction="column">
             <p>Settings</p>
             <p>Trash</p>
-            <p>Tags</p>
+            <Heading size="sm">Tags</Heading>
+            <Divider my={2} />
+            <Flex direction="column">
+              {userTags?.userById?.tags.map((tag: any) => (
+                <Tag key={tag.id} colorScheme={tag.color}>
+                  {tag.name}
+                </Tag>
+              ))}
+            </Flex>
           </Flex>
         </Box>
       </Flex>
