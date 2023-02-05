@@ -26,7 +26,7 @@ query UserVideos($input: UserVideosInput) {
   }
 }
 
-query UserTagsByUserId($userId: String) {
+query UserTags($userId: String) {
   userById(userId: $userId) {
     username
     id
