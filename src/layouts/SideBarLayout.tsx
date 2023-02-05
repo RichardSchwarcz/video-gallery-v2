@@ -43,6 +43,7 @@ function SideBarLayout() {
         {!isSideBarOpen && (
           <IconButton
             aria-label="Menu"
+            variant="ghost"
             icon={<HamburgerIcon />}
             onClick={() => {
               if (windowWidth >= 1452) {

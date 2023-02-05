@@ -43,7 +43,7 @@ function SearchBar({ search, paddingLeft, setSearchInput }: SearchBarProps) {
       <Input
         placeholder="Search"
         pl={paddingLeft}
-        borderRadius="16px"
+        borderRadius="full" // 16px
         borderColor="gray.500"
         id="input"
         onChange={(e) => setSearchInput(e.target.value)}
@@ -55,6 +55,7 @@ function SearchBar({ search, paddingLeft, setSearchInput }: SearchBarProps) {
           size="sm"
           onClick={() => handleClear()}
           borderRadius="full"
+          variant="ghost"
         >
           Clear
         </IconButton>

@@ -102,7 +102,7 @@ function CreateOnButtonInput({
       {isSwitchButton && (
         <Button
           onClick={() => setSwitchButton(!isSwitchButton)}
-          borderRadius="16px"
+          borderRadius="full" // 16px
           leftIcon={<SmallAddIcon />}
           variant="solid"
           colorScheme="purple"
@@ -143,7 +143,7 @@ function CreateOnButtonInput({
                 setInput(e.target.value)
               }}
               pl="14"
-              borderRadius="16px"
+              borderRadius="full" // 16 px
               bg="gray.50"
               borderColor="gray.100"
               variant="outline"

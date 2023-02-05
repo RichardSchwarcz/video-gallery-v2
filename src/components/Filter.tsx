@@ -27,7 +27,7 @@ function Filter() {
       <Input
         ref={inputRef}
         placeholder="Filter"
-        borderRadius="16px"
+        borderRadius="full" // 16px
         borderColor="gray.500"
         onClick={() => setShowDropdown(true)}
       />
