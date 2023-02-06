@@ -32,7 +32,7 @@ const Tag: QueryResolvers = {
         tag = await context.prisma.tag.create({
           data: {
             name: input.name,
-            color: input.color,
+            color: 'gray',
             user: {
               connect: {
                 id: user?.id,
