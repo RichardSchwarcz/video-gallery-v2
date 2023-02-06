@@ -1,4 +1,4 @@
-import { CloseIcon } from '@chakra-ui/icons'
+import { CloseIcon, SearchIcon } from '@chakra-ui/icons'
 import {
   IconButton,
   Input,
@@ -9,12 +9,12 @@ import {
 import apolloClient from 'lib/apollo'
 
 type SearchBarProps = {
-  search: string
-  paddingLeft: string
   setSearchInput: React.Dispatch<React.SetStateAction<string>>
+  size?: 'sm' | 'md' | 'lg'
+  searchType: string
 }
 
-function SearchBar({ search, paddingLeft, setSearchInput }: SearchBarProps) {
+function SearchBar({ setSearchInput, size, searchType }: SearchBarProps) {
   const clearInput = () => {
     const inputElement = document.getElementById('input') as HTMLInputElement
     if (inputElement !== null) {
@@ -31,19 +31,14 @@ function SearchBar({ search, paddingLeft, setSearchInput }: SearchBarProps) {
   }
 
   return (
-    <InputGroup mb="5" borderColor="gray.400" m="0">
-      <InputLeftElement
-        w="24"
-        color="gray.500"
-        pl="5"
-        justifyContent="flex-start"
-      >
-        {search}
+    <InputGroup size={size}>
+      <InputLeftElement pointerEvents="none">
+        <SearchIcon color="gray.500" />
       </InputLeftElement>
+
       <Input
-        placeholder="Search"
-        pl={paddingLeft}
-        borderRadius="full" // 16px
+        placeholder={`Search ${searchType}`}
+        borderRadius="full"
         borderColor="gray.500"
         id="input"
         onChange={(e) => setSearchInput(e.target.value)}
@@ -56,9 +51,7 @@ function SearchBar({ search, paddingLeft, setSearchInput }: SearchBarProps) {
           onClick={() => handleClear()}
           borderRadius="full"
           variant="ghost"
-        >
-          Clear
-        </IconButton>
+        />
       </InputRightElement>
     </InputGroup>
   )

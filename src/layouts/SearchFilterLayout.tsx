@@ -10,17 +10,10 @@ type SearchFilterLayoutProps = {
 }
 
 function SearchFilterLayout({ setSearchInput }: SearchFilterLayoutProps) {
-  const router = useRouter()
-  const { pathname } = router
-  const { search, paddingLeft } = onPathname(pathname)
   return (
     <Container>
       <Flex gap="4">
-        <SearchBar
-          search={search}
-          paddingLeft={paddingLeft}
-          setSearchInput={setSearchInput}
-        />
+        <SearchBar setSearchInput={setSearchInput} searchType="Videos" />
         <Filter />
       </Flex>
     </Container>
