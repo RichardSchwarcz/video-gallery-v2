@@ -8,8 +8,8 @@ type Tag {
 
 input CreateTagInput {
   name: String!
-  color: String!
   userId: String!
+  color: String
   videoId: String
 }
 

@@ -16,7 +16,7 @@ export type Scalars = {
 };
 
 export type CreateTagInput = {
-  color: Scalars['String'];
+  color?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   userId: Scalars['String'];
   videoId?: InputMaybe<Scalars['String']>;
