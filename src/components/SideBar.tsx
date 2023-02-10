@@ -2,47 +2,124 @@ import {
   ArrowLeftIcon,
   ChevronDownIcon,
   EditIcon,
-  SearchIcon,
   SmallAddIcon,
 } from '@chakra-ui/icons'
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   Flex,
   Heading,
   IconButton,
-  Input,
   Portal,
   Tag,
   TagCloseButton,
   TagLabel,
+  useToast,
 } from '@chakra-ui/react'
-import { UserTagsQuery } from 'generated/generated-graphql'
+import {
+  useCreateTagMutation,
+  UserTagsQuery,
+} from 'generated/generated-graphql'
+import { Toast } from 'types/chakra'
+import SearchBar from './SearchBar'
+import SwitchButtonInput from './SwitchButtonInput'
+
+type ToastBodyType = {
+  VideoAdded: Toast
+  EmptyInput: Toast
+  InvalidURL: Toast
+  TagCreated: Toast
+}
+
+const ToastBody: ToastBodyType = {
+  VideoAdded: {
+    title: 'Video Added.',
+    description: "We've added video to your gallery.",
+    status: 'success',
+    duration: 3000,
+    isClosable: true,
+  },
+  TagCreated: {
+    title: 'Tag Created.',
+    description: "We've created a new tag for you.",
+    status: 'success',
+    duration: 3000,
+    isClosable: true,
+  },
+  EmptyInput: {
+    title: 'Error',
+    description: 'Empty input',
+    status: 'error',
+    duration: 3000,
+    isClosable: true,
+  },
+  InvalidURL: {
+    title: 'Error',
+    description: 'Invalid URL - only YouTube URLs are allowed',
+    status: 'error',
+    duration: 3000,
+    isClosable: true,
+  },
+}
 
 type SideBarProps = {
   isSideBarOpen: boolean
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean>>
-  sideBarContainer: React.RefObject<HTMLDivElement>
   userTags: UserTagsQuery | undefined
 }
 
-function SideBar({
-  isSideBarOpen,
-  setIsSideBarOpen,
-  sideBarContainer,
-  userTags,
-}: SideBarProps) {
+function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
+  const toast = useToast()
+  const [createTagMutation, { loading }] = useCreateTagMutation({
+    refetchQueries: ['UserTags'],
+    onCompleted() {
+      toast(ToastBody.TagCreated)
+    },
+  })
+
+  function handleCreateTag(name: string) {
+    if (name === '') {
+      toast(ToastBody.EmptyInput)
+    }
+
+    void createTagMutation({
+      variables: {
+        input: {
+          name,
+          userId: '851c14c1-72a8-46e3-8141-71394e386a1a',
+        },
+      },
+    })
+  }
+
   return (
     <Portal>
-      <Flex position="absolute" top="0" m="4">
-        <Box minW="200px" ref={sideBarContainer}>
+      <Flex
+        position="fixed"
+        top="0"
+        background="white"
+        maxH="100vh"
+        overflow="scroll"
+        overflowX="hidden"
+        bg="rgba(255,255,255,0.8)"
+        backdropFilter="blur(10px)"
+        css={{
+          '::-webkit-scrollbar': {
+            width: '0.25em',
+          },
+          '::-webkit-scrollbar-thumb': {
+            backgroundColor: 'gray',
+            borderRadius: '1000px',
+          },
+        }}
+      >
+        <Box minW="200px" m="4">
           <Flex alignItems="center" justifyContent="space-between">
             <Flex gap="2" justifyContent="flex-start" alignItems="center">
               <Avatar
-                name="Dan Abrahmov"
-                src="https://bit.ly/dan-abramov"
+                name="Ryso Schwarcz"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg/800px-Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg"
                 size="sm"
               />
               <Heading size="md">{userTags?.userById?.username}</Heading>
@@ -63,23 +140,18 @@ function SideBar({
             <Heading size="sm">Tags</Heading>
             <Divider my={2} />
             <Flex direction="column" gap="2">
-              {/* <Input
-                borderRadius="full"
+              <SwitchButtonInput
+                buttonPlaceholder="New Tag"
+                buttonIcon={<SmallAddIcon />}
+                inputPlaceholder="Create New Tag"
+                loading={loading}
                 size="sm"
-                placeholder="Create New Tag"
-              /> */}
-              <Flex gap="2">
-                <Button
-                  leftIcon={<SmallAddIcon />}
-                  size="sm"
-                  borderRadius="full"
-                >
-                  New Tag
-                </Button>
-                <Button leftIcon={<SearchIcon />} size="sm" borderRadius="full">
-                  Search
-                </Button>
-              </Flex>
+                color="green"
+                // eslint-disable-next-line react/jsx-no-bind
+                handleCreate={handleCreateTag}
+              />
+
+              <SearchBar size="sm" searchType="Tags" />
 
               {userTags && userTags?.userById && userTags?.userById?.tags
                 ? userTags?.userById?.tags.map(
