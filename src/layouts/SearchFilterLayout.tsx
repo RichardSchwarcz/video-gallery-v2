@@ -1,8 +1,6 @@
 import { Flex } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 import Filter from 'components/Filter'
 import SearchBar from 'components/SearchBar'
-import onPathname from 'utils/onPathname'
 import Container from '../components/Container'
 
 type SearchFilterLayoutProps = {
