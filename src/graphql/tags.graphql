@@ -9,3 +9,10 @@ mutation CreateTag($input: CreateTagInput) {
 mutation DeleteTag($input: DeleteTagInput) {
   deleteTag(input: $input)
 }
+
+mutation UpdateTag($input: UpdateTagInput) {
+  updateTag(input: $input) {
+    name
+    color
+  }
+}
