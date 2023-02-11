@@ -1,4 +1,6 @@
-# Lightweight template for full stack app
+# Video Gallery
+
+The app is a video gallery that allows users to save, organize, search, and tag YouTube videos for later viewing.
 
 ## Tech Stack
 
