@@ -11,10 +11,10 @@ import {
   Tag,
   useDisclosure,
 } from '@chakra-ui/react'
-import { VideoCard as VideoProps } from '../types/video'
+import { VideoType as VideoTypeProps } from '../types/video'
 import RemoveVideoModal from './RemoveVideoModal'
 
-function VideoCardMenu({ video }: VideoProps) {
+function VideoCardMenu({ video }: VideoTypeProps) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Menu closeOnSelect={false} isLazy>

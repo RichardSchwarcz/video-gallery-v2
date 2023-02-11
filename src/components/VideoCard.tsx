@@ -1,8 +1,8 @@
 import { Flex, Image, Link, Skeleton, Text } from '@chakra-ui/react'
-import { VideoCard as VideoCardProps } from '../types/video'
+import { VideoType } from '../types/video'
 import VideoCardMenu from './VideoCardMenu'
 
-function VideoCard({ video }: VideoCardProps) {
+function VideoCard({ video }: VideoType) {
   return (
     <>
       <Flex
@@ -11,7 +11,6 @@ function VideoCard({ video }: VideoCardProps) {
         rounded="lg"
         direction="column"
         boxShadow="lg"
-        // bgGradient="linear(to-tr, green.50,yellow.100, red.200)"
         bgAttachment="fixed"
       >
         <Link href={video?.videoUrl} isExternal>
