@@ -5,3 +5,7 @@ mutation CreateTag($input: CreateTagInput) {
     name
   }
 }
+
+mutation DeleteTag($input: DeleteTagInput) {
+  deleteTag(input: $input)
+}

@@ -19,7 +19,6 @@ export type CreateTagInput = {
   color?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   userId: Scalars['String'];
-  videoId?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
@@ -123,7 +122,7 @@ export type Tag = {
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
-  videoId?: Maybe<Scalars['String']>;
+  videos?: Maybe<Array<Maybe<Video>>>;
 };
 
 export type UpdateTagInput = {
@@ -177,6 +176,13 @@ export type CreateTagMutationVariables = Exact<{
 
 export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } };
 
+export type DeleteTagMutationVariables = Exact<{
+  input?: InputMaybe<DeleteTagInput>;
+}>;
+
+
+export type DeleteTagMutation = { __typename?: 'Mutation', deleteTag: boolean };
+
 export type UsernameByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
 }>;
@@ -196,7 +202,7 @@ export type UserTagsQueryVariables = Exact<{
 }>;
 
 
-export type UserTagsQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } | null> | null } | null };
+export type UserTagsQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null, videos?: Array<{ __typename?: 'Video', title?: string | null } | null> | null } | null> | null } | null };
 
 export type UserPlaylistsByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
@@ -262,6 +268,37 @@ export function useCreateTagMutation(baseOptions?: Apollo.MutationHookOptions<Cr
 export type CreateTagMutationHookResult = ReturnType<typeof useCreateTagMutation>;
 export type CreateTagMutationResult = Apollo.MutationResult<CreateTagMutation>;
 export type CreateTagMutationOptions = Apollo.BaseMutationOptions<CreateTagMutation, CreateTagMutationVariables>;
+export const DeleteTagDocument = gql`
+    mutation DeleteTag($input: DeleteTagInput) {
+  deleteTag(input: $input)
+}
+    `;
+export type DeleteTagMutationFn = Apollo.MutationFunction<DeleteTagMutation, DeleteTagMutationVariables>;
+
+/**
+ * __useDeleteTagMutation__
+ *
+ * To run a mutation, you first call `useDeleteTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTagMutation, { data, loading, error }] = useDeleteTagMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteTagMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTagMutation, DeleteTagMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTagMutation, DeleteTagMutationVariables>(DeleteTagDocument, options);
+      }
+export type DeleteTagMutationHookResult = ReturnType<typeof useDeleteTagMutation>;
+export type DeleteTagMutationResult = Apollo.MutationResult<DeleteTagMutation>;
+export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<DeleteTagMutation, DeleteTagMutationVariables>;
 export const UsernameByUserIdDocument = gql`
     query UsernameByUserId($userId: String) {
   userById(userId: $userId) {
@@ -357,6 +394,9 @@ export const UserTagsDocument = gql`
       color
       id
       name
+      videos {
+        title
+      }
     }
   }
 }
