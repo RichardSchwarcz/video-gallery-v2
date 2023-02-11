@@ -13,55 +13,15 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { useUpdateTagMutation } from 'generated/generated-graphql'
-import { Toast } from 'types/chakra'
-import { VideoCard as Video } from '../types/video'
+import { TagType } from '../types/tag'
+import { ToastBody } from '../utils/toastBody'
 
-type TagMenuProps = {
-  tag: {
-    id: string
-    name: string
-    color: string
-    videos: Video[]
-  }
-}
-
-type ToastBodyType = {
-  VideoAdded: Toast
-  EmptyInput: Toast
-  InvalidURL: Toast
-}
-
-const ToastBody: ToastBodyType = {
-  VideoAdded: {
-    title: 'Video Added.',
-    description: "We've added video to your gallery.",
-    status: 'success',
-    duration: 3000,
-    isClosable: true,
-  },
-  EmptyInput: {
-    title: 'Error',
-    description: 'Empty input',
-    status: 'error',
-    duration: 3000,
-    isClosable: true,
-  },
-  InvalidURL: {
-    title: 'Error',
-    description: 'Invalid URL - only YouTube URLs are allowed',
-    status: 'error',
-    duration: 3000,
-    isClosable: true,
-  },
-}
-
-function TagMenu({ tag }: TagMenuProps) {
+function TagMenu({ tag }: TagType) {
   const toast = useToast()
   const [updateTagMutation] = useUpdateTagMutation({
     refetchQueries: ['UserTags'],
   })
   const [rename, setRename] = useState('')
-  console.log(rename)
   const colors = [
     'red',
     'orange',
@@ -102,8 +62,6 @@ function TagMenu({ tag }: TagMenuProps) {
         },
       })
     }
-
-    setRename('')
   }
 
   const clearInput = () => {
@@ -140,11 +98,12 @@ function TagMenu({ tag }: TagMenuProps) {
               size="xs"
               icon={<CheckIcon />}
               colorScheme="green"
-              isRound="true"
+              borderRadius="full"
               onClick={(e) => {
                 e.preventDefault()
                 updateTagName()
                 clearInput()
+                setRename('')
               }}
             />
           </InputRightElement>
