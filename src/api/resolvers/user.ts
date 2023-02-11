@@ -25,7 +25,11 @@ const User: QueryResolvers = {
               tags: true,
             },
           },
-          tags: true,
+          tags: {
+            include: {
+              videos: true,
+            },
+          },
           playlists: {
             include: {
               videos: true,

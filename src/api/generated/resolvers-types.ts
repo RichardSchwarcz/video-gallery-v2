@@ -19,7 +19,6 @@ export type CreateTagInput = {
   color?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   userId: Scalars['String'];
-  videoId?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
@@ -123,7 +122,7 @@ export type Tag = {
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
-  videoId?: Maybe<Scalars['String']>;
+  videos?: Maybe<Array<Maybe<Video>>>;
 };
 
 export type UpdateTagInput = {
@@ -309,7 +308,7 @@ export type TagResolvers<ContextType = IPrismaContext, ParentType extends Resolv
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  videoId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

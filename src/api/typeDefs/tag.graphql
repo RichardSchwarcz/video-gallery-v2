@@ -2,15 +2,15 @@ type Tag {
   id: String
   name: String
   color: String
+  videos: [Video]
   userId: String
-  videoId: String
 }
 
 input CreateTagInput {
   name: String!
   userId: String!
   color: String
-  videoId: String
+  # videoId: String
 }
 
 input DeleteTagInput {
