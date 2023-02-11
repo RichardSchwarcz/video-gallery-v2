@@ -9,25 +9,43 @@ import {
   InputLeftElement,
   InputRightElement,
   Spinner,
-  useToast,
 } from '@chakra-ui/react'
-import { extractYouTubeVideoInfo } from 'api/utils/getVideoInfo'
 
 type SwitchButtonInputProps = {
   buttonPlaceholder: string
   buttonIcon: React.ReactElement
   inputPlaceholder: string
   loading: boolean
-  size: 'sm' | 'md' | 'lg'
+  size: 'sm' | 'md'
   color: string
   handleCreate: (input: string) => void
 }
 
-const clearInput = () => {
-  const inputElement = document.getElementById('tagInput') as HTMLInputElement
-  if (inputElement !== null) {
-    inputElement.value = ''
-  }
+type SizePropsValue = {
+  ButtonSize: 'sm' | 'md'
+  InputSize: 'sm' | 'md'
+  IconButton: 'xs' | 'sm'
+  InputLeftPadding: '8' | '14'
+}
+
+type SizePropsType = {
+  sm: SizePropsValue
+  md: SizePropsValue
+}
+
+const SizeProps: SizePropsType = {
+  sm: {
+    ButtonSize: 'sm',
+    InputSize: 'sm',
+    IconButton: 'xs',
+    InputLeftPadding: '8',
+  },
+  md: {
+    ButtonSize: 'md',
+    InputSize: 'md',
+    IconButton: 'sm',
+    InputLeftPadding: '14',
+  },
 }
 
 function SwitchButtonInput({
@@ -42,28 +60,40 @@ function SwitchButtonInput({
   const [input, setInput] = useState('')
   const [isSwitchButton, setSwitchButton] = useState(true)
 
+  const sizeProps = SizeProps[size]
+
+  const clearInput = () => {
+    const inputElement = document.getElementById(
+      inputPlaceholder
+    ) as HTMLInputElement
+    if (inputElement !== null) {
+      inputElement.value = ''
+    }
+  }
+
   return (
     <>
       {isSwitchButton && (
         <Button
           onClick={() => setSwitchButton(!isSwitchButton)}
-          borderRadius="full" // 16px
+          borderRadius="full"
           leftIcon={buttonIcon}
           variant="solid"
           colorScheme={color}
-          size={size}
+          size={sizeProps.ButtonSize}
         >
           {buttonPlaceholder}
         </Button>
       )}
       {!isSwitchButton && (
-        <InputGroup size={size}>
+        <InputGroup size={sizeProps.InputSize}>
           <InputLeftElement>
             <IconButton
-              size="xs"
+              aria-label="Collapse"
+              size={sizeProps.IconButton}
               icon={<ArrowLeftIcon color="gray.500" />}
               onClick={() => setSwitchButton(!isSwitchButton)}
-              isRound="true"
+              borderRadius="full"
               variant="ghost"
             />
           </InputLeftElement>
@@ -71,9 +101,10 @@ function SwitchButtonInput({
             {loading && <Spinner />}
             {!loading && (
               <IconButton
-                size="xs"
+                aria-label="Submit"
+                size={sizeProps.IconButton}
                 icon={<CheckIcon color="gray.100" />}
-                isRound="true"
+                borderRadius="full"
                 colorScheme="green"
                 onClick={(e) => {
                   e.preventDefault()
@@ -89,13 +120,13 @@ function SwitchButtonInput({
               onChange={(e) => {
                 setInput(e.target.value)
               }}
-              pl="8"
+              pl={sizeProps.InputLeftPadding}
               borderRadius="full"
               borderColor="gray.500"
               variant="outline"
               placeholder={inputPlaceholder}
-              id="tagInput"
-              size={size}
+              id={inputPlaceholder}
+              size={sizeProps.InputSize}
             />
           </FormControl>
         </InputGroup>
