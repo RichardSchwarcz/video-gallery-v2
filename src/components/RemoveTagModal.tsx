@@ -13,18 +13,9 @@ import {
 } from '@chakra-ui/react'
 import { useDeleteTagMutation } from 'generated/generated-graphql'
 import { DisclosureTypes } from 'types/chakra'
-import { VideoCard as Video } from '../types/video'
+import { TagType } from 'types/tag'
 
-type Tag = {
-  tag: {
-    id: string
-    name: string
-    color: string
-    videos: Video[]
-  }
-}
-
-type RemoveTagModalProps = DisclosureTypes & Tag
+type RemoveTagModalProps = DisclosureTypes & (TagType | null)
 
 function RemoveTagModal({ isOpen, onClose, tag }: RemoveTagModalProps) {
   const [deleteTag] = useDeleteTagMutation({
