@@ -27,6 +27,7 @@ import { ToastBody } from 'utils/toastBody'
 import RemoveTagModal from './RemoveTagModal'
 import SearchBar from './SearchBar'
 import SwitchButtonInput from './SwitchButtonInput'
+import TagMenu from './TagMenu'
 
 type SideBarProps = {
   isSideBarOpen: boolean
@@ -66,7 +67,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
         position="fixed"
         top="0"
         background="white"
-        maxH="100vh"
+        h="100vh"
         overflow="scroll"
         overflowX="hidden"
         bg="rgba(255,255,255,0.8)"
@@ -144,13 +145,8 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
                           variant="ghost"
                           borderRadius="full"
                         />
-                        <IconButton
-                          aria-label="change color"
-                          icon={<ChevronDownIcon />}
-                          size="sm"
-                          variant="ghost"
-                          borderRadius="full"
-                        />
+
+                        <TagMenu tag={tag} />
                       </Flex>
                     </Flex>
                   ))
