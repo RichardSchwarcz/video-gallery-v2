@@ -28,9 +28,9 @@ function VideosLayout({ debouncedInput }: VideosLayoutProps) {
   return (
     <Container my="4">
       <Flex flexWrap="wrap" gap={2}>
-        {videos?.map((video) => (
-          <VideoCard key={video?.id} video={video} />
-        ))}
+        {videos?.map(
+          (video) => video && <VideoCard key={video?.id} video={video} />
+        )}
       </Flex>
     </Container>
   )
