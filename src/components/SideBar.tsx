@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
@@ -15,6 +16,7 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
+  useDisclosure,
   useToast,
 } from '@chakra-ui/react'
 import {
@@ -22,6 +24,7 @@ import {
   UserTagsQuery,
 } from 'generated/generated-graphql'
 import { ToastBody } from 'utils/toastBody'
+import RemoveTagModal from './RemoveTagModal'
 import SearchBar from './SearchBar'
 import SwitchButtonInput from './SwitchButtonInput'
 
@@ -32,7 +35,9 @@ type SideBarProps = {
 }
 
 function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
+  const [selectedTag, setSelectedTag] = useState<string | null>(null) // TODO correct type
   const toast = useToast()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [createTagMutation, { loading }] = useCreateTagMutation({
     refetchQueries: ['UserTags'],
     onCompleted() {
@@ -116,43 +121,45 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
               <SearchBar size="sm" searchType="Tags" />
 
               {userTags && userTags?.userById && userTags?.userById?.tags
-                ? userTags?.userById?.tags.map(
-                    (tag) =>
-                      tag && (
-                        <Flex justifyContent="space-between">
-                          <Tag
-                            key={tag.id}
-                            colorScheme={tag.color}
-                            w="fit-content"
-                            borderRadius="full"
-                          >
-                            <TagLabel>{tag.name}</TagLabel>
-                            <TagCloseButton />
-                          </Tag>
-                          <Flex>
-                            <IconButton
-                              aria-label="EditTag"
-                              icon={<EditIcon />}
-                              size="sm"
-                              variant="ghost"
-                              borderRadius="full"
-                            />
-                            <IconButton
-                              aria-label="change color"
-                              icon={<ChevronDownIcon />}
-                              size="sm"
-                              variant="ghost"
-                              borderRadius="full"
-                            />
-                          </Flex>
-                        </Flex>
-                      )
-                  )
+                ? userTags?.userById?.tags.map((tag) => (
+                    <Flex justifyContent="space-between" key={tag.id}>
+                      <Tag
+                        colorScheme={tag.color}
+                        w="fit-content"
+                        borderRadius="full"
+                      >
+                        <TagLabel>{tag.name}</TagLabel>
+                        <TagCloseButton
+                          onClick={() => {
+                            setSelectedTag(tag)
+                            onOpen()
+                          }}
+                        />
+                      </Tag>
+                      <Flex>
+                        <IconButton
+                          aria-label="EditTag"
+                          icon={<EditIcon />}
+                          size="sm"
+                          variant="ghost"
+                          borderRadius="full"
+                        />
+                        <IconButton
+                          aria-label="change color"
+                          icon={<ChevronDownIcon />}
+                          size="sm"
+                          variant="ghost"
+                          borderRadius="full"
+                        />
+                      </Flex>
+                    </Flex>
+                  ))
                 : null}
             </Flex>
           </Flex>
         </Box>
       </Flex>
+      <RemoveTagModal isOpen={isOpen} onClose={onClose} tag={selectedTag} />
     </Portal>
   )
 }
