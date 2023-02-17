@@ -1,6 +1,11 @@
 import { Flex } from '@chakra-ui/react'
 
-function Container({ children, my = '0' }) {
+type ContainerProps = {
+  children: React.ReactNode
+  my?: string
+}
+
+function Container({ children, my = '0' }: ContainerProps) {
   return (
     <Flex
       maxW="1000px"
