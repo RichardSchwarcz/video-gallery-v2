@@ -23,7 +23,7 @@ function Filter() {
   const tagsData = ['heej', 'shssh', 'eje']
 
   return (
-    <Flex direction="column" w="235px" position="relative">
+    <Flex direction="column" w="244px" position="relative">
       <Input
         ref={inputRef}
         placeholder="Filter"
@@ -38,7 +38,7 @@ function Filter() {
           top="50px"
           bg="white"
           zIndex="overlay"
-          w="235px"
+          w="244px"
           border="1px"
           borderRadius="16px"
           borderColor="gray.400"

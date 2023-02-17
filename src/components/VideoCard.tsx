@@ -25,8 +25,8 @@ function VideoCard({ video }: VideoType) {
   return (
     <>
       <Flex
-        w="235px"
-        h="235px"
+        w="244px"
+        h="244px"
         rounded="lg"
         direction="column"
         boxShadow="lg"
@@ -36,8 +36,8 @@ function VideoCard({ video }: VideoType) {
           <Skeleton isLoaded={!!video}>
             <Image
               // thumbnail size is 1280x720. To scale it properly with fixed width... (235*720)/1280 = 132.2
-              h="132.2px"
-              w="235px"
+              h="137.25px"
+              w="244px"
               objectFit="cover"
               roundedTop="lg"
               src={video?.thumbnailUrl as string}
