@@ -38,7 +38,6 @@ function NavbarLayout() {
         variables: {
           input: {
             videoUrl: urlInput,
-            userId: '851c14c1-72a8-46e3-8141-71394e386a1a',
           },
         },
       })
