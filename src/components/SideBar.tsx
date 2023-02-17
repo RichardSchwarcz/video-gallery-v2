@@ -1,10 +1,5 @@
 import { useState } from 'react'
-import {
-  ArrowLeftIcon,
-  ChevronDownIcon,
-  EditIcon,
-  SmallAddIcon,
-} from '@chakra-ui/icons'
+import { ArrowLeftIcon, EditIcon, SmallAddIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Box,
@@ -23,6 +18,7 @@ import {
   useCreateTagMutation,
   UserTagsQuery,
 } from 'generated/generated-graphql'
+import { TagType } from 'types/tag'
 import { ToastBody } from 'utils/toastBody'
 import RemoveTagModal from './RemoveTagModal'
 import SearchBar from './SearchBar'
@@ -36,29 +32,42 @@ type SideBarProps = {
 }
 
 function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
-  const [selectedTag, setSelectedTag] = useState<string | null>(null) // TODO correct type
+  const [selectedTag, setSelectedTag] = useState<TagType | null>(null)
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [createTagMutation, { loading }] = useCreateTagMutation({
+
+  const [createTagMutation, { loading, error }] = useCreateTagMutation({
     refetchQueries: ['UserTags'],
     onCompleted() {
       toast(ToastBody.TagCreated)
     },
   })
 
-  function handleCreateTag(name: string) {
+  const handleCreateTag = async (name: string) => {
     if (name === '') {
       toast(ToastBody.EmptyInput)
     }
 
-    void createTagMutation({
+    await createTagMutation({
       variables: {
         input: {
           name,
-          userId: '851c14c1-72a8-46e3-8141-71394e386a1a',
         },
       },
     })
+  }
+
+  const handleTagSelect = (tag: TagType) => {
+    setSelectedTag((prevSelectedTag) => {
+      if (prevSelectedTag === tag) {
+        return null
+      }
+      return tag
+    })
+  }
+
+  if (error) {
+    toast(ToastBody.Error)
   }
 
   return (
@@ -122,34 +131,37 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
               <SearchBar size="sm" searchType="Tags" />
 
               {userTags && userTags?.userById && userTags?.userById?.tags
-                ? userTags?.userById?.tags.map((tag) => (
-                    <Flex justifyContent="space-between" key={tag.id}>
-                      <Tag
-                        colorScheme={tag.color}
-                        w="fit-content"
-                        borderRadius="full"
-                      >
-                        <TagLabel>{tag.name}</TagLabel>
-                        <TagCloseButton
-                          onClick={() => {
-                            setSelectedTag(tag)
-                            onOpen()
-                          }}
-                        />
-                      </Tag>
-                      <Flex>
-                        <IconButton
-                          aria-label="EditTag"
-                          icon={<EditIcon />}
-                          size="sm"
-                          variant="ghost"
-                          borderRadius="full"
-                        />
+                ? userTags?.userById?.tags.map(
+                    (tag) =>
+                      tag && (
+                        <Flex justifyContent="space-between" key={tag.id}>
+                          <Tag
+                            colorScheme={tag.color}
+                            w="fit-content"
+                            borderRadius="full"
+                          >
+                            <TagLabel>{tag.name}</TagLabel>
+                            <TagCloseButton
+                              onClick={() => {
+                                handleTagSelect(tag)
+                                onOpen()
+                              }}
+                            />
+                          </Tag>
+                          <Flex>
+                            <IconButton
+                              aria-label="EditTag"
+                              icon={<EditIcon />}
+                              size="sm"
+                              variant="ghost"
+                              borderRadius="full"
+                            />
 
-                        <TagMenu tag={tag} />
-                      </Flex>
-                    </Flex>
-                  ))
+                            <TagMenu tag={tag} />
+                          </Flex>
+                        </Flex>
+                      )
+                  )
                 : null}
             </Flex>
           </Flex>
