@@ -9,12 +9,12 @@ import {
 import apolloClient from 'lib/apollo'
 
 type SearchBarProps = {
-  setSearchInput: React.Dispatch<React.SetStateAction<string>>
+  handleSearchInput: React.Dispatch<React.SetStateAction<string>>
   size?: 'sm' | 'md' | 'lg'
   searchType: string
 }
 
-function SearchBar({ setSearchInput, size, searchType }: SearchBarProps) {
+function SearchBar({ handleSearchInput, size, searchType }: SearchBarProps) {
   const clearInput = () => {
     const inputElement = document.getElementById('input') as HTMLInputElement
     if (inputElement !== null) {
@@ -26,7 +26,7 @@ function SearchBar({ setSearchInput, size, searchType }: SearchBarProps) {
     void apolloClient.refetchQueries({
       include: ['UserVideos'],
     })
-    setSearchInput('')
+    handleSearchInput('')
     clearInput()
   }
 
@@ -41,7 +41,7 @@ function SearchBar({ setSearchInput, size, searchType }: SearchBarProps) {
         borderRadius="full"
         borderColor="gray.500"
         id="input"
-        onChange={(e) => setSearchInput(e.target.value)}
+        onChange={(e) => handleSearchInput(e.target.value)}
       />
       <InputRightElement>
         <IconButton
