@@ -11,11 +11,31 @@ import {
   Tag,
   useDisclosure,
 } from '@chakra-ui/react'
+import {
+  useUpdateVideoTagsMutation,
+  useUserTagsQuery,
+} from 'generated/generated-graphql'
 import { VideoType as VideoTypeProps } from '../types/video'
 import RemoveVideoModal from './RemoveVideoModal'
 
 function VideoCardMenu({ video }: VideoTypeProps) {
+  const { data: userTags } = useUserTagsQuery()
+  const [updateVideoTagsMutation, { loading }] = useUpdateVideoTagsMutation({
+    refetchQueries: ['UserVideos'],
+  })
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const handleUpdateVideoTags = (tagId: string) => {
+    void updateVideoTagsMutation({
+      variables: {
+        input: {
+          id: video.id,
+          tagsId: tagId,
+        },
+      },
+    })
+  }
+
   return (
     <Menu closeOnSelect={false} isLazy>
       <MenuButton
@@ -24,6 +44,7 @@ function VideoCardMenu({ video }: VideoTypeProps) {
         variant="ghost"
         size="xs"
       />
+
       <MenuList>
         <MenuItem
           onClick={onOpen}
@@ -33,14 +54,25 @@ function VideoCardMenu({ video }: VideoTypeProps) {
           Remove
         </MenuItem>
         <MenuDivider />
-        {/* <MenuOptionGroup title="Tags" type="checkbox">
-          {tagsData?.data.map((tag) => (
-            <MenuItemOption value={tag.tag} key={tag.tag}>
-              <Tag colorScheme={tag.color}>{tag.tag}</Tag>
+
+        <MenuOptionGroup title="Tags" type="checkbox">
+          {userTags?.userById?.tags?.map((tag) => (
+            <MenuItemOption
+              value={tag?.name}
+              key={tag?.id}
+              onClick={(e) => {
+                e.preventDefault()
+                handleUpdateVideoTags(tag?.id as string)
+              }}
+              isDisabled={loading}
+              // TODO state for selected tags
+            >
+              <Tag colorScheme={tag?.color}>{tag?.name}</Tag>
             </MenuItemOption>
           ))}
-        </MenuOptionGroup> */}
+        </MenuOptionGroup>
       </MenuList>
+
       <RemoveVideoModal isOpen={isOpen} onClose={onClose} video={video} />
     </Menu>
   )
