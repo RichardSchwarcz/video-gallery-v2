@@ -58,80 +58,72 @@ function SwitchButtonInput({
   handleCreate,
 }: SwitchButtonInputProps) {
   const [input, setInput] = useState('')
-  const [isSwitchButton, setSwitchButton] = useState(true)
+  const [isButton, setButton] = useState(true)
 
   const sizeProps = SizeProps[size]
 
-  const clearInput = () => {
-    const inputElement = document.getElementById(
-      inputPlaceholder
-    ) as HTMLInputElement
-    if (inputElement !== null) {
-      inputElement.value = ''
-    }
+  if (isButton) {
+    return (
+      <Button
+        onClick={() => setButton(false)}
+        borderRadius="full"
+        leftIcon={buttonIcon}
+        variant="solid"
+        colorScheme={color}
+        size={sizeProps.ButtonSize}
+      >
+        {buttonPlaceholder}
+      </Button>
+    )
   }
 
+  // is input field
   return (
-    <>
-      {isSwitchButton && (
-        <Button
-          onClick={() => setSwitchButton(!isSwitchButton)}
+    <InputGroup size={sizeProps.InputSize}>
+      <InputLeftElement>
+        <IconButton
+          aria-label="Collapse"
+          size={sizeProps.IconButton}
+          icon={<ArrowLeftIcon color="gray.500" />}
+          onClick={() => setButton(true)}
           borderRadius="full"
-          leftIcon={buttonIcon}
-          variant="solid"
-          colorScheme={color}
-          size={sizeProps.ButtonSize}
-        >
-          {buttonPlaceholder}
-        </Button>
-      )}
-      {!isSwitchButton && (
-        <InputGroup size={sizeProps.InputSize}>
-          <InputLeftElement>
-            <IconButton
-              aria-label="Collapse"
-              size={sizeProps.IconButton}
-              icon={<ArrowLeftIcon color="gray.500" />}
-              onClick={() => setSwitchButton(!isSwitchButton)}
-              borderRadius="full"
-              variant="ghost"
-            />
-          </InputLeftElement>
-          <InputRightElement>
-            {loading && <Spinner />}
-            {!loading && (
-              <IconButton
-                aria-label="Submit"
-                size={sizeProps.IconButton}
-                icon={<CheckIcon color="gray.100" />}
-                borderRadius="full"
-                colorScheme="green"
-                onClick={(e) => {
-                  e.preventDefault()
-                  void handleCreate(input)
-                  setInput('')
-                  clearInput()
-                }}
-              />
-            )}
-          </InputRightElement>
-          <FormControl isRequired>
-            <Input
-              onChange={(e) => {
-                setInput(e.target.value)
-              }}
-              pl={sizeProps.InputLeftPadding}
-              borderRadius="full"
-              borderColor="gray.500"
-              variant="outline"
-              placeholder={inputPlaceholder}
-              id={inputPlaceholder}
-              size={sizeProps.InputSize}
-            />
-          </FormControl>
-        </InputGroup>
-      )}
-    </>
+          variant="ghost"
+        />
+      </InputLeftElement>
+
+      <FormControl isRequired>
+        <Input
+          onChange={(e) => {
+            setInput(e.target.value)
+          }}
+          value={input}
+          borderRadius="full"
+          borderColor="gray.500"
+          variant="outline"
+          placeholder={inputPlaceholder}
+          pl={sizeProps.InputLeftPadding}
+          size={sizeProps.InputSize}
+        />
+      </FormControl>
+
+      <InputRightElement>
+        {loading && <Spinner />}
+        {!loading && (
+          <IconButton
+            aria-label="Submit"
+            size={sizeProps.IconButton}
+            icon={<CheckIcon color="gray.100" />}
+            borderRadius="full"
+            colorScheme="green"
+            onClick={(e) => {
+              e.preventDefault()
+              handleCreate(input)
+              setInput('')
+            }}
+          />
+        )}
+      </InputRightElement>
+    </InputGroup>
   )
 }
 
