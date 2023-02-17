@@ -16,9 +16,7 @@ export type Scalars = {
 };
 
 export type CreateTagInput = {
-  color?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  userId: Scalars['String'];
 };
 
 export type CreateUserInput = {
@@ -27,8 +25,6 @@ export type CreateUserInput = {
 };
 
 export type CreateVideoInput = {
-  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  userId: Scalars['String'];
   videoUrl: Scalars['String'];
 };
 
@@ -103,7 +99,7 @@ export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
   userById?: Maybe<User>;
-  userVideos?: Maybe<User>;
+  userVideos: User;
 };
 
 
@@ -118,11 +114,11 @@ export type QueryUserVideosArgs = {
 
 export type Tag = {
   __typename?: 'Tag';
-  color?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-  videos?: Maybe<Array<Maybe<Video>>>;
+  color: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  userId: Scalars['String'];
+  videos: Array<Maybe<Video>>;
 };
 
 export type UpdateTagInput = {
@@ -154,19 +150,18 @@ export type User = {
 export type UserVideosInput = {
   inTrash: Scalars['Boolean'];
   searchInput?: InputMaybe<Scalars['String']>;
-  userId: Scalars['String'];
 };
 
 export type Video = {
   __typename?: 'Video';
-  author?: Maybe<Scalars['String']>;
-  authorUrl?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  inTrash?: Maybe<Scalars['Boolean']>;
-  tags?: Maybe<Array<Maybe<Tag>>>;
-  thumbnailUrl?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  videoUrl?: Maybe<Scalars['String']>;
+  author: Scalars['String'];
+  authorUrl: Scalars['String'];
+  id: Scalars['String'];
+  inTrash: Scalars['Boolean'];
+  tags: Array<Maybe<Tag>>;
+  thumbnailUrl: Scalars['String'];
+  title: Scalars['String'];
+  videoUrl: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -300,15 +295,15 @@ export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends R
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   playlists?: Resolver<Array<Maybe<ResolversTypes['Playlist']>>, ParentType, ContextType>;
   userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserByIdArgs>>;
-  userVideos?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserVideosArgs>>;
+  userVideos?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryUserVideosArgs>>;
 }>;
 
 export type TagResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{
-  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
+  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videos?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -323,14 +318,14 @@ export type UserResolvers<ContextType = IPrismaContext, ParentType extends Resol
 }>;
 
 export type VideoResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Video'] = ResolversParentTypes['Video']> = ResolversObject<{
-  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  authorUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  inTrash?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
-  thumbnailUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  videoUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  author?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  authorUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  inTrash?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
+  thumbnailUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videoUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

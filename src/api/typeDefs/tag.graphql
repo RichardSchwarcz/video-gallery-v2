@@ -1,16 +1,13 @@
 type Tag {
-  id: String
-  name: String
-  color: String
-  videos: [Video]
-  userId: String
+  id: String!
+  name: String!
+  color: String!
+  videos: [Video]!
+  userId: String!
 }
 
 input CreateTagInput {
   name: String!
-  userId: String!
-  color: String
-  # videoId: String
 }
 
 input DeleteTagInput {

@@ -1,18 +1,16 @@
 type Video {
-  id: String
-  title: String
-  videoUrl: String
-  author: String
-  authorUrl: String
-  thumbnailUrl: String
-  inTrash: Boolean
-  tags: [Tag]
+  id: String!
+  title: String!
+  videoUrl: String!
+  author: String!
+  authorUrl: String!
+  thumbnailUrl: String!
+  inTrash: Boolean!
+  tags: [Tag]!
 }
 
 input CreateVideoInput {
   videoUrl: String!
-  userId: String!
-  tags: [String]
 }
 
 input DeleteVideoInput {

@@ -16,9 +16,7 @@ export type Scalars = {
 };
 
 export type CreateTagInput = {
-  color?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  userId: Scalars['String'];
 };
 
 export type CreateUserInput = {
@@ -27,8 +25,6 @@ export type CreateUserInput = {
 };
 
 export type CreateVideoInput = {
-  tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  userId: Scalars['String'];
   videoUrl: Scalars['String'];
 };
 
@@ -103,7 +99,7 @@ export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
   userById?: Maybe<User>;
-  userVideos?: Maybe<User>;
+  userVideos: User;
 };
 
 
@@ -118,11 +114,11 @@ export type QueryUserVideosArgs = {
 
 export type Tag = {
   __typename?: 'Tag';
-  color?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-  videos?: Maybe<Array<Maybe<Video>>>;
+  color: Scalars['String'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  userId: Scalars['String'];
+  videos: Array<Maybe<Video>>;
 };
 
 export type UpdateTagInput = {
@@ -154,19 +150,18 @@ export type User = {
 export type UserVideosInput = {
   inTrash: Scalars['Boolean'];
   searchInput?: InputMaybe<Scalars['String']>;
-  userId: Scalars['String'];
 };
 
 export type Video = {
   __typename?: 'Video';
-  author?: Maybe<Scalars['String']>;
-  authorUrl?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  inTrash?: Maybe<Scalars['Boolean']>;
-  tags?: Maybe<Array<Maybe<Tag>>>;
-  thumbnailUrl?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  videoUrl?: Maybe<Scalars['String']>;
+  author: Scalars['String'];
+  authorUrl: Scalars['String'];
+  id: Scalars['String'];
+  inTrash: Scalars['Boolean'];
+  tags: Array<Maybe<Tag>>;
+  thumbnailUrl: Scalars['String'];
+  title: Scalars['String'];
+  videoUrl: Scalars['String'];
 };
 
 export type CreateTagMutationVariables = Exact<{
@@ -174,7 +169,7 @@ export type CreateTagMutationVariables = Exact<{
 }>;
 
 
-export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null } };
+export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'Tag', color: string, id: string, name: string } };
 
 export type DeleteTagMutationVariables = Exact<{
   input?: InputMaybe<DeleteTagInput>;
@@ -188,7 +183,7 @@ export type UpdateTagMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTagMutation = { __typename?: 'Mutation', updateTag: { __typename?: 'Tag', name?: string | null, color?: string | null } };
+export type UpdateTagMutation = { __typename?: 'Mutation', updateTag: { __typename?: 'Tag', name: string, color: string } };
 
 export type UsernameByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
@@ -202,21 +197,21 @@ export type UserVideosQueryVariables = Exact<{
 }>;
 
 
-export type UserVideosQuery = { __typename?: 'Query', userVideos?: { __typename?: 'User', id?: string | null, username?: string | null, videos?: Array<{ __typename?: 'Video', id?: string | null, authorUrl?: string | null, author?: string | null, inTrash?: boolean | null, title?: string | null, videoUrl?: string | null, thumbnailUrl?: string | null, tags?: Array<{ __typename?: 'Tag', id?: string | null, name?: string | null, color?: string | null } | null> | null } | null> | null } | null };
+export type UserVideosQuery = { __typename?: 'Query', userVideos: { __typename?: 'User', id?: string | null, username?: string | null, videos?: Array<{ __typename?: 'Video', id: string, authorUrl: string, author: string, inTrash: boolean, title: string, videoUrl: string, thumbnailUrl: string, tags: Array<{ __typename?: 'Tag', id: string, name: string, color: string } | null> } | null> | null } };
 
 export type UserTagsQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UserTagsQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, tags?: Array<{ __typename?: 'Tag', color?: string | null, id?: string | null, name?: string | null, videos?: Array<{ __typename?: 'Video', title?: string | null } | null> | null } | null> | null } | null };
+export type UserTagsQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, tags?: Array<{ __typename?: 'Tag', color: string, id: string, name: string, videos: Array<{ __typename?: 'Video', title: string } | null> } | null> | null } | null };
 
 export type UserPlaylistsByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UserPlaylistsByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, playlists?: Array<{ __typename?: 'Playlist', id?: string | null, name?: string | null, videos?: Array<{ __typename?: 'Video', id?: string | null } | null> | null } | null> | null } | null };
+export type UserPlaylistsByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, playlists?: Array<{ __typename?: 'Playlist', id?: string | null, name?: string | null, videos?: Array<{ __typename?: 'Video', id: string } | null> | null } | null> | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   input?: InputMaybe<CreateUserInput>;
@@ -230,14 +225,21 @@ export type CreateVideoMutationVariables = Exact<{
 }>;
 
 
-export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'Video', id?: string | null } };
+export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'Video', id: string } };
 
 export type UpdateVideoTrashStatusMutationVariables = Exact<{
   input?: InputMaybe<UpdateVideoTrashStatusInput>;
 }>;
 
 
-export type UpdateVideoTrashStatusMutation = { __typename?: 'Mutation', updateVideoTrashStatus: { __typename?: 'Video', inTrash?: boolean | null } };
+export type UpdateVideoTrashStatusMutation = { __typename?: 'Mutation', updateVideoTrashStatus: { __typename?: 'Video', inTrash: boolean } };
+
+export type UpdateVideoTagsMutationVariables = Exact<{
+  input?: InputMaybe<UpdateVideoTagsInput>;
+}>;
+
+
+export type UpdateVideoTagsMutation = { __typename?: 'Mutation', updateVideoTags: { __typename?: 'Video', tags: Array<{ __typename?: 'Tag', name: string } | null> } };
 
 
 export const CreateTagDocument = gql`
@@ -614,3 +616,38 @@ export function useUpdateVideoTrashStatusMutation(baseOptions?: Apollo.MutationH
 export type UpdateVideoTrashStatusMutationHookResult = ReturnType<typeof useUpdateVideoTrashStatusMutation>;
 export type UpdateVideoTrashStatusMutationResult = Apollo.MutationResult<UpdateVideoTrashStatusMutation>;
 export type UpdateVideoTrashStatusMutationOptions = Apollo.BaseMutationOptions<UpdateVideoTrashStatusMutation, UpdateVideoTrashStatusMutationVariables>;
+export const UpdateVideoTagsDocument = gql`
+    mutation UpdateVideoTags($input: UpdateVideoTagsInput) {
+  updateVideoTags(input: $input) {
+    tags {
+      name
+    }
+  }
+}
+    `;
+export type UpdateVideoTagsMutationFn = Apollo.MutationFunction<UpdateVideoTagsMutation, UpdateVideoTagsMutationVariables>;
+
+/**
+ * __useUpdateVideoTagsMutation__
+ *
+ * To run a mutation, you first call `useUpdateVideoTagsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateVideoTagsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateVideoTagsMutation, { data, loading, error }] = useUpdateVideoTagsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateVideoTagsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateVideoTagsMutation, UpdateVideoTagsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateVideoTagsMutation, UpdateVideoTagsMutationVariables>(UpdateVideoTagsDocument, options);
+      }
+export type UpdateVideoTagsMutationHookResult = ReturnType<typeof useUpdateVideoTagsMutation>;
+export type UpdateVideoTagsMutationResult = Apollo.MutationResult<UpdateVideoTagsMutation>;
+export type UpdateVideoTagsMutationOptions = Apollo.BaseMutationOptions<UpdateVideoTagsMutation, UpdateVideoTagsMutationVariables>;

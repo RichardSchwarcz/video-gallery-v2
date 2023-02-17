@@ -12,7 +12,8 @@ const User: QueryResolvers = {
       args: { userId: string },
       context: IPrismaContext
     ) => {
-      const { userId } = args
+      const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
+
       const user = context.prisma.user.findUnique({
         where: {
           id: userId,
@@ -48,7 +49,7 @@ const User: QueryResolvers = {
       const { input } = args
       const user = context.prisma.user.findUnique({
         where: {
-          id: input.userId,
+          id: '851c14c1-72a8-46e3-8141-71394e386a1a',
         },
         select: {
           id: true,

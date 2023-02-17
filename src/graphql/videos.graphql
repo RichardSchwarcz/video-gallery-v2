@@ -9,3 +9,11 @@ mutation UpdateVideoTrashStatus($input: UpdateVideoTrashStatusInput) {
     inTrash
   }
 }
+
+mutation UpdateVideoTags($input: UpdateVideoTagsInput) {
+  updateVideoTags(input: $input) {
+    tags {
+      name
+    }
+  }
+}

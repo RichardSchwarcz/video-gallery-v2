@@ -12,13 +12,12 @@ type Query {
 }
 
 input UserVideosInput {
-  userId: String!
   inTrash: Boolean!
   searchInput: String
 }
 
 type Query {
-  userVideos(input: UserVideosInput): User
+  userVideos(input: UserVideosInput): User!
 }
 
 input CreateUserInput {
@@ -28,6 +27,4 @@ input CreateUserInput {
 
 type Mutation {
   createUser(input: CreateUserInput): User!
-  # updateUser(id: String!, username: String, password: String): User!
-  # deleteUser(id: String!): User!
 }

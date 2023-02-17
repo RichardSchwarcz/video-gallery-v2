@@ -17,8 +17,10 @@ const Video: QueryResolvers = {
     ) => {
       const { input } = args
 
+      const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
+
       const user = await context.prisma.user.findUnique({
-        where: { id: input.userId },
+        where: { id: userId },
       })
 
       if (!user) {
@@ -51,16 +53,6 @@ const Video: QueryResolvers = {
     ) => {
       const { input } = args
 
-      const video = await context.prisma.video.findUnique({
-        where: {
-          id: input.id,
-        },
-      })
-
-      if (!video) {
-        throw new Error('Video not found')
-      }
-
       await context.prisma.video.delete({
         where: {
           id: input.id,
@@ -79,19 +71,12 @@ const Video: QueryResolvers = {
       // find the video
       const video = await context.prisma.video.findUnique({
         where: { id: input.id },
-        include: {
-          tags: true,
-        },
+        include: { tags: true },
       })
 
       // check if video exists
-      try {
-        if (!video) {
-          throw new Error('Video not found')
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error)
+      if (!video) {
+        throw new Error('Video not found')
       }
 
       // check if tag exists
@@ -99,13 +84,8 @@ const Video: QueryResolvers = {
         where: { id: input.tagsId },
       })
 
-      try {
-        if (!tag) {
-          throw new Error('Tag not found')
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error)
+      if (!tag) {
+        throw new Error('Tag not found')
       }
 
       // check if video already has the tag
@@ -114,9 +94,8 @@ const Video: QueryResolvers = {
       ) // true or false
 
       // update video
-      let updatedVideo
       if (!doesVideoHaveTag) {
-        updatedVideo = await context.prisma.video.update({
+        await context.prisma.video.update({
           where: { id: input.id },
           data: {
             tags: {
@@ -129,7 +108,7 @@ const Video: QueryResolvers = {
         // eslint-disable-next-line no-console
         console.log('tag added to video')
       } else {
-        updatedVideo = await context.prisma.video.update({
+        await context.prisma.video.update({
           where: { id: input.id },
           data: {
             tags: {
@@ -142,6 +121,11 @@ const Video: QueryResolvers = {
         // eslint-disable-next-line no-console
         console.log('tag removed from video')
       }
+
+      const updatedVideo = await context.prisma.video.findUnique({
+        where: { id: input.id },
+        include: { tags: true },
+      })
 
       return updatedVideo
     },

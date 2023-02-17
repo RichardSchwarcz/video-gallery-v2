@@ -15,9 +15,11 @@ const Tag: QueryResolvers = {
     ) => {
       const { input } = args
 
+      const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
+
       // find the user
       const user = await context.prisma.user.findUnique({
-        where: { id: input.userId },
+        where: { id: userId },
         include: {
           tags: true,
         },
