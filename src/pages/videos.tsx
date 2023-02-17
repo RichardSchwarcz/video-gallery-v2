@@ -41,7 +41,10 @@ function Videos() {
       <SideBarLayout />
       <Flex direction="column" mx="auto">
         <NavbarLayout />
-        <SearchFilterLayout handleSearchInput={setSearchInput} />
+        <SearchFilterLayout
+          handleSearchInput={setSearchInput}
+          searchInput={searchInput}
+        />
         <VideosLayout videos={videos} />
       </Flex>
     </Flex>

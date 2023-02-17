@@ -5,13 +5,21 @@ import Container from '../components/Container'
 
 type SearchFilterLayoutProps = {
   handleSearchInput: React.Dispatch<React.SetStateAction<string>>
+  searchInput: string
 }
 
-function SearchFilterLayout({ handleSearchInput }: SearchFilterLayoutProps) {
+function SearchFilterLayout({
+  handleSearchInput,
+  searchInput,
+}: SearchFilterLayoutProps) {
   return (
     <Container>
       <Flex gap="4">
-        <SearchBar handleSearchInput={handleSearchInput} searchType="Videos" />
+        <SearchBar
+          searchInput={searchInput}
+          handleSearchInput={handleSearchInput}
+          searchType="Videos"
+        />
         <Filter />
       </Flex>
     </Container>
