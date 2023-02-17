@@ -5,6 +5,7 @@ type ToastBodyType = {
   EmptyInput: Toast
   InvalidURL: Toast
   TagCreated: Toast
+  Error: Toast
 }
 
 export const ToastBody: ToastBodyType = {
@@ -32,6 +33,13 @@ export const ToastBody: ToastBodyType = {
   InvalidURL: {
     title: 'Error',
     description: 'Invalid URL - only YouTube URLs are allowed',
+    status: 'error',
+    duration: 3000,
+    isClosable: true,
+  },
+  Error: {
+    title: 'Error',
+    description: 'Something went wrong',
     status: 'error',
     duration: 3000,
     isClosable: true,
