@@ -19,16 +19,19 @@ const Video: QueryResolvers = {
 
       const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
 
+      // find the user
       const user = await context.prisma.user.findUnique({
         where: { id: userId },
       })
 
+      // check if user exists
       if (!user) {
         throw new Error('User not found')
       }
 
       const videoData = await getVideoData(input.videoUrl)
 
+      // create the video
       const video = await context.prisma.video.create({
         data: {
           title: videoData.title,
@@ -53,6 +56,7 @@ const Video: QueryResolvers = {
     ) => {
       const { input } = args
 
+      // delete the video
       await context.prisma.video.delete({
         where: {
           id: input.id,

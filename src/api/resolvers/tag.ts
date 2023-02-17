@@ -56,6 +56,7 @@ const Tag: QueryResolvers = {
     ) => {
       const { input } = args
 
+      // find the tag
       const tag = await context.prisma.tag.findUnique({
         where: {
           id: input.id,
@@ -71,6 +72,7 @@ const Tag: QueryResolvers = {
         console.error(error)
       }
 
+      // delete the tag
       await context.prisma.tag.delete({
         where: {
           id: input.id,
@@ -86,6 +88,7 @@ const Tag: QueryResolvers = {
     ) => {
       const { input } = args
 
+      // find the tag
       const tag = await context.prisma.tag.findUnique({
         where: {
           id: input.id,
@@ -101,6 +104,7 @@ const Tag: QueryResolvers = {
         console.error(error)
       }
 
+      // update the tag
       const updatedTag = await context.prisma.tag.update({
         where: {
           id: input.id,

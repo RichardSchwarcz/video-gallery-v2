@@ -14,6 +14,7 @@ const User: QueryResolvers = {
     ) => {
       const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
 
+      // find the user
       const user = context.prisma.user.findUnique({
         where: {
           id: userId,
@@ -47,6 +48,8 @@ const User: QueryResolvers = {
       context: IPrismaContext
     ) => {
       const { input } = args
+
+      // find the user
       const user = context.prisma.user.findUnique({
         where: {
           id: '851c14c1-72a8-46e3-8141-71394e386a1a',
@@ -78,6 +81,8 @@ const User: QueryResolvers = {
       context: IPrismaContext
     ) => {
       const { input } = args
+
+      // create the user
       const user = await context.prisma.user.create({
         data: {
           ...input,
