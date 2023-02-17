@@ -75,11 +75,10 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
       <Flex
         position="fixed"
         top="0"
-        background="white"
         h="100vh"
         overflow="scroll"
         overflowX="hidden"
-        bg="rgba(255,255,255,0.8)"
+        bg="rgba(255,255,255,0.85)"
         backdropFilter="blur(10px)"
         css={{
           '::-webkit-scrollbar': {
