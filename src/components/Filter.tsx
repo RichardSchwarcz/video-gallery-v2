@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Input, Tag, VStack } from '@chakra-ui/react'
 
 function Filter() {
-  const [showDropdown, setShowDropdown] = useState(false)
+  const [isDropdownMenu, setShowDropdown] = useState(false)
 
   const inputRef = useRef(null)
   const menuRef = useRef(null)
 
   useEffect(() => {
-    function closeDropdown(e) {
+    function closeDropdown(e: Event) {
       if (e.target !== inputRef.current) {
         setShowDropdown(false)
       }
@@ -18,7 +18,7 @@ function Filter() {
     return () => {
       document.body.removeEventListener('click', closeDropdown)
     }
-  }, [showDropdown])
+  }, [isDropdownMenu])
 
   const tagsData = ['heej', 'shssh', 'eje']
 
@@ -27,21 +27,23 @@ function Filter() {
       <Input
         ref={inputRef}
         placeholder="Filter"
-        borderRadius="full" // 16px
+        borderTopRadius="20px"
+        borderBottomRadius={isDropdownMenu ? 0 : '20px'}
         borderColor="gray.500"
         onClick={() => setShowDropdown(true)}
       />
-      {showDropdown && (
+      {isDropdownMenu && (
         <VStack
+          bg="rgba(255,255,255,0.95)"
           ref={menuRef}
           position="absolute"
-          top="50px"
-          bg="white"
+          top="44px"
           zIndex="overlay"
           w="244px"
           border="1px"
-          borderRadius="16px"
-          borderColor="gray.400"
+          borderTopRadius={0}
+          borderBottomRadius="16px"
+          borderColor="gray.500"
           p="2"
           alignItems="flex-start"
           onClick={(e) => {
