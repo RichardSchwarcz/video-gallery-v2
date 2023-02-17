@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import Filter from 'components/Filter'
 import SearchBar from 'components/SearchBar'
 import Container from '../components/Container'
@@ -14,13 +14,17 @@ function SearchFilterLayout({
 }: SearchFilterLayoutProps) {
   return (
     <Container>
-      <Flex gap="4">
-        <SearchBar
-          searchInput={searchInput}
-          handleSearchInput={handleSearchInput}
-          searchType="Videos"
-        />
-        <Filter />
+      <Flex gap="2">
+        <Box w="100%">
+          <SearchBar
+            searchInput={searchInput}
+            handleSearchInput={handleSearchInput}
+            searchType="Videos"
+          />
+        </Box>
+        <Box>
+          <Filter />
+        </Box>
       </Flex>
     </Container>
   )
