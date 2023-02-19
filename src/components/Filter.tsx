@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Flex, Input, Tag, VStack } from '@chakra-ui/react'
+import { Flex, Input, Tag } from '@chakra-ui/react'
+import { useUserTagsQuery } from 'generated/generated-graphql'
 
 function Filter() {
   const [isDropdownMenu, setShowDropdown] = useState(false)
+  const { data: userTags } = useUserTagsQuery()
 
   const inputRef = useRef(null)
   const menuRef = useRef(null)
@@ -20,7 +22,7 @@ function Filter() {
     }
   }, [isDropdownMenu])
 
-  const tagsData = ['heej', 'shssh', 'eje']
+  const tags = userTags?.userById?.tags
 
   return (
     <Flex direction="column" w="244px" position="relative">
@@ -33,42 +35,43 @@ function Filter() {
         onClick={() => setShowDropdown(true)}
       />
       {isDropdownMenu && (
-        <VStack
-          bg="rgba(255,255,255,0.95)"
+        <Flex
+          direction="column"
           ref={menuRef}
+          bg="rgba(255,255,255,0.98)"
           position="absolute"
           top="44px"
+          p="2"
           zIndex="overlay"
           w="244px"
           border="1px"
           borderTopRadius={0}
           borderBottomRadius="16px"
           borderColor="gray.500"
-          p="2"
           alignItems="flex-start"
           onClick={(e) => {
             e.stopPropagation()
           }}
         >
-          {tagsData.map((element) => (
+          {tags?.map((tag) => (
             <Flex
-              key={element}
+              key={tag?.id}
+              p="2"
               w="100%"
-              p="1"
               justifyContent="space-between"
               borderRadius="0.375rem"
               _hover={{
-                background: 'gray.50',
+                background: 'gray.200',
               }}
               onClick={(e) => {
                 e.stopPropagation()
                 // setTags((tag) => [...tag, element])
               }}
             >
-              <Tag>{element}</Tag>
+              <Tag colorScheme={tag?.color}>{tag?.name}</Tag>
             </Flex>
           ))}
-        </VStack>
+        </Flex>
       )}
     </Flex>
   )
