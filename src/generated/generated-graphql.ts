@@ -158,6 +158,7 @@ export type Video = {
   authorUrl: Scalars['String'];
   id: Scalars['String'];
   inTrash: Scalars['Boolean'];
+  isNew?: Maybe<Scalars['Boolean']>;
   tags: Array<Maybe<Tag>>;
   thumbnailUrl: Scalars['String'];
   title: Scalars['String'];
@@ -225,7 +226,7 @@ export type CreateVideoMutationVariables = Exact<{
 }>;
 
 
-export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'Video', id: string } };
+export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'Video', videoUrl: string, title: string, thumbnailUrl: string, inTrash: boolean, id: string, authorUrl: string, author: string, isNew?: boolean | null } };
 
 export type UpdateVideoTrashStatusMutationVariables = Exact<{
   input?: InputMaybe<UpdateVideoTrashStatusInput>;
@@ -553,7 +554,14 @@ export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMut
 export const CreateVideoDocument = gql`
     mutation CreateVideo($input: CreateVideoInput) {
   createVideo(input: $input) {
+    videoUrl
+    title
+    thumbnailUrl
+    inTrash
     id
+    authorUrl
+    author
+    isNew
   }
 }
     `;

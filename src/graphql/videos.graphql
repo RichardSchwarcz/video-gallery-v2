@@ -1,6 +1,17 @@
 mutation CreateVideo($input: CreateVideoInput) {
   createVideo(input: $input) {
+    videoUrl
+    title
+    thumbnailUrl
+    inTrash
     id
+    authorUrl
+    author
+    isNew
+    # tags {
+    #   name
+    #   color
+    # }
   }
 }
 
