@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Flex } from '@chakra-ui/react'
-import { useUserVideosQuery } from 'generated/generated-graphql'
+import {
+  useUserTagsQuery,
+  useUserVideosQuery,
+} from 'generated/generated-graphql'
 import NavbarLayout from 'layouts/NavbarLayout'
 import SearchFilterLayout from 'layouts/SearchFilterLayout'
 import SideBarLayout from 'layouts/SideBarLayout'
@@ -10,6 +13,7 @@ import apolloClient from 'lib/apollo'
 function Videos() {
   const [searchInput, setSearchInput] = useState('')
   const [debouncedInput, setDebouncedInput] = useState('')
+  const { data: userTags } = useUserTagsQuery()
   const { data } = useUserVideosQuery({
     variables: {
       input: {
@@ -45,7 +49,7 @@ function Videos() {
           handleSearchInput={setSearchInput}
           searchInput={searchInput}
         />
-        <VideosLayout videos={videos} />
+        <VideosLayout videos={videos} userTags={userTags} />
       </Flex>
     </Flex>
   )
