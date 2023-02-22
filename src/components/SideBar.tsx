@@ -48,13 +48,15 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
       toast(ToastBody.EmptyInput)
     }
 
-    await createTagMutation({
-      variables: {
-        input: {
-          name,
+    if (name !== '') {
+      await createTagMutation({
+        variables: {
+          input: {
+            name,
+          },
         },
-      },
-    })
+      })
+    }
   }
 
   const handleTagSelect = (tag: TagType) => {
