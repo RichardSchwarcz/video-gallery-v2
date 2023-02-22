@@ -12,14 +12,18 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import {
+  UserTagsQuery,
   useUpdateVideoTagsMutation,
-  useUserTagsQuery,
+  Video,
 } from 'generated/generated-graphql'
-import { VideoType as VideoTypeProps } from '../types/video'
 import RemoveVideoModal from './RemoveVideoModal'
 
-function VideoCardMenu({ video }: VideoTypeProps) {
-  const { data: userTags } = useUserTagsQuery()
+type VideoCardMenuProps = {
+  video: Video
+  userTags: UserTagsQuery | undefined
+}
+
+function VideoCardMenu({ video, userTags }: VideoCardMenuProps) {
   const [updateVideoTagsMutation, { loading }] = useUpdateVideoTagsMutation({
     refetchQueries: ['UserVideos'],
   })
@@ -37,7 +41,7 @@ function VideoCardMenu({ video }: VideoTypeProps) {
   }
 
   return (
-    <Menu closeOnSelect={false} isLazy>
+    <Menu closeOnSelect={false}>
       <MenuButton
         as={IconButton}
         icon={<ChevronDownIcon />}
