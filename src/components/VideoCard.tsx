@@ -7,10 +7,15 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react'
-import { VideoType } from '../types/video'
 import VideoCardMenu from './VideoCardMenu'
+import { UserTagsQuery, Video } from 'generated/generated-graphql'
 
-function VideoCard({ video }: VideoType) {
+type VideoCardProps = {
+  video: Video
+  userTags: UserTagsQuery | undefined
+}
+
+function VideoCard({ video, userTags }: VideoCardProps) {
   const truncateTitle = (title: string, limit = 60): string => {
     if (title.length <= limit) {
       return title
@@ -64,7 +69,7 @@ function VideoCard({ video }: VideoType) {
                 {video?.author}
               </Link>
             </Text>
-            <VideoCardMenu video={video} />
+            <VideoCardMenu video={video} userTags={userTags} />
           </Flex>
           <Flex gap="2">
             {video?.tags?.map((tag) => (
