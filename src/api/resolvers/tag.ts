@@ -15,39 +15,43 @@ const Tag: QueryResolvers = {
     ) => {
       const { input } = args
 
-      const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
+      if (input.name !== '') {
+        const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
 
-      // find the user
-      const user = await context.prisma.user.findUnique({
-        where: { id: userId },
-        include: {
-          tags: true,
-        },
-      })
-
-      // check if user has already tag with same name
-      const doesUserHaveTag = user?.tags.some((tag) => tag.name === input.name) // true or false
-
-      // create the tag
-      let tag
-      if (!doesUserHaveTag) {
-        tag = await context.prisma.tag.create({
-          data: {
-            name: input.name,
-            color: 'gray',
-            user: {
-              connect: {
-                id: user?.id,
-              },
-            },
+        // find the user
+        const user = await context.prisma.user.findUnique({
+          where: { id: userId },
+          include: {
+            tags: true,
           },
         })
-      } else {
-        // eslint-disable-next-line no-console
-        console.error('User already has a tag with this name')
-      }
 
-      return tag
+        // check if user has already tag with same name
+        const doesUserHaveTag = user?.tags.some(
+          (tag) => tag.name === input.name
+        ) // true or false
+
+        // create the tag
+        let tag
+        if (!doesUserHaveTag) {
+          tag = await context.prisma.tag.create({
+            data: {
+              name: input.name,
+              color: 'gray',
+              user: {
+                connect: {
+                  id: user?.id,
+                },
+              },
+            },
+          })
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('User already has a tag with this name')
+        }
+        return tag
+      }
+      return null
     },
     deleteTag: async (
       _parent: unknown,
