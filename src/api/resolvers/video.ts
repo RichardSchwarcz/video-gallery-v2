@@ -4,6 +4,7 @@ import {
   QueryResolvers,
   UpdateVideoTagsInput,
   UpdateVideoTrashStatusInput,
+  Video as VideoType,
 } from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
 import { getVideoData } from '../utils/getVideoInfo'
@@ -22,6 +23,14 @@ const Video: QueryResolvers = {
       // find the user
       const user = await context.prisma.user.findUnique({
         where: { id: userId },
+        select: {
+          id: true,
+          videos: {
+            include: {
+              tags: true,
+            },
+          },
+        },
       })
 
       // check if user exists
@@ -29,23 +38,42 @@ const Video: QueryResolvers = {
         throw new Error('User not found')
       }
 
-      const videoData = await getVideoData(input.videoUrl)
+      // check if user already has the video
+      const doesUserHaveVideo = user?.videos.some(
+        (video) => video.videoUrl === input.videoUrl
+      )
 
-      // create the video
-      const video = await context.prisma.video.create({
-        data: {
-          title: videoData.title,
-          videoUrl: input.videoUrl,
-          author: videoData.author_name,
-          authorUrl: videoData.author_url,
-          thumbnailUrl: videoData.thumbnail_url,
-          user: {
-            connect: {
-              id: user.id,
+      let video = {} as VideoType
+      // if user has video, find it
+      if (doesUserHaveVideo) {
+        // find video in user's videos
+        video = user?.videos.find((vid) => vid.videoUrl === input.videoUrl)
+        // add message to video
+        video.isNew = false
+      }
+
+      if (!doesUserHaveVideo) {
+        // get video data
+        const videoData = await getVideoData(input.videoUrl)
+
+        // create the video
+        video = await context.prisma.video.create({
+          data: {
+            title: videoData.title,
+            videoUrl: input.videoUrl,
+            author: videoData.author_name,
+            authorUrl: videoData.author_url,
+            thumbnailUrl: videoData.thumbnail_url,
+            user: {
+              connect: {
+                id: user?.id,
+              },
             },
           },
-        },
-      })
+        })
+        // add message to video
+        video.isNew = true
+      }
 
       return video
     },

@@ -158,6 +158,7 @@ export type Video = {
   authorUrl: Scalars['String'];
   id: Scalars['String'];
   inTrash: Scalars['Boolean'];
+  isNew?: Maybe<Scalars['Boolean']>;
   tags: Array<Maybe<Tag>>;
   thumbnailUrl: Scalars['String'];
   title: Scalars['String'];
@@ -322,6 +323,7 @@ export type VideoResolvers<ContextType = IPrismaContext, ParentType extends Reso
   authorUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   inTrash?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  isNew?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
   thumbnailUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
