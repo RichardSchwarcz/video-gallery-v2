@@ -2,6 +2,7 @@ import { Toast } from 'types/chakra'
 
 type ToastBodyType = {
   VideoAdded: Toast
+  VideoExists: Toast
   EmptyInput: Toast
   InvalidURL: Toast
   TagCreated: Toast
@@ -13,6 +14,13 @@ export const ToastBody: ToastBodyType = {
     title: 'Video Added.',
     description: "We've added video to your gallery.",
     status: 'success',
+    duration: 3000,
+    isClosable: true,
+  },
+  VideoExists: {
+    title: 'Video Exists.',
+    description: 'Video already exists in your gallery.',
+    status: 'info',
     duration: 3000,
     isClosable: true,
   },
