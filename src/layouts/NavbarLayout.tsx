@@ -11,18 +11,17 @@ import { ToastBody } from '../utils/toastBody'
 
 function NavbarLayout() {
   const toast = useToast()
+
   const [createVideoMutation, { loading }] = useCreateVideoMutation({
     refetchQueries: ['UserVideos'],
-    onCompleted() {
-      toast(ToastBody.VideoAdded)
-    },
   })
+
   const { colorMode, toggleColorMode } = useColorMode()
   const router = useRouter()
   const { pathname } = router
   const { button, input } = onPathname(pathname)
 
-  const handleCreateVideo = (urlInput: string) => {
+  const handleCreateVideo = async (urlInput: string) => {
     const videoURL = extractYouTubeVideoInfo(urlInput) // check if url is valid
 
     if (urlInput === '') {
@@ -34,11 +33,19 @@ function NavbarLayout() {
     }
 
     if (videoURL.isValid) {
-      void createVideoMutation({
+      await createVideoMutation({
         variables: {
           input: {
             videoUrl: urlInput,
           },
+        },
+        onCompleted(data) {
+          if (data?.createVideo.isNew) {
+            toast(ToastBody.VideoAdded)
+          }
+          if (!data?.createVideo.isNew) {
+            toast(ToastBody.VideoExists)
+          }
         },
       })
     }
