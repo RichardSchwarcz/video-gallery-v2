@@ -28,10 +28,16 @@ import TagMenu from './TagMenu'
 type SideBarProps = {
   isSideBarOpen: boolean
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean>>
-  userTags: UserTagsQuery | undefined
+  userTags: UserTagsQuery['userById']['tags']
+  username: string | null | undefined
 }
 
-function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
+function SideBar({
+  isSideBarOpen,
+  setIsSideBarOpen,
+  userTags,
+  username,
+}: SideBarProps) {
   const [selectedTag, setSelectedTag] = useState<TagTypeOne | null>(null)
   const [searchInput, setSearchInput] = useState<string>('')
 
@@ -70,11 +76,6 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
     })
   }
 
-  if (error) {
-    toast(ToastBody.Error)
-  }
-
-  // function that filters tags by name,  default is all tags
   const filterTags = (tags: TagTypeOne[] | undefined) => {
     if (tags === undefined) {
       return []
@@ -89,7 +90,11 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
     )
   }
 
-  const filteredTags = filterTags(userTags?.userById?.tags)
+  const filteredTags = filterTags(userTags)
+
+  if (error) {
+    toast(ToastBody.Error)
+  }
 
   return (
     <Portal>
@@ -119,7 +124,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg/800px-Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg"
                 size="sm"
               />
-              <Heading size="md">{userTags?.userById?.username}</Heading>
+              <Heading size="md">{username}</Heading>
             </Flex>
             <IconButton
               aria-label="CloseMenu"
