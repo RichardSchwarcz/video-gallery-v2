@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowLeftIcon, EditIcon, SmallAddIcon } from '@chakra-ui/icons'
+import { ArrowLeftIcon, SmallAddIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Box,
@@ -15,10 +15,10 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import {
+  Tag as TagTypeOne,
   useCreateTagMutation,
   UserTagsQuery,
 } from 'generated/generated-graphql'
-import { TagType } from 'types/tag'
 import { ToastBody } from 'utils/toastBody'
 import RemoveTagModal from './RemoveTagModal'
 import SearchBar from './SearchBar'
@@ -28,11 +28,19 @@ import TagMenu from './TagMenu'
 type SideBarProps = {
   isSideBarOpen: boolean
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean>>
-  userTags: UserTagsQuery | undefined
+  userTags: UserTagsQuery['userById']['tags']
+  username: string | null | undefined
 }
 
-function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
-  const [selectedTag, setSelectedTag] = useState<TagType | null>(null)
+function SideBar({
+  isSideBarOpen,
+  setIsSideBarOpen,
+  userTags,
+  username,
+}: SideBarProps) {
+  const [selectedTag, setSelectedTag] = useState<TagTypeOne | null>(null)
+  const [searchInput, setSearchInput] = useState<string>('')
+
   const toast = useToast()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -59,7 +67,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
     }
   }
 
-  const handleTagSelect = (tag: TagType) => {
+  const handleTagSelect = (tag: TagTypeOne) => {
     setSelectedTag((prevSelectedTag) => {
       if (prevSelectedTag === tag) {
         return null
@@ -67,6 +75,22 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
       return tag
     })
   }
+
+  const filterTags = (tags: TagTypeOne[] | undefined) => {
+    if (tags === undefined) {
+      return []
+    }
+
+    if (searchInput === '') {
+      return tags
+    }
+
+    return tags.filter((tag) =>
+      tag.name.toLowerCase().includes(searchInput.toLowerCase())
+    )
+  }
+
+  const filteredTags = filterTags(userTags)
 
   if (error) {
     toast(ToastBody.Error)
@@ -100,7 +124,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg/800px-Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg"
                 size="sm"
               />
-              <Heading size="md">{userTags?.userById?.username}</Heading>
+              <Heading size="md">{username}</Heading>
             </Flex>
             <IconButton
               aria-label="CloseMenu"
@@ -112,6 +136,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
             />
           </Flex>
           <Divider my={2} />
+
           <Flex direction="column">
             <p>Settings</p>
             <p>Trash</p>
@@ -125,45 +150,39 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
                 loading={loading}
                 size="sm"
                 color="green"
-                // eslint-disable-next-line react/jsx-no-bind
                 handleCreate={handleCreateTag}
               />
 
-              <SearchBar size="sm" searchType="Tags" />
+              <SearchBar
+                size="sm"
+                inputPlaceholder="Tags"
+                searchInput={searchInput}
+                handleSearchInput={setSearchInput}
+              />
 
-              {userTags && userTags?.userById && userTags?.userById?.tags
-                ? userTags?.userById?.tags.map(
-                    (tag) =>
-                      tag && (
-                        <Flex justifyContent="space-between" key={tag.id}>
-                          <Tag
-                            colorScheme={tag.color}
-                            w="fit-content"
-                            borderRadius="full"
-                          >
-                            <TagLabel>{tag.name}</TagLabel>
-                            <TagCloseButton
-                              onClick={() => {
-                                handleTagSelect(tag)
-                                onOpen()
-                              }}
-                            />
-                          </Tag>
-                          <Flex>
-                            <IconButton
-                              aria-label="EditTag"
-                              icon={<EditIcon />}
-                              size="sm"
-                              variant="ghost"
-                              borderRadius="full"
-                            />
-
-                            <TagMenu tag={tag} />
-                          </Flex>
-                        </Flex>
-                      )
+              {filteredTags.map(
+                (tag) =>
+                  tag && (
+                    <Flex justifyContent="space-between" key={tag.id}>
+                      <Tag
+                        colorScheme={tag.color}
+                        w="fit-content"
+                        borderRadius="full"
+                      >
+                        <TagLabel>{tag.name}</TagLabel>
+                        <TagCloseButton
+                          onClick={() => {
+                            handleTagSelect(tag)
+                            onOpen()
+                          }}
+                        />
+                      </Tag>
+                      <Flex>
+                        <TagMenu tag={tag} />
+                      </Flex>
+                    </Flex>
                   )
-                : null}
+              )}
             </Flex>
           </Flex>
         </Box>
