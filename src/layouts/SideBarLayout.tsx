@@ -6,7 +6,6 @@ import SideBar from 'components/SideBar'
 
 function SideBarLayout() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
-
   const { data: userTags } = useUserTagsQuery()
 
   return (

@@ -19,7 +19,8 @@ function SearchFilterLayout({
           <SearchBar
             searchInput={searchInput}
             handleSearchInput={handleSearchInput}
-            searchType="Videos"
+            inputPlaceholder="Videos"
+            size="md"
           />
         </Box>
         <Box>

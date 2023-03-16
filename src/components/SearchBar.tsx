@@ -11,15 +11,36 @@ import apolloClient from 'lib/apollo'
 type SearchBarProps = {
   searchInput: string
   handleSearchInput: React.Dispatch<React.SetStateAction<string>>
-  size?: 'sm' | 'md' | 'lg'
-  searchType: string
+  size: 'sm' | 'md'
+  inputPlaceholder: string
+}
+
+type SizePropsValue = {
+  ButtonSize: 'xs' | 'sm' | 'md'
+  InputSize: 'sm' | 'md'
+}
+
+type SizePropsType = {
+  sm: SizePropsValue
+  md: SizePropsValue
+}
+
+const SizeProps: SizePropsType = {
+  sm: {
+    ButtonSize: 'xs',
+    InputSize: 'sm',
+  },
+  md: {
+    ButtonSize: 'sm',
+    InputSize: 'md',
+  },
 }
 
 function SearchBar({
   searchInput,
   handleSearchInput,
   size,
-  searchType,
+  inputPlaceholder,
 }: SearchBarProps) {
   const handleClear = () => {
     void apolloClient.refetchQueries({
@@ -27,14 +48,16 @@ function SearchBar({
     })
   }
 
+  const sizeProps = SizeProps[size]
+
   return (
-    <InputGroup size={size}>
+    <InputGroup size={sizeProps.InputSize}>
       <InputLeftElement pointerEvents="none">
         <SearchIcon color="gray.500" />
       </InputLeftElement>
 
       <Input
-        placeholder={`Search ${searchType}`}
+        placeholder={`Search ${inputPlaceholder}`}
         borderRadius="full"
         borderColor="gray.500"
         value={searchInput}
@@ -45,7 +68,7 @@ function SearchBar({
         <IconButton
           aria-label="Clear"
           icon={<CloseIcon fontSize="2xs" />}
-          size="sm"
+          size={sizeProps.ButtonSize}
           onClick={() => {
             handleClear()
             handleSearchInput('')
