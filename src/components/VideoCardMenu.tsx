@@ -13,13 +13,13 @@ import {
 } from '@chakra-ui/react'
 import {
   UserTagsQuery,
+  UserVideosQuery,
   useUpdateVideoTagsMutation,
-  Video,
 } from 'generated/generated-graphql'
 import RemoveVideoModal from './RemoveVideoModal'
 
 type VideoCardMenuProps = {
-  video: Video
+  video: UserVideosQuery['userVideos']['videos'][number] | undefined
   userTags: UserTagsQuery | undefined
 }
 
@@ -29,8 +29,18 @@ function VideoCardMenu({ video, userTags }: VideoCardMenuProps) {
   })
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const handleUpdateVideoTags = (tagId: string) => {
-    void updateVideoTagsMutation({
+  // check if video is undefined
+  if (!video) {
+    return null
+  }
+
+  const handleUpdateVideoTags = async (tagId: string | undefined) => {
+    // check if tagId is undefined
+    if (!tagId) {
+      return
+    }
+
+    await updateVideoTagsMutation({
       variables: {
         input: {
           id: video.id,
@@ -64,9 +74,9 @@ function VideoCardMenu({ video, userTags }: VideoCardMenuProps) {
             <MenuItemOption
               value={tag?.name}
               key={tag?.id}
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault()
-                handleUpdateVideoTags(tag?.id as string)
+                await handleUpdateVideoTags(tag?.id)
               }}
               isDisabled={loading}
               // TODO state for selected tags
