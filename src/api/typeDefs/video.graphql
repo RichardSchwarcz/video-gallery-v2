@@ -7,7 +7,7 @@ type Video {
   thumbnailUrl: String!
   inTrash: Boolean!
   tags: [Tag]!
-  isNew: Boolean
+  isNew: Boolean!
 }
 
 input CreateVideoInput {
