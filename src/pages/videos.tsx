@@ -14,7 +14,7 @@ function Videos() {
   const [searchInput, setSearchInput] = useState('')
   const [debouncedInput, setDebouncedInput] = useState('')
   const { data: userTags } = useUserTagsQuery()
-  const { data } = useUserVideosQuery({
+  const { data: userVideos } = useUserVideosQuery({
     variables: {
       input: {
         inTrash: false,
@@ -27,8 +27,6 @@ function Videos() {
       })
     },
   })
-
-  const videos = data?.userVideos?.videos
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -49,7 +47,7 @@ function Videos() {
           handleSearchInput={setSearchInput}
           searchInput={searchInput}
         />
-        <VideosLayout videos={videos} userTags={userTags} />
+        <VideosLayout userVideos={userVideos} userTags={userTags} />
       </Flex>
     </Flex>
   )
