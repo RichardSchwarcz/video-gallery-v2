@@ -7,8 +7,6 @@ import SideBar from 'components/SideBar'
 function SideBarLayout() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   const { data: userTags } = useUserTagsQuery()
-  const tags = userTags?.userById?.tags
-  const username = userTags?.userById?.username
 
   return (
     <Flex position="absolute" top="0" m="4">
@@ -28,8 +26,7 @@ function SideBarLayout() {
         <SideBar
           isSideBarOpen={isSideBarOpen}
           setIsSideBarOpen={setIsSideBarOpen}
-          userTags={tags}
-          username={username}
+          userTags={userTags}
         />
       )}
     </Flex>
