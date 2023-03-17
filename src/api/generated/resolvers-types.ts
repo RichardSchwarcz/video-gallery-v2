@@ -98,7 +98,7 @@ export type Playlist = {
 export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
-  userById?: Maybe<User>;
+  userById: User;
   userVideos: User;
 };
 
@@ -139,12 +139,12 @@ export type UpdateVideoTrashStatusInput = {
 
 export type User = {
   __typename?: 'User';
-  id?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  password: Scalars['String'];
   playlists?: Maybe<Array<Maybe<Playlist>>>;
-  tags?: Maybe<Array<Maybe<Tag>>>;
-  username?: Maybe<Scalars['String']>;
-  videos?: Maybe<Array<Maybe<Video>>>;
+  tags: Array<Maybe<Tag>>;
+  username: Scalars['String'];
+  videos: Array<Maybe<Video>>;
 };
 
 export type UserVideosInput = {
@@ -158,7 +158,7 @@ export type Video = {
   authorUrl: Scalars['String'];
   id: Scalars['String'];
   inTrash: Scalars['Boolean'];
-  isNew?: Maybe<Scalars['Boolean']>;
+  isNew: Scalars['Boolean'];
   tags: Array<Maybe<Tag>>;
   thumbnailUrl: Scalars['String'];
   title: Scalars['String'];
@@ -295,7 +295,7 @@ export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends R
 
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   playlists?: Resolver<Array<Maybe<ResolversTypes['Playlist']>>, ParentType, ContextType>;
-  userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<QueryUserByIdArgs>>;
+  userById?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryUserByIdArgs>>;
   userVideos?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryUserVideosArgs>>;
 }>;
 
@@ -309,12 +309,12 @@ export type TagResolvers<ContextType = IPrismaContext, ParentType extends Resolv
 }>;
 
 export type UserResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   playlists?: Resolver<Maybe<Array<Maybe<ResolversTypes['Playlist']>>>, ParentType, ContextType>;
-  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
-  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
+  tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  videos?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -323,7 +323,7 @@ export type VideoResolvers<ContextType = IPrismaContext, ParentType extends Reso
   authorUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   inTrash?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  isNew?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isNew?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
   thumbnailUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

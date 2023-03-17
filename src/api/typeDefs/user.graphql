@@ -1,14 +1,14 @@
 type User {
-  id: String
-  username: String
-  password: String
-  videos: [Video]
-  tags: [Tag]
+  id: String!
+  username: String!
+  password: String!
+  videos: [Video]!
+  tags: [Tag]!
   playlists: [Playlist]
 }
 
 type Query {
-  userById(userId: String): User
+  userById(userId: String): User!
 }
 
 input UserVideosInput {

@@ -98,7 +98,7 @@ export type Playlist = {
 export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
-  userById?: Maybe<User>;
+  userById: User;
   userVideos: User;
 };
 
@@ -139,12 +139,12 @@ export type UpdateVideoTrashStatusInput = {
 
 export type User = {
   __typename?: 'User';
-  id?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  password: Scalars['String'];
   playlists?: Maybe<Array<Maybe<Playlist>>>;
-  tags?: Maybe<Array<Maybe<Tag>>>;
-  username?: Maybe<Scalars['String']>;
-  videos?: Maybe<Array<Maybe<Video>>>;
+  tags: Array<Maybe<Tag>>;
+  username: Scalars['String'];
+  videos: Array<Maybe<Video>>;
 };
 
 export type UserVideosInput = {
@@ -158,7 +158,7 @@ export type Video = {
   authorUrl: Scalars['String'];
   id: Scalars['String'];
   inTrash: Scalars['Boolean'];
-  isNew?: Maybe<Scalars['Boolean']>;
+  isNew: Scalars['Boolean'];
   tags: Array<Maybe<Tag>>;
   thumbnailUrl: Scalars['String'];
   title: Scalars['String'];
@@ -191,42 +191,42 @@ export type UsernameByUserIdQueryVariables = Exact<{
 }>;
 
 
-export type UsernameByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null } | null };
+export type UsernameByUserIdQuery = { __typename?: 'Query', userById: { __typename?: 'User', username: string, id: string } };
 
 export type UserVideosQueryVariables = Exact<{
   input?: InputMaybe<UserVideosInput>;
 }>;
 
 
-export type UserVideosQuery = { __typename?: 'Query', userVideos: { __typename?: 'User', id?: string | null, username?: string | null, videos?: Array<{ __typename?: 'Video', id: string, authorUrl: string, author: string, inTrash: boolean, title: string, videoUrl: string, thumbnailUrl: string, tags: Array<{ __typename?: 'Tag', id: string, name: string, color: string } | null> } | null> | null } };
+export type UserVideosQuery = { __typename?: 'Query', userVideos: { __typename?: 'User', id: string, username: string, videos: Array<{ __typename?: 'Video', id: string, authorUrl: string, author: string, inTrash: boolean, title: string, videoUrl: string, thumbnailUrl: string, tags: Array<{ __typename?: 'Tag', id: string, name: string, color: string } | null> } | null> } };
 
 export type UserTagsQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UserTagsQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, tags?: Array<{ __typename?: 'Tag', color: string, id: string, name: string, videos: Array<{ __typename?: 'Video', title: string } | null> } | null> | null } | null };
+export type UserTagsQuery = { __typename?: 'Query', userById: { __typename?: 'User', username: string, id: string, tags: Array<{ __typename?: 'Tag', color: string, id: string, name: string, videos: Array<{ __typename?: 'Video', title: string } | null> } | null> } };
 
 export type UserPlaylistsByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UserPlaylistsByUserIdQuery = { __typename?: 'Query', userById?: { __typename?: 'User', username?: string | null, id?: string | null, playlists?: Array<{ __typename?: 'Playlist', id?: string | null, name?: string | null, videos?: Array<{ __typename?: 'Video', id: string } | null> | null } | null> | null } | null };
+export type UserPlaylistsByUserIdQuery = { __typename?: 'Query', userById: { __typename?: 'User', username: string, id: string, playlists?: Array<{ __typename?: 'Playlist', id?: string | null, name?: string | null, videos?: Array<{ __typename?: 'Video', id: string } | null> | null } | null> | null } };
 
 export type CreateUserMutationVariables = Exact<{
   input?: InputMaybe<CreateUserInput>;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', username?: string | null, password?: string | null, id?: string | null } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', username: string, password: string, id: string } };
 
 export type CreateVideoMutationVariables = Exact<{
   input?: InputMaybe<CreateVideoInput>;
 }>;
 
 
-export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'Video', videoUrl: string, title: string, thumbnailUrl: string, inTrash: boolean, id: string, authorUrl: string, author: string, isNew?: boolean | null } };
+export type CreateVideoMutation = { __typename?: 'Mutation', createVideo: { __typename?: 'Video', videoUrl: string, title: string, thumbnailUrl: string, inTrash: boolean, id: string, authorUrl: string, author: string, isNew: boolean } };
 
 export type UpdateVideoTrashStatusMutationVariables = Exact<{
   input?: InputMaybe<UpdateVideoTrashStatusInput>;
