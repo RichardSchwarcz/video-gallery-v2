@@ -8,10 +8,10 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 import VideoCardMenu from './VideoCardMenu'
-import { UserTagsQuery, Video } from 'generated/generated-graphql'
+import { UserTagsQuery, UserVideosQuery } from 'generated/generated-graphql'
 
 type VideoCardProps = {
-  video: Video
+  video: UserVideosQuery['userVideos']['videos'][number] | undefined
   userTags: UserTagsQuery | undefined
 }
 

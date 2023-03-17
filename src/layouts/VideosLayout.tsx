@@ -1,14 +1,16 @@
 import { Flex } from '@chakra-ui/react'
-import { UserTagsQuery, Video } from 'generated/generated-graphql'
+import { UserTagsQuery, UserVideosQuery } from 'generated/generated-graphql'
 import Container from 'components/Container'
 import VideoCard from '../components/VideoCard'
 
 type VideosLayoutProps = {
-  videos: Video[] | undefined
+  userVideos: UserVideosQuery | undefined
   userTags: UserTagsQuery | undefined
 }
 
-function VideosLayout({ videos, userTags }: VideosLayoutProps) {
+function VideosLayout({ userVideos, userTags }: VideosLayoutProps) {
+  const videos = userVideos?.userVideos.videos
+
   return (
     <Container my="4">
       <Flex flexWrap="wrap" gap={2}>
