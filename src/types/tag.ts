@@ -1,5 +1,3 @@
-import { Tag } from 'generated/generated-graphql'
+import { UserTagsQuery } from 'generated/generated-graphql'
 
-export type TagType = {
-  tag: Tag
-}
+export type UserTagType = UserTagsQuery['userById']['tags'][0]
