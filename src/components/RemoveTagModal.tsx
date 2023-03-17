@@ -11,14 +11,12 @@ import {
   Tag,
   Text,
 } from '@chakra-ui/react'
-import {
-  Tag as TagTypeOne,
-  useDeleteTagMutation,
-} from 'generated/generated-graphql'
+import { useDeleteTagMutation } from 'generated/generated-graphql'
 import { DisclosureTypes } from 'types/chakra'
+import { UserTagType } from 'types/tag'
 
 type RemoveTagModalProps = DisclosureTypes & {
-  tag: TagTypeOne | null
+  tag: UserTagType | null
 }
 
 function RemoveTagModal({ isOpen, onClose, tag }: RemoveTagModalProps) {

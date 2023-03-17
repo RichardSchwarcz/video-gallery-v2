@@ -15,10 +15,10 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import {
-  Tag as TagTypeOne,
   useCreateTagMutation,
   UserTagsQuery,
 } from 'generated/generated-graphql'
+import { UserTagType } from 'types/tag'
 import { ToastBody } from 'utils/toastBody'
 import RemoveTagModal from './RemoveTagModal'
 import SearchBar from './SearchBar'
@@ -28,17 +28,11 @@ import TagMenu from './TagMenu'
 type SideBarProps = {
   isSideBarOpen: boolean
   setIsSideBarOpen: React.Dispatch<React.SetStateAction<boolean>>
-  userTags: UserTagsQuery['userById']['tags']
-  username: string | null | undefined
+  userTags: UserTagsQuery | undefined
 }
 
-function SideBar({
-  isSideBarOpen,
-  setIsSideBarOpen,
-  userTags,
-  username,
-}: SideBarProps) {
-  const [selectedTag, setSelectedTag] = useState<TagTypeOne | null>(null)
+function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
+  const [selectedTag, setSelectedTag] = useState<UserTagType | null>(null)
   const [searchInput, setSearchInput] = useState<string>('')
 
   const toast = useToast()
@@ -51,23 +45,27 @@ function SideBar({
     },
   })
 
-  const handleCreateTag = async (name: string) => {
-    if (name === '') {
+  const handleCreateTag = async (tagName: string) => {
+    if (tagName === '') {
       toast(ToastBody.EmptyInput)
     }
 
-    if (name !== '') {
+    if (tagName !== '') {
       await createTagMutation({
         variables: {
           input: {
-            name,
+            name: tagName,
           },
         },
       })
     }
+
+    if (error) {
+      toast(ToastBody.Error)
+    }
   }
 
-  const handleTagSelect = (tag: TagTypeOne) => {
+  const handleTagSelect = (tag: UserTagType) => {
     setSelectedTag((prevSelectedTag) => {
       if (prevSelectedTag === tag) {
         return null
@@ -76,25 +74,26 @@ function SideBar({
     })
   }
 
-  const filterTags = (tags: TagTypeOne[] | undefined) => {
-    if (tags === undefined) {
+  const filterTags = (
+    tags: UserTagType[] | undefined,
+    input: string
+  ): UserTagType[] => {
+    // check if tags is undefined
+    if (!tags) {
       return []
     }
 
-    if (searchInput === '') {
+    // check if searchInput is empty
+    if (input === '') {
       return tags
     }
 
     return tags.filter((tag) =>
-      tag.name.toLowerCase().includes(searchInput.toLowerCase())
+      tag?.name.toLowerCase().includes(input.toLowerCase())
     )
   }
 
-  const filteredTags = filterTags(userTags)
-
-  if (error) {
-    toast(ToastBody.Error)
-  }
+  const filteredTags = filterTags(userTags?.userById?.tags, searchInput)
 
   return (
     <Portal>
@@ -124,7 +123,7 @@ function SideBar({
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg/800px-Modest_M%C3%BAsorgski%2C_por_Ili%C3%A1_Repin.jpg"
                 size="sm"
               />
-              <Heading size="md">{username}</Heading>
+              <Heading size="md">{userTags?.userById?.username}</Heading>
             </Flex>
             <IconButton
               aria-label="CloseMenu"

@@ -13,10 +13,14 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { useUpdateTagMutation } from 'generated/generated-graphql'
-import { TagType } from '../types/tag'
+import { UserTagType } from '../types/tag'
 import { ToastBody } from '../utils/toastBody'
 
-function TagMenu({ tag }: TagType) {
+type TagMenuProps = {
+  tag: UserTagType | null
+}
+
+function TagMenu({ tag }: TagMenuProps) {
   const toast = useToast()
   const [updateTagMutation] = useUpdateTagMutation({
     refetchQueries: ['UserTags'],
@@ -35,8 +39,13 @@ function TagMenu({ tag }: TagType) {
     'gray',
   ]
 
-  const updateTagColor = (color: string) => {
-    void updateTagMutation({
+  const updateTagColor = async (color: string) => {
+    // check if tag has id
+    if (!tag?.id) {
+      return
+    }
+
+    await updateTagMutation({
       variables: {
         input: {
           id: tag?.id,
@@ -50,6 +59,11 @@ function TagMenu({ tag }: TagType) {
     // check if name is empty
     if (rename === '') {
       toast(ToastBody.EmptyInput)
+    }
+
+    // check if tag has id
+    if (!tag?.id) {
+      return
     }
 
     if (rename !== '') {
