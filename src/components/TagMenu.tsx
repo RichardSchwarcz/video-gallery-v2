@@ -12,7 +12,7 @@ import {
   Tag,
   useToast,
 } from '@chakra-ui/react'
-import { useUpdateTagMutation } from 'generated/generated-graphql'
+import { Color, useUpdateTagMutation } from 'generated/generated-graphql'
 import { UserTagType } from '../types/tag'
 import { ToastBody } from '../utils/toastBody'
 
@@ -26,18 +26,19 @@ function TagMenu({ tag }: TagMenuProps) {
     refetchQueries: ['UserTags'],
   })
   const [rename, setRename] = useState<string>('')
+
   const colors = [
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'teal',
-    'blue',
-    'cyan',
-    'purple',
-    'pink',
-    'gray',
-  ]
+    'RED',
+    'ORANGE',
+    'YELLOW',
+    'GREEN',
+    'TEAL',
+    'BLUE',
+    'CYAN',
+    'PURPLE',
+    'PINK',
+    'GRAY',
+  ] as Color[]
 
   const updateTagColor = async (color: string) => {
     // check if tag has id
@@ -123,9 +124,11 @@ function TagMenu({ tag }: TagMenuProps) {
           </InputRightElement>
         </InputGroup>
 
-        {colors.map((color) => (
+        {colors.map((color: string) => (
           <MenuItem key={color} onClick={() => updateTagColor(color)}>
-            <Tag colorScheme={color}>{color}</Tag>
+            <Tag colorScheme={color.toLocaleLowerCase()}>
+              {color.toLowerCase()}
+            </Tag>
           </MenuItem>
         ))}
       </MenuList>

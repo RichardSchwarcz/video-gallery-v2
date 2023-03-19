@@ -73,7 +73,11 @@ function VideoCard({ video, userTags }: VideoCardProps) {
           </Flex>
           <Flex gap="2">
             {video?.tags?.map((tag) => (
-              <Tag colorScheme={tag?.color} key={tag?.id} size="sm">
+              <Tag
+                colorScheme={tag?.color.toLocaleLowerCase()}
+                key={tag?.id}
+                size="sm"
+              >
                 {tag?.name}
               </Tag>
             ))}

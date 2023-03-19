@@ -164,7 +164,7 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
                   tag && (
                     <Flex justifyContent="space-between" key={tag.id}>
                       <Tag
-                        colorScheme={tag.color}
+                        colorScheme={tag.color.toLocaleLowerCase()}
                         w="fit-content"
                         borderRadius="full"
                       >

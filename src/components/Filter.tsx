@@ -68,7 +68,7 @@ function Filter() {
                 // setTags((tag) => [...tag, element])
               }}
             >
-              <Tag colorScheme={tag?.color}>{tag?.name}</Tag>
+              <Tag colorScheme={tag?.color.toLowerCase()}>{tag?.name}</Tag>
             </Flex>
           ))}
         </Flex>
