@@ -25,7 +25,7 @@ function TagMenu({ tag }: TagMenuProps) {
   const [updateTagMutation] = useUpdateTagMutation({
     refetchQueries: ['UserTags'],
   })
-  const [rename, setRename] = useState('')
+  const [rename, setRename] = useState<string>('')
   const colors = [
     'red',
     'orange',

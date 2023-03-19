@@ -11,8 +11,8 @@ import VideosLayout from 'layouts/VideosLayout'
 import apolloClient from 'lib/apollo'
 
 function Videos() {
-  const [searchInput, setSearchInput] = useState('')
-  const [debouncedInput, setDebouncedInput] = useState('')
+  const [searchInput, setSearchInput] = useState<string>('')
+  const [debouncedInput, setDebouncedInput] = useState<string>('')
   const { data: userTags } = useUserTagsQuery()
   const { data: userVideos } = useUserVideosQuery({
     variables: {

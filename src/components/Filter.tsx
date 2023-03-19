@@ -3,7 +3,7 @@ import { Flex, Input, Tag } from '@chakra-ui/react'
 import { useUserTagsQuery } from 'generated/generated-graphql'
 
 function Filter() {
-  const [isDropdownMenu, setShowDropdown] = useState(false)
+  const [isDropdownMenu, setShowDropdown] = useState<boolean>(false)
   const { data: userTags } = useUserTagsQuery()
 
   const inputRef = useRef(null)

@@ -57,8 +57,8 @@ function SwitchButtonInput({
   color,
   handleCreate,
 }: SwitchButtonInputProps) {
-  const [input, setInput] = useState('')
-  const [isButton, setButton] = useState(true)
+  const [input, setInput] = useState<string>('')
+  const [isButton, setButton] = useState<boolean>(true)
 
   const sizeProps = SizeProps[size]
 

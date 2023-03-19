@@ -5,7 +5,7 @@ import { useUserTagsQuery } from 'generated/generated-graphql'
 import SideBar from 'components/SideBar'
 
 function SideBarLayout() {
-  const [isSideBarOpen, setIsSideBarOpen] = useState(false)
+  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false)
   const { data: userTags } = useUserTagsQuery()
 
   return (
