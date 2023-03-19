@@ -15,6 +15,19 @@ export type Scalars = {
   Float: number;
 };
 
+export enum Color {
+  Blue = 'BLUE',
+  Cyan = 'CYAN',
+  Gray = 'GRAY',
+  Green = 'GREEN',
+  Orange = 'ORANGE',
+  Pink = 'PINK',
+  Purple = 'PURPLE',
+  Red = 'RED',
+  Teal = 'TEAL',
+  Yellow = 'YELLOW'
+}
+
 export type CreateTagInput = {
   name: Scalars['String'];
 };
@@ -114,7 +127,7 @@ export type QueryUserVideosArgs = {
 
 export type Tag = {
   __typename?: 'Tag';
-  color: Scalars['String'];
+  color: Color;
   id: Scalars['String'];
   name: Scalars['String'];
   userId: Scalars['String'];
@@ -170,7 +183,7 @@ export type CreateTagMutationVariables = Exact<{
 }>;
 
 
-export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'Tag', color: string, id: string, name: string } };
+export type CreateTagMutation = { __typename?: 'Mutation', createTag: { __typename?: 'Tag', color: Color, id: string, name: string } };
 
 export type DeleteTagMutationVariables = Exact<{
   input?: InputMaybe<DeleteTagInput>;
@@ -184,7 +197,7 @@ export type UpdateTagMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTagMutation = { __typename?: 'Mutation', updateTag: { __typename?: 'Tag', name: string, color: string } };
+export type UpdateTagMutation = { __typename?: 'Mutation', updateTag: { __typename?: 'Tag', name: string, color: Color } };
 
 export type UsernameByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
@@ -198,14 +211,14 @@ export type UserVideosQueryVariables = Exact<{
 }>;
 
 
-export type UserVideosQuery = { __typename?: 'Query', userVideos: { __typename?: 'User', id: string, username: string, videos: Array<{ __typename?: 'Video', id: string, authorUrl: string, author: string, inTrash: boolean, title: string, videoUrl: string, thumbnailUrl: string, tags: Array<{ __typename?: 'Tag', id: string, name: string, color: string } | null> } | null> } };
+export type UserVideosQuery = { __typename?: 'Query', userVideos: { __typename?: 'User', id: string, username: string, videos: Array<{ __typename?: 'Video', id: string, authorUrl: string, author: string, inTrash: boolean, title: string, videoUrl: string, thumbnailUrl: string, tags: Array<{ __typename?: 'Tag', id: string, name: string, color: Color } | null> } | null> } };
 
 export type UserTagsQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type UserTagsQuery = { __typename?: 'Query', userById: { __typename?: 'User', username: string, id: string, tags: Array<{ __typename?: 'Tag', color: string, id: string, name: string, videos: Array<{ __typename?: 'Video', title: string } | null> } | null> } };
+export type UserTagsQuery = { __typename?: 'Query', userById: { __typename?: 'User', username: string, id: string, tags: Array<{ __typename?: 'Tag', color: Color, id: string, name: string, videos: Array<{ __typename?: 'Video', title: string } | null> } | null> } };
 
 export type UserPlaylistsByUserIdQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['String']>;
