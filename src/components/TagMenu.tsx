@@ -12,7 +12,10 @@ import {
   Tag,
   useToast,
 } from '@chakra-ui/react'
-import { Color, useUpdateTagMutation } from 'generated/generated-graphql'
+import {
+  Color as ColorEnum,
+  useUpdateTagMutation,
+} from 'generated/generated-graphql'
 import { UserTagType } from '../types/tag'
 import { ToastBody } from '../utils/toastBody'
 
@@ -27,18 +30,7 @@ function TagMenu({ tag }: TagMenuProps) {
   })
   const [rename, setRename] = useState<string>('')
 
-  const colors = [
-    'RED',
-    'ORANGE',
-    'YELLOW',
-    'GREEN',
-    'TEAL',
-    'BLUE',
-    'CYAN',
-    'PURPLE',
-    'PINK',
-    'GRAY',
-  ] as Color[]
+  const colors = Object.values(ColorEnum)
 
   const updateTagColor = async (color: string) => {
     // check if tag has id

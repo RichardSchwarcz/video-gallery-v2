@@ -81,9 +81,7 @@ function VideoCardMenu({ video, userTags }: VideoCardMenuProps) {
               isDisabled={loading}
               // TODO state for selected tags
             >
-              <Tag colorScheme={tag?.color.toLocaleLowerCase()}>
-                {tag?.name}
-              </Tag>
+              <Tag colorScheme={tag?.color.toLowerCase()}>{tag?.name}</Tag>
             </MenuItemOption>
           ))}
         </MenuOptionGroup>
