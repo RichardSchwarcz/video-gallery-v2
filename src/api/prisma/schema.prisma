@@ -48,9 +48,22 @@ model Video {
 model Tag {
   id         String @id @default(uuid())
   name       String
-  color      String
+  color      Color  @default(GRAY)
   videos     Video[]
  
   user       User   @relation(fields: [userId], references: [id])
   userId     String
+}
+
+enum Color {
+  GRAY
+  RED
+  ORANGE
+  YELLOW
+  GREEN
+  TEAL
+  BLUE
+  CYAN
+  PURPLE
+  PINK
 }

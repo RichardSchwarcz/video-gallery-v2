@@ -49,7 +49,7 @@ function RemoveTagModal({ isOpen, onClose, tag }: RemoveTagModalProps) {
           <Flex gap="2" justifyContent="center">
             <Tag colorScheme="green">{tag?.videos.length}</Tag>
             <Text>Videos contain this Tag</Text>
-            <Tag colorScheme={tag?.color}>{tag?.name}</Tag>
+            <Tag colorScheme={tag?.color.toLowerCase()}>{tag?.name}</Tag>
           </Flex>
           <Flex mt="2" direction="column">
             <Text>

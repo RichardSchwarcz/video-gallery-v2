@@ -15,6 +15,19 @@ export type Scalars = {
   Float: number;
 };
 
+export enum Color {
+  Blue = 'BLUE',
+  Cyan = 'CYAN',
+  Gray = 'GRAY',
+  Green = 'GREEN',
+  Orange = 'ORANGE',
+  Pink = 'PINK',
+  Purple = 'PURPLE',
+  Red = 'RED',
+  Teal = 'TEAL',
+  Yellow = 'YELLOW'
+}
+
 export type CreateTagInput = {
   name: Scalars['String'];
 };
@@ -114,7 +127,7 @@ export type QueryUserVideosArgs = {
 
 export type Tag = {
   __typename?: 'Tag';
-  color: Scalars['String'];
+  color: Color;
   id: Scalars['String'];
   name: Scalars['String'];
   userId: Scalars['String'];
@@ -236,6 +249,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Color: Color;
   CreateTagInput: CreateTagInput;
   CreateUserInput: CreateUserInput;
   CreateVideoInput: CreateVideoInput;
@@ -300,7 +314,7 @@ export type QueryResolvers<ContextType = IPrismaContext, ParentType extends Reso
 }>;
 
 export type TagResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = ResolversObject<{
-  color?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  color?: Resolver<ResolversTypes['Color'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
