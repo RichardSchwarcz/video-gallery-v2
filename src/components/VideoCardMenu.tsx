@@ -1,6 +1,8 @@
 import { ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
+  Flex,
   IconButton,
+  Link,
   Menu,
   MenuButton,
   MenuDivider,
@@ -9,14 +11,16 @@ import {
   MenuList,
   MenuOptionGroup,
   Tag,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 import {
   UserTagsQuery,
   UserVideosQuery,
   useUpdateVideoTagsMutation,
+  useUpdateVideoTrashStatusMutation,
 } from 'generated/generated-graphql'
-import RemoveVideoModal from './RemoveVideoModal'
+import RemoveModal from './RemoveModal'
 
 type VideoCardMenuProps = {
   video: UserVideosQuery['userVideos']['videos'][number] | undefined
@@ -25,6 +29,9 @@ type VideoCardMenuProps = {
 
 function VideoCardMenu({ video, userTags }: VideoCardMenuProps) {
   const [updateVideoTagsMutation, { loading }] = useUpdateVideoTagsMutation({
+    refetchQueries: ['UserVideos'],
+  })
+  const [updateVideoTrashStatus] = useUpdateVideoTrashStatusMutation({
     refetchQueries: ['UserVideos'],
   })
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -45,6 +52,17 @@ function VideoCardMenu({ video, userTags }: VideoCardMenuProps) {
         input: {
           id: video.id,
           tagsId: tagId,
+        },
+      },
+    })
+  }
+
+  const handleRemoveVideo = () => {
+    void updateVideoTrashStatus({
+      variables: {
+        input: {
+          id: video?.id,
+          inTrash: true,
         },
       },
     })
@@ -87,7 +105,24 @@ function VideoCardMenu({ video, userTags }: VideoCardMenuProps) {
         </MenuOptionGroup>
       </MenuList>
 
-      <RemoveVideoModal isOpen={isOpen} onClose={onClose} video={video} />
+      <RemoveModal
+        isOpen={isOpen}
+        onClose={onClose}
+        handleRemove={handleRemoveVideo}
+        header="Do you want to delete this Tag?"
+      >
+        <>
+          <Link href={video?.videoUrl} isExternal>
+            <Text as="b">{video?.title}</Text>
+          </Link>
+          <Flex>
+            <Text>Author:</Text>
+            <Link href={video?.authorUrl} isExternal ml="2">
+              <Text>{video?.author}</Text>
+            </Link>
+          </Flex>
+        </>
+      </RemoveModal>
     </Menu>
   )
 }

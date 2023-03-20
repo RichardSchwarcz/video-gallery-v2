@@ -11,16 +11,18 @@ import {
   Tag,
   TagCloseButton,
   TagLabel,
+  Text,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react'
 import {
   useCreateTagMutation,
+  useDeleteTagMutation,
   UserTagsQuery,
 } from 'generated/generated-graphql'
 import { UserTagType } from 'types/tag'
 import { ToastBody } from 'utils/toastBody'
-import RemoveTagModal from './RemoveTagModal'
+import RemoveModal from './RemoveModal'
 import SearchBar from './SearchBar'
 import SwitchButtonInput from './SwitchButtonInput'
 import TagMenu from './TagMenu'
@@ -45,6 +47,10 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
     },
   })
 
+  const [deleteTag] = useDeleteTagMutation({
+    refetchQueries: ['UserTags', 'UserVideos'],
+  })
+
   const handleCreateTag = async (tagName: string) => {
     if (tagName === '') {
       toast(ToastBody.EmptyInput)
@@ -63,6 +69,21 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
     if (error) {
       toast(ToastBody.Error)
     }
+  }
+
+  const handleDeleteTag = async () => {
+    // check if tag is null
+    if (!selectedTag) {
+      return
+    }
+
+    await deleteTag({
+      variables: {
+        input: {
+          id: selectedTag?.id,
+        },
+      },
+    })
   }
 
   const handleTagSelect = (tag: UserTagType) => {
@@ -186,7 +207,29 @@ function SideBar({ isSideBarOpen, setIsSideBarOpen, userTags }: SideBarProps) {
           </Flex>
         </Box>
       </Flex>
-      <RemoveTagModal isOpen={isOpen} onClose={onClose} tag={selectedTag} />
+
+      <RemoveModal
+        isOpen={isOpen}
+        onClose={onClose}
+        handleRemove={handleDeleteTag}
+        header="Do you want to delete this Tag?"
+      >
+        <>
+          <Flex gap="2" justifyContent="center">
+            <Tag colorScheme="green">{selectedTag?.videos.length}</Tag>
+            <Text>Videos contain this Tag</Text>
+            <Tag colorScheme={selectedTag?.color.toLowerCase()}>
+              {selectedTag?.name}
+            </Tag>
+          </Flex>
+          <Flex mt="2" direction="column">
+            <Text>
+              Tag will be taken off from all videos that have it included.
+            </Text>
+            <Text>For now, you can&apos;t restore deleted tags ;(</Text>
+          </Flex>
+        </>
+      </RemoveModal>
     </Portal>
   )
 }
