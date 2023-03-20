@@ -63,7 +63,7 @@ function NavbarLayout() {
         <Flex>
           <Link href="/playlists">Playlists</Link>
         </Flex>
-        <Flex>Groups</Flex>
+
         <IconButton
           aria-label="Toggle dark mode"
           borderRadius="16px"
