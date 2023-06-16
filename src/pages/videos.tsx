@@ -19,7 +19,6 @@ function Videos() {
   const { data: userVideos } = useUserVideosQuery({
     variables: {
       input: {
-        inTrash: false,
         searchInput: debouncedInput,
         // filterInput: tagsFilter.map((tag) => tag?.name),
       },
