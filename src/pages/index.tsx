@@ -1,16 +1,9 @@
-import { Flex } from '@chakra-ui/react'
-import NavbarLayout from 'layouts/NavbarLayout'
-import SearchFilterLayout from 'layouts/SearchFilterLayout'
-import SideBarLayout from 'layouts/SideBarLayout'
+import { Button, Flex } from '@chakra-ui/react'
 
 function Home() {
   return (
-    <Flex>
-      <SideBarLayout />
-      <Flex direction="column" mx="auto">
-        <NavbarLayout />
-        <SearchFilterLayout />
-      </Flex>
+    <Flex justifyContent="center" alignContent="center">
+      <Button>Sign up</Button>
     </Flex>
   )
 }
