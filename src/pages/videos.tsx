@@ -9,16 +9,19 @@ import SearchFilterLayout from 'layouts/SearchFilterLayout'
 import SideBarLayout from 'layouts/SideBarLayout'
 import VideosLayout from 'layouts/VideosLayout'
 import apolloClient from 'lib/apollo'
+import { UserTagType } from 'types/tag'
 
 function Videos() {
   const [searchInput, setSearchInput] = useState<string>('')
   const [debouncedInput, setDebouncedInput] = useState<string>('')
+  const [tagsFilter, setTagsFilter] = useState<UserTagType[]>([])
   const { data: userTags } = useUserTagsQuery()
   const { data: userVideos } = useUserVideosQuery({
     variables: {
       input: {
         inTrash: false,
         searchInput: debouncedInput,
+        // filterInput: tagsFilter.map((tag) => tag?.name),
       },
     },
     onCompleted: () => {
@@ -46,6 +49,8 @@ function Videos() {
         <SearchFilterLayout
           handleSearchInput={setSearchInput}
           searchInput={searchInput}
+          tagsFilter={tagsFilter}
+          setTagsFilter={setTagsFilter}
         />
         <VideosLayout userVideos={userVideos} userTags={userTags} />
       </Flex>
