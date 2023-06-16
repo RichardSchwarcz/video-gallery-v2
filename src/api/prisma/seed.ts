@@ -10,40 +10,11 @@ const UsersData: Prisma.UserCreateInput[] = [
   {
     username: 'fagot fagotovic',
     password: 'someHashedShit',
-
     tags: {
       create: [
         {
-          name: 'React',
-          color: 'red',
-        },
-        {
-          name: 'Prisma',
-          color: 'blue',
-        },
-      ],
-    },
-
-    videos: {
-      create: [
-        {
-          name: 'xxx',
-          url: 'sss',
-        },
-        {
-          name: 'sa',
-          url: 'sss',
-        },
-      ],
-    },
-
-    playlists: {
-      create: [
-        {
-          name: 'Tutorials',
-        },
-        {
-          name: 'Tutorialss',
+          name: 'tag',
+          color: 'BLUE',
         },
       ],
     },
