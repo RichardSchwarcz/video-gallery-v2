@@ -7,23 +7,26 @@ type User {
   playlists: [Playlist]
 }
 
-type Query {
-  userById(userId: String): User!
-}
-
 input UserVideosInput {
-  inTrash: Boolean!
   searchInput: String # search by title
   filterInput: [String] # filter by tag
+}
+
+input CreateUserInput {
+  username: String!
+  password: String!
+}
+
+type Query {
+  userById(userId: String): User!
 }
 
 type Query {
   userVideos(input: UserVideosInput): User!
 }
 
-input CreateUserInput {
-  username: String!
-  password: String!
+type Query {
+  userTrashVideos(userId: String): User!
 }
 
 type Mutation {
