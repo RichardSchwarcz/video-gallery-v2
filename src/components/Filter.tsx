@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Input, Tag } from '@chakra-ui/react'
 import { useUserTagsQuery } from 'generated/generated-graphql'
+import { UserTagType } from '../types/tag'
 
-function Filter() {
+type FilterProps = {
+  setTagsFilter: React.Dispatch<React.SetStateAction<UserTagType[]>>
+}
+
+function Filter({ setTagsFilter }: FilterProps) {
   const [isDropdownMenu, setShowDropdown] = useState<boolean>(false)
   const { data: userTags } = useUserTagsQuery()
 
@@ -65,7 +70,12 @@ function Filter() {
               }}
               onClick={(e) => {
                 e.stopPropagation()
-                // setTags((tag) => [...tag, element])
+                setTagsFilter((prev) => {
+                  if (prev.includes(tag)) {
+                    return prev.filter((t) => t !== tag)
+                  }
+                  return [...prev, tag]
+                })
               }}
             >
               <Tag colorScheme={tag?.color.toLowerCase()}>{tag?.name}</Tag>
