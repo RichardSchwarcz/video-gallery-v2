@@ -112,11 +112,17 @@ export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
   userById: User;
+  userTrashVideos: User;
   userVideos: User;
 };
 
 
 export type QueryUserByIdArgs = {
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryUserTrashVideosArgs = {
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -161,8 +167,7 @@ export type User = {
 };
 
 export type UserVideosInput = {
-  filterInput?: InputMaybe<Array<Scalars['String']>>;
-  inTrash: Scalars['Boolean'];
+  filterInput?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   searchInput?: InputMaybe<Scalars['String']>;
 };
 

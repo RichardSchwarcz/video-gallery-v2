@@ -112,11 +112,17 @@ export type Query = {
   __typename?: 'Query';
   playlists: Array<Maybe<Playlist>>;
   userById: User;
+  userTrashVideos: User;
   userVideos: User;
 };
 
 
 export type QueryUserByIdArgs = {
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryUserTrashVideosArgs = {
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -161,7 +167,7 @@ export type User = {
 };
 
 export type UserVideosInput = {
-  inTrash: Scalars['Boolean'];
+  filterInput?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   searchInput?: InputMaybe<Scalars['String']>;
 };
 
@@ -310,6 +316,7 @@ export type PlaylistResolvers<ContextType = IPrismaContext, ParentType extends R
 export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   playlists?: Resolver<Array<Maybe<ResolversTypes['Playlist']>>, ParentType, ContextType>;
   userById?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryUserByIdArgs>>;
+  userTrashVideos?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryUserTrashVideosArgs>>;
   userVideos?: Resolver<ResolversTypes['User'], ParentType, ContextType, Partial<QueryUserVideosArgs>>;
 }>;
 
