@@ -5,6 +5,7 @@ import {
   UpdateTagInput,
 } from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
+import { USER_ID } from './userID'
 
 const Tag: QueryResolvers = {
   Mutation: {
@@ -16,11 +17,9 @@ const Tag: QueryResolvers = {
       const { input } = args
 
       if (input.name !== '') {
-        const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
-
         // find the user
         const user = await context.prisma.user.findUnique({
-          where: { id: userId },
+          where: { id: USER_ID },
           include: {
             tags: true,
           },

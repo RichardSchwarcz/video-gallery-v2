@@ -4,6 +4,7 @@ import {
   UserVideosInput,
 } from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
+import { USER_ID } from './userID'
 
 const User: QueryResolvers = {
   Query: {
@@ -12,12 +13,10 @@ const User: QueryResolvers = {
       args: { userId: string },
       context: IPrismaContext
     ) => {
-      const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
-
       // find the user
       const user = context.prisma.user.findUnique({
         where: {
-          id: userId,
+          id: USER_ID, //! TODO: change this to the user id from the token
         },
         select: {
           id: true,
@@ -49,10 +48,10 @@ const User: QueryResolvers = {
     ) => {
       const { input } = args
 
-      // find the user
-      const user = context.prisma.user.findUnique({
+      // Find the user
+      const user = await context.prisma.user.findUnique({
         where: {
-          id: '851c14c1-72a8-46e3-8141-71394e386a1a',
+          id: USER_ID, //! TODO: change this to the user id from the token
         },
         select: {
           id: true,

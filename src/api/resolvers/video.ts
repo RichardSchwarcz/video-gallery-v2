@@ -8,6 +8,7 @@ import {
 } from '../generated/resolvers-types'
 import { IPrismaContext } from '../prisma/IPrismaContext'
 import { getVideoData } from '../utils/getVideoInfo'
+import { USER_ID } from './userID'
 
 const Video: QueryResolvers = {
   Mutation: {
@@ -18,11 +19,9 @@ const Video: QueryResolvers = {
     ) => {
       const { input } = args
 
-      const userId = '851c14c1-72a8-46e3-8141-71394e386a1a'
-
       // find the user
       const user = await context.prisma.user.findUnique({
-        where: { id: userId },
+        where: { id: USER_ID },
         select: {
           id: true,
           videos: {
