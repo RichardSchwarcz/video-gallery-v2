@@ -59,9 +59,35 @@ const User: QueryResolvers = {
           videos: {
             where: {
               AND: [
-                { inTrash: input?.inTrash },
+                { inTrash: false },
                 { title: { contains: input?.searchInput } },
               ],
+            },
+            include: {
+              tags: true,
+            },
+          },
+        },
+      })
+
+      return user
+    },
+    userTrashVideos: async (
+      _parent: unknown,
+      _args: unknown, // TODO: add input type
+      context: IPrismaContext
+    ) => {
+      // Find the user
+      const user = await context.prisma.user.findUnique({
+        where: {
+          id: USER_ID, //! TODO: change this to the user id from the token
+        },
+        select: {
+          id: true,
+          username: true,
+          videos: {
+            where: {
+              inTrash: true,
             },
             include: {
               tags: true,
