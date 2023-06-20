@@ -12,7 +12,6 @@ function Filter({ setTagsFilter }: FilterProps) {
   const { data: userTags } = useUserTagsQuery()
 
   const inputRef = useRef(null)
-  const menuRef = useRef(null)
 
   useEffect(() => {
     function closeDropdown(e: Event) {
@@ -42,7 +41,6 @@ function Filter({ setTagsFilter }: FilterProps) {
       {isDropdownMenu && (
         <Flex
           direction="column"
-          ref={menuRef}
           bg="rgba(255,255,255,0.98)"
           position="absolute"
           top="44px"
