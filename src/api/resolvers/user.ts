@@ -50,22 +50,13 @@ const User: QueryResolvers = {
     ) => {
       const { input } = args
 
-      // // Determine the filter condition
-      // const filterCondition: Prisma.VideoWhereInput = {
-      //   inTrash: false,
-      //   tags: {
-      //     some: {
-      //       name: {
-      //         in: input.filterInput || [],
-      //       },
-      //     },
-      //   },
-      // }
       // Determine the filter condition
       const filterCondition: Prisma.VideoWhereInput = { inTrash: false }
 
       if (input.filterInput && input.filterInput.length > 0) {
-        filterCondition.tags = { some: { name: { in: input.filterInput } } }
+        // align types with the prisma schema
+        const filterTags = input.filterInput.filter(Boolean) as string[]
+        filterCondition.tags = { some: { name: { in: filterTags } } }
       }
       // Find the user
       const user = await context.prisma.user.findUnique({
@@ -80,8 +71,8 @@ const User: QueryResolvers = {
               AND: [
                 filterCondition,
                 input.searchInput
-                  ? { title: { contains: input.searchInput } }
-                  : {},
+                  ? { title: { contains: input.searchInput } } // if there is a search input, apply the search filter
+                  : {}, // if there is no search input, return all videos
               ],
             },
             include: {

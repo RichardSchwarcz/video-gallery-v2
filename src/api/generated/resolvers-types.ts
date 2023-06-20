@@ -167,7 +167,7 @@ export type User = {
 };
 
 export type UserVideosInput = {
-  filterInput: Array<InputMaybe<Scalars['String']>>;
+  filterInput?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   searchInput?: InputMaybe<Scalars['String']>;
 };
 

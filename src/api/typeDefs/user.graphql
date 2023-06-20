@@ -9,7 +9,7 @@ type User {
 
 input UserVideosInput {
   searchInput: String # search by title
-  filterInput: [String]! # filter by tag
+  filterInput: [String] # filter by tag
 }
 
 input CreateUserInput {
