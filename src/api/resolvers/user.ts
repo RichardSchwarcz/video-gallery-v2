@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import {
   CreateUserInput,
   QueryResolvers,
@@ -41,6 +42,7 @@ const User: QueryResolvers = {
 
       return user
     },
+
     userVideos: async (
       _parent: unknown,
       args: { input: UserVideosInput },
@@ -48,6 +50,23 @@ const User: QueryResolvers = {
     ) => {
       const { input } = args
 
+      // // Determine the filter condition
+      // const filterCondition: Prisma.VideoWhereInput = {
+      //   inTrash: false,
+      //   tags: {
+      //     some: {
+      //       name: {
+      //         in: input.filterInput || [],
+      //       },
+      //     },
+      //   },
+      // }
+      // Determine the filter condition
+      const filterCondition: Prisma.VideoWhereInput = { inTrash: false }
+
+      if (input.filterInput && input.filterInput.length > 0) {
+        filterCondition.tags = { some: { name: { in: input.filterInput } } }
+      }
       // Find the user
       const user = await context.prisma.user.findUnique({
         where: {
@@ -59,8 +78,10 @@ const User: QueryResolvers = {
           videos: {
             where: {
               AND: [
-                { inTrash: false },
-                { title: { contains: input?.searchInput } },
+                filterCondition,
+                input.searchInput
+                  ? { title: { contains: input.searchInput } }
+                  : {},
               ],
             },
             include: {
@@ -72,6 +93,7 @@ const User: QueryResolvers = {
 
       return user
     },
+
     userTrashVideos: async (
       _parent: unknown,
       _args: unknown, // TODO: add input type
@@ -99,6 +121,7 @@ const User: QueryResolvers = {
       return user
     },
   },
+
   Mutation: {
     createUser: async (
       _parent: unknown,
