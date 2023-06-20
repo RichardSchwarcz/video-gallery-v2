@@ -15,12 +15,13 @@ function Videos() {
   const [searchInput, setSearchInput] = useState<string>('')
   const [debouncedInput, setDebouncedInput] = useState<string>('')
   const [tagsFilter, setTagsFilter] = useState<UserTagType[]>([])
+
   const { data: userTags } = useUserTagsQuery()
   const { data: userVideos } = useUserVideosQuery({
     variables: {
       input: {
+        filterInput: tagsFilter.map((tag) => tag?.name),
         searchInput: debouncedInput,
-        // filterInput: tagsFilter.map((tag) => tag?.name),
       },
     },
     onCompleted: () => {
@@ -43,6 +44,7 @@ function Videos() {
   return (
     <Flex>
       <SideBarLayout />
+
       <Flex direction="column" mx="auto">
         <NavbarLayout />
         <SearchFilterLayout
