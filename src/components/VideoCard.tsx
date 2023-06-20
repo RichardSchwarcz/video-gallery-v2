@@ -37,10 +37,12 @@ function VideoCard({ video, userTags }: VideoCardProps) {
         boxShadow="lg"
         bgAttachment="fixed"
       >
+
+        {/* Thumbnail */}
         <Link href={video?.videoUrl as string} isExternal>
           <Skeleton isLoaded={!!video}>
             <Image
-              // thumbnail size is 1280x720. To scale it properly with fixed width... (235*720)/1280 = 132.2
+              // thumbnail size is 1280x720. To scale it properly with fixed width... (244*720)/1280 = 137.25
               h="137.25px"
               w="244px"
               objectFit="cover"
@@ -50,6 +52,8 @@ function VideoCard({ video, userTags }: VideoCardProps) {
             />
           </Skeleton>
         </Link>
+
+        {/* Title */}
         <Flex px="2" direction="column" gap="1">
           <Tooltip
             label={video?.title}
@@ -57,20 +61,33 @@ function VideoCard({ video, userTags }: VideoCardProps) {
             color="black"
             aria-label="video title"
             fontSize="xs"
-            openDelay={200}
+            openDelay={250}
           >
             <Text fontWeight="medium" fontSize="sm">
               {truncateTitle(video?.title as string)}
             </Text>
           </Tooltip>
+
+          {/* Author and menu*/}
           <Flex justifyContent="space-between">
+          <Tooltip
+            label={video?.author}
+            bg="gray.300"
+            color="black"
+            aria-label="video title"
+            fontSize="xs"
+            openDelay={200}
+          >
             <Text color="gray.400">
               <Link href={video?.authorUrl as string} isExternal>
-                {video?.author}
+                {truncateTitle(video?.author as string, 25)}
               </Link>
             </Text>
+            </Tooltip>
             <VideoCardMenu video={video} userTags={userTags} />
           </Flex>
+
+          {/* Tags */}
           <Flex gap="2">
             {video?.tags?.map((tag) => (
               <Tag
@@ -82,6 +99,7 @@ function VideoCard({ video, userTags }: VideoCardProps) {
               </Tag>
             ))}
           </Flex>
+
         </Flex>
       </Flex>
     </>
