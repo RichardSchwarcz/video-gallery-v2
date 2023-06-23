@@ -1,9 +1,16 @@
 import { MoonIcon, SmallAddIcon, SunIcon } from '@chakra-ui/icons'
-import { Flex, IconButton, useColorMode, useToast } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  IconButton,
+  useColorMode,
+  useToast,
+} from '@chakra-ui/react'
 import { extractYouTubeVideoInfo } from 'api/utils/getVideoInfo'
 import { useCreateVideoMutation } from 'generated/generated-graphql'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { signOut } from 'next-auth/react'
 import SwitchButtonInput from 'components/SwitchButtonInput'
 import onPathname from 'utils/onPathname'
 import Container from '../components/Container'
@@ -62,6 +69,13 @@ function NavbarLayout() {
         </Flex>
         <Flex>
           <Link href="/playlists">Playlists</Link>
+        </Flex>
+        <Flex>
+          <Button
+            onClick={() => signOut({ callbackUrl: 'http://localhost:3000' })}
+          >
+            Sign Out
+          </Button>
         </Flex>
 
         <IconButton
