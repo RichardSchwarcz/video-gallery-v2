@@ -9,6 +9,7 @@ import SearchFilterLayout from 'layouts/SearchFilterLayout'
 import SideBarLayout from 'layouts/SideBarLayout'
 import VideosLayout from 'layouts/VideosLayout'
 import apolloClient from 'lib/apollo'
+import { getSession } from 'next-auth/react'
 import { UserTagType } from 'types/tag'
 
 function Videos() {
@@ -57,6 +58,23 @@ function Videos() {
       </Flex>
     </Flex>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: { session },
+  }
 }
 
 export default Videos
