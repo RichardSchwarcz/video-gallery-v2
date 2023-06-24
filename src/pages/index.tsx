@@ -22,7 +22,9 @@ function Home() {
         </Link>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <Text textAlign="center">Don't have an account?</Text>
-        <Button>Sign up</Button>
+        <Link href="/signup">
+          <Button w="100%">Sign up</Button>
+        </Link>
       </Flex>
     </Flex>
   )
