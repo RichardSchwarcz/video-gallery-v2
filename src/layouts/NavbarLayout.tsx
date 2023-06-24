@@ -68,7 +68,7 @@ function NavbarLayout() {
           <Link href="/videos">Videos</Link>
         </Flex>
         <Flex>
-          <Link href="/playlists">Playlists</Link>
+          <Link href="/videos">Playlists</Link>
         </Flex>
         <Flex>
           <Button
