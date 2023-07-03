@@ -3,13 +3,8 @@ import {
   Box,
   Button,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
-  Link,
   Stack,
-  Text,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { getSession, signIn } from 'next-auth/react'
@@ -31,40 +26,6 @@ function SignIn() {
           boxShadow="lg"
           p={8}
         >
-          <Stack spacing={4}>
-            <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Input type="password" />
-            </FormControl>
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align="start"
-                justify="space-between"
-              >
-                <Link color="blue.400" href="/">
-                  Forgot password?
-                </Link>
-              </Stack>
-              <Button
-                bg="blue.400"
-                color="white"
-                _hover={{
-                  bg: 'blue.500',
-                }}
-              >
-                Sign in
-              </Button>
-            </Stack>
-          </Stack>
-
-          <Text my="4" textAlign="center" color="gray.500">
-            OR CONTINUE WITH
-          </Text>
           <Button
             leftIcon={<FcGoogle />}
             w="full"
