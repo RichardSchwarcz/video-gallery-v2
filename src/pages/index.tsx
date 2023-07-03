@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Text } from '@chakra-ui/react'
+import { Button, Flex, Heading } from '@chakra-ui/react'
 import Link from 'next/link'
 
 function Home() {
@@ -16,14 +16,8 @@ function Home() {
         mt="10"
         gap="4"
       >
-        <Text textAlign="center">Sign in to your account</Text>
         <Link href="/signin">
           <Button w="100%">Sign in</Button>
-        </Link>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <Text textAlign="center">Don't have an account?</Text>
-        <Link href="/signup">
-          <Button w="100%">Sign up</Button>
         </Link>
       </Flex>
     </Flex>
