@@ -57,8 +57,8 @@ query UserPlaylistsByUserId($userId: String) {
 
 mutation CreateUser($input: CreateUserInput) {
   createUser(input: $input) {
+    email
     username
-    password
     id
   }
 }
