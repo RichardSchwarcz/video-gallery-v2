@@ -1,9 +1,11 @@
 type User {
   id: String!
-  username: String!
-  password: String!
-  videos: [Video]!
-  tags: [Tag]!
+  username: String
+  email: String
+  image: String
+  password: String
+  videos: [Video]
+  tags: [Tag]
   playlists: [Playlist]
 }
 
@@ -13,8 +15,10 @@ input UserVideosInput {
 }
 
 input CreateUserInput {
-  username: String!
+  email: String!
   password: String!
+  # username: String
+  # image: String
 }
 
 type Query {

@@ -33,8 +33,8 @@ export type CreateTagInput = {
 };
 
 export type CreateUserInput = {
+  email: Scalars['String'];
   password: Scalars['String'];
-  username: Scalars['String'];
 };
 
 export type CreateVideoInput = {
@@ -158,12 +158,14 @@ export type UpdateVideoTrashStatusInput = {
 
 export type User = {
   __typename?: 'User';
+  email?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  password: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
   playlists?: Maybe<Array<Maybe<Playlist>>>;
-  tags: Array<Maybe<Tag>>;
-  username: Scalars['String'];
-  videos: Array<Maybe<Video>>;
+  tags?: Maybe<Array<Maybe<Tag>>>;
+  username?: Maybe<Scalars['String']>;
+  videos?: Maybe<Array<Maybe<Video>>>;
 };
 
 export type UserVideosInput = {
@@ -330,12 +332,14 @@ export type TagResolvers<ContextType = IPrismaContext, ParentType extends Resolv
 }>;
 
 export type UserResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   playlists?: Resolver<Maybe<Array<Maybe<ResolversTypes['Playlist']>>>, ParentType, ContextType>;
-  tags?: Resolver<Array<Maybe<ResolversTypes['Tag']>>, ParentType, ContextType>;
-  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  videos?: Resolver<Array<Maybe<ResolversTypes['Video']>>, ParentType, ContextType>;
+  tags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  videos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Video']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
